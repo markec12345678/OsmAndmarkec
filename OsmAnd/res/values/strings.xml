@@ -1,41 +1,41 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
 <!--
-	README:
-	- The preferred way to help with translations is via https://hosted.weblate.org/engage/osmand/
-	- If you edit a strings.xml file directly, please make sure:
-	   1. To not produce duplicate strings (check by name if a string already exists)
-	   2. Every apostrophe (quote) is preceded by a backslash.
-	   3. If you modify the English strings file, please add new strings at the top of the file, this makes periodic reviews before releases easier.
-	- For wording and consistency, please note https://docs.osmand.net/docs/technical/contributions/translating-osmand
-	Thx - Hardy
+        README:
+        - The preferred way to help with translations is via https://hosted.weblate.org/engage/osmand/
+        - If you edit a strings.xml file directly, please make sure:
+           1. To not produce duplicate strings (check by name if a string already exists)
+           2. Every apostrophe (quote) is preceded by a backslash.
+           3. If you modify the English strings file, please add new strings at the top of the file, this makes periodic reviews before releases easier.
+        - For wording and consistency, please note https://docs.osmand.net/docs/technical/contributions/translating-osmand
+        Thx - Hardy
 -->
-	<string name="favorite_confirm_delete_folder">This will delete folder \"%1$s\", including nested folders and %2$d favorite point(s).</string>
-	<string name="favorite_folder_rename_conflict">A folder with this name already exists.</string>
-	<string name="favorite_folder_invalid_name">Folder name can\'t contain / or _%_</string>
-	<string name="favorite_folder_duplicate_message">Use a folder name that doesn\'t already exist.</string>
-	<string name="favorite_folder_name">Folder name</string>
-	<string name="edit_folder">Edit folder</string>
-	<string name="obd_simulation_device">Simulation device</string>
-	<string name="astronomy_map">Astronomy Map</string>
-	<string name="astro_designations">Designations</string>
-	<string name="open_from_short">From</string>
-	<string name="open_till_short">Until</string>
-	<string name="map_widget_memory_info">Memory info</string>
-	<string name="map_widget_memory_info_desc">Monitors Java heap, native allocations, and graphics memory.</string>
-	<string name="memory_used_settings">Used Java Heap</string>
-	<string name="memory_allocated_settings">Allocated Java Heap</string>
-	<string name="memory_limit_settings">Max Java Heap Limit</string>
-	<string name="memory_native_settings">Native Heap Allocated</string>
-	<string name="memory_graphics_settings">Graphics Memory</string>
-	<string name="shared_string_heap">Heap</string>
-	<string name="shared_string_native">Native</string>
-	<string name="shared_string_gpu">GPU</string>
-	<string name="shared_string_allocated">Allocated</string>
-	<string name="compass_calibration_needed">Compass calibration needed</string>
-	<string name="sensors_not_available_for_ar">Sensors not available for AR</string>
-	<string name="ar_mode_enabled">AR Mode Enabled</string>
-	<string name="ar_mode_disabled">AR Mode Disabled</string>
+        <string name="favorite_confirm_delete_folder">This will delete folder \"%1$s\", including nested folders and %2$d favorite point(s).</string>
+        <string name="favorite_folder_rename_conflict">A folder with this name already exists.</string>
+        <string name="favorite_folder_invalid_name">Folder name can\'t contain / or _%_</string>
+        <string name="favorite_folder_duplicate_message">Use a folder name that doesn\'t already exist.</string>
+        <string name="favorite_folder_name">Folder name</string>
+        <string name="edit_folder">Edit folder</string>
+        <string name="obd_simulation_device">Simulation device</string>
+        <string name="astronomy_map">Astronomy Map</string>
+        <string name="astro_designations">Designations</string>
+        <string name="open_from_short">From</string>
+        <string name="open_till_short">Until</string>
+        <string name="map_widget_memory_info">Memory info</string>
+        <string name="map_widget_memory_info_desc">Monitors Java heap, native allocations, and graphics memory.</string>
+        <string name="memory_used_settings">Used Java Heap</string>
+        <string name="memory_allocated_settings">Allocated Java Heap</string>
+        <string name="memory_limit_settings">Max Java Heap Limit</string>
+        <string name="memory_native_settings">Native Heap Allocated</string>
+        <string name="memory_graphics_settings">Graphics Memory</string>
+        <string name="shared_string_heap">Heap</string>
+        <string name="shared_string_native">Native</string>
+        <string name="shared_string_gpu">GPU</string>
+        <string name="shared_string_allocated">Allocated</string>
+        <string name="compass_calibration_needed">Compass calibration needed</string>
+        <string name="sensors_not_available_for_ar">Sensors not available for AR</string>
+        <string name="ar_mode_enabled">AR Mode Enabled</string>
+        <string name="ar_mode_disabled">AR Mode Disabled</string>
     <string name="release_5_3">
         • 3D Buildings support added\n\n
         • Spherical map view\n\n
@@ -55,91 +55,91 @@
         • Bicycle width parameter to avoid narrow roads\n\n
         • Photo descriptions from Wikimedia\n\n
     </string>
-	<string name="purchases_feature_desc_astronomy">Explore the night sky with an offline map and celestial catalog. Plan observations using smart visibility graphs, daily schedules, and an interactive AR mode.</string>
-	<string name="shared_string_clear_filters">Clear filters</string>
-	<string name="astro_sort_newest_first">Newest first</string>
-	<string name="astro_sort_oldest_first">Oldest first</string>
-	<string name="astro_expand_your_universe_title">Expand your universe</string>
-	<string name="astro_expand_your_universe_description">Get access to the extended database of deep sky catalogs, Wikipedia articles and AR mode offline.</string>
-	<string name="astro_offline_knowledge_base_title">Offline Knowledge Base</string>
-	<string name="astro_offline_knowledge_base_description">Download the extended database to access Wikipedia articles and deep sky catalogs offline.</string>
-	<string name="astro_schedule_next_day_note">⁺¹ Next day.</string>
-	<string name="astro_visibility_show_today">Show today visibility</string>
-	<string name="astro_schedule_show_current_week">Show current week</string>
-	<string name="astro_next_day_suffix">⁺¹</string>
+        <string name="purchases_feature_desc_astronomy">Explore the night sky with an offline map and celestial catalog. Plan observations using smart visibility graphs, daily schedules, and an interactive AR mode.</string>
+        <string name="shared_string_clear_filters">Clear filters</string>
+        <string name="astro_sort_newest_first">Newest first</string>
+        <string name="astro_sort_oldest_first">Oldest first</string>
+        <string name="astro_expand_your_universe_title">Expand your universe</string>
+        <string name="astro_expand_your_universe_description">Get access to the extended database of deep sky catalogs, Wikipedia articles and AR mode offline.</string>
+        <string name="astro_offline_knowledge_base_title">Offline Knowledge Base</string>
+        <string name="astro_offline_knowledge_base_description">Download the extended database to access Wikipedia articles and deep sky catalogs offline.</string>
+        <string name="astro_schedule_next_day_note">⁺¹ Next day.</string>
+        <string name="astro_visibility_show_today">Show today visibility</string>
+        <string name="astro_schedule_show_current_week">Show current week</string>
+        <string name="astro_next_day_suffix">⁺¹</string>
     <string name="start_free_trial">Start free trial</string>
     <string name="subscription_free_trial_with_price">%1$s free, then %2$s</string>
     <string name="subscription_then_price">then %1$s</string>
     <string name="shared_string_radians">Radians</string>
-	<string name="shared_string_unlock">Unlock</string>
-	<string name="no_objects_found">No objects found</string>
-	<string name="astro_search_info_solar_system">The Solar System is the gravitationally bound system of the Sun and the masses that orbit it, most prominently its eight planets, of which Earth is one.</string>
-	<string name="astro_search_info_constellations">A constellation is an area on the celestial sphere in which a group of visible stars forms a perceived pattern or outline.</string>
-	<string name="astro_search_info_stars">Stars are luminous astronomical objects made of plasma, held together by their own gravity.</string>
-	<string name="astro_search_info_nebulas">A nebula is a giant cloud of dust and gas in space, often a region where stars are born.</string>
-	<string name="astro_search_info_star_clusters">A star cluster is a group of stars that are gravitationally bound and formed from the same molecular cloud.</string>
-	<string name="astro_search_info_deep_sky">Deep sky objects include galaxies, nebulae, star clusters, and other distant astronomical targets.</string>
-	<string name="astro_go_to_map">Go to map</string>
-	<string name="astro_my_data_no_favorites_title">Nothing here</string>
-	<string name="astro_my_data_no_favorites_description">You can add objects to your favorites from their context menu</string>
-	<string name="astro_my_data_no_daily_paths_title">No daily paths</string>
-	<string name="astro_my_data_no_daily_paths_description">Enable a daily path for an object from its context menu to see it here</string>
-	<string name="astro_my_data_no_directions_title">No directions set</string>
-	<string name="astro_my_data_no_directions_description">Directions allow you to keep a visible arrow pointing to an object. Enable it from the context menu.</string>
-	<plurals name="astro_catalog_objects_count">
-		<item quantity="one">%d object</item>
-		<item quantity="other">%d objects</item>
-	</plurals>
-	<string name="astro_search_constellation_with_code">Constellation (%1$s)</string>
-	<string name="astro_search_type_in_location">%1$s in %2$s</string>
-	<string name="astro_search_in_location">In %1$s</string>
-	<string name="astro_search_rises_tomorrow">↗ %1$s %2$s</string>
-	<string name="astro_search_sets_tomorrow">↘ %1$s %2$s</string>
-	<string name="astro_search_never_rises">↓ Never rises</string>
-	<string name="astro_search_always_up">↑ Always up</string>
-	<string name="astro_search_sets_at">↘ Sets %1$s</string>
-	<string name="astro_search_rises_at">↗ Rises %1$s</string>
-	<string name="astro_search_magnitude_short">mag %.1f</string>
-	<string name="astro_filter_naked_eye">Naked eye visible</string>
-	<string name="astro_filter_visible_tonight">Visible tonight</string>
-	<string name="astro_filter_visible_now">Visible now</string>
-	<string name="astro_filter_show_all">Show all</string>
-	<string name="astro_sort_sets_soonest">Sets soonest</string>
-	<string name="astro_sort_rises_soonest">Rises soonest</string>
-	<string name="astro_sort_faintest_first">Faintest first</string>
-	<string name="astro_sort_brightest_first">Brightest first</string>
-	<string name="astro_search_empty_description">Try changing the filters or observation time.</string>
-	<string name="astro_search_input_hint">Input text</string>
-	<string name="astro_explore_my_data">My data</string>
-	<string name="astro_explore_schedule_subtitle">Upcoming astronomical events</string>
-	<string name="astro_explore_schedule">Schedule</string>
-	<string name="astro_explore_watch_now_subtitle">See what is in the sky tonight</string>
-	<string name="astro_explore_watch_now">Watch now</string>
-	<string name="astro_explore_deep_sky_subtitle">Galaxy, Galaxy Clusters, Black holes</string>
-	<string name="astro_culmination">Culmination</string>
-	<string name="astro_today_visibility">Today visibility</string>
-	<string name="astro_alt_short">Alt</string>
-	<string name="astro_az_short">Az</string>
-	<string name="astronomy_schedule">Schedule</string>
-	<string name="astro_catalogs">Catalogs</string>
-	<string name="astro_path">Path</string>
-	<string name="astro_direction">Direction</string>
-	<string name="astro_locate">Locate</string>
-	<string name="astro_type_earth">Earth</string>
-	<string name="astro_type_star">Star</string>
-	<string name="astro_type_galaxy">Galaxy</string>
-	<string name="astro_type_black_hole">Black hole</string>
-	<string name="astro_type_planet">Planet</string>
-	<string name="astro_type_sun">Sun</string>
-	<string name="astro_type_satellite">Satellite</string>
-	<string name="astro_type_nebula">Nebula</string>
-	<string name="astro_type_open_cluster">Open cluster</string>
-	<string name="astro_type_globular_cluster">Globular cluster</string>
-	<string name="astro_type_galaxy_cluster">Galaxy cluster</string>
-	<string name="astro_type_constellation">Constellation</string>
-	<string name="show_layout_grid_logs">Show grid logs</string>
-	<string name="share_favorite">Share favorite</string>
-	<string name="copy_list">Copy list</string>
+        <string name="shared_string_unlock">Unlock</string>
+        <string name="no_objects_found">No objects found</string>
+        <string name="astro_search_info_solar_system">The Solar System is the gravitationally bound system of the Sun and the masses that orbit it, most prominently its eight planets, of which Earth is one.</string>
+        <string name="astro_search_info_constellations">A constellation is an area on the celestial sphere in which a group of visible stars forms a perceived pattern or outline.</string>
+        <string name="astro_search_info_stars">Stars are luminous astronomical objects made of plasma, held together by their own gravity.</string>
+        <string name="astro_search_info_nebulas">A nebula is a giant cloud of dust and gas in space, often a region where stars are born.</string>
+        <string name="astro_search_info_star_clusters">A star cluster is a group of stars that are gravitationally bound and formed from the same molecular cloud.</string>
+        <string name="astro_search_info_deep_sky">Deep sky objects include galaxies, nebulae, star clusters, and other distant astronomical targets.</string>
+        <string name="astro_go_to_map">Go to map</string>
+        <string name="astro_my_data_no_favorites_title">Nothing here</string>
+        <string name="astro_my_data_no_favorites_description">You can add objects to your favorites from their context menu</string>
+        <string name="astro_my_data_no_daily_paths_title">No daily paths</string>
+        <string name="astro_my_data_no_daily_paths_description">Enable a daily path for an object from its context menu to see it here</string>
+        <string name="astro_my_data_no_directions_title">No directions set</string>
+        <string name="astro_my_data_no_directions_description">Directions allow you to keep a visible arrow pointing to an object. Enable it from the context menu.</string>
+        <plurals name="astro_catalog_objects_count">
+                <item quantity="one">%d object</item>
+                <item quantity="other">%d objects</item>
+        </plurals>
+        <string name="astro_search_constellation_with_code">Constellation (%1$s)</string>
+        <string name="astro_search_type_in_location">%1$s in %2$s</string>
+        <string name="astro_search_in_location">In %1$s</string>
+        <string name="astro_search_rises_tomorrow">↗ %1$s %2$s</string>
+        <string name="astro_search_sets_tomorrow">↘ %1$s %2$s</string>
+        <string name="astro_search_never_rises">↓ Never rises</string>
+        <string name="astro_search_always_up">↑ Always up</string>
+        <string name="astro_search_sets_at">↘ Sets %1$s</string>
+        <string name="astro_search_rises_at">↗ Rises %1$s</string>
+        <string name="astro_search_magnitude_short">mag %.1f</string>
+        <string name="astro_filter_naked_eye">Naked eye visible</string>
+        <string name="astro_filter_visible_tonight">Visible tonight</string>
+        <string name="astro_filter_visible_now">Visible now</string>
+        <string name="astro_filter_show_all">Show all</string>
+        <string name="astro_sort_sets_soonest">Sets soonest</string>
+        <string name="astro_sort_rises_soonest">Rises soonest</string>
+        <string name="astro_sort_faintest_first">Faintest first</string>
+        <string name="astro_sort_brightest_first">Brightest first</string>
+        <string name="astro_search_empty_description">Try changing the filters or observation time.</string>
+        <string name="astro_search_input_hint">Input text</string>
+        <string name="astro_explore_my_data">My data</string>
+        <string name="astro_explore_schedule_subtitle">Upcoming astronomical events</string>
+        <string name="astro_explore_schedule">Schedule</string>
+        <string name="astro_explore_watch_now_subtitle">See what is in the sky tonight</string>
+        <string name="astro_explore_watch_now">Watch now</string>
+        <string name="astro_explore_deep_sky_subtitle">Galaxy, Galaxy Clusters, Black holes</string>
+        <string name="astro_culmination">Culmination</string>
+        <string name="astro_today_visibility">Today visibility</string>
+        <string name="astro_alt_short">Alt</string>
+        <string name="astro_az_short">Az</string>
+        <string name="astronomy_schedule">Schedule</string>
+        <string name="astro_catalogs">Catalogs</string>
+        <string name="astro_path">Path</string>
+        <string name="astro_direction">Direction</string>
+        <string name="astro_locate">Locate</string>
+        <string name="astro_type_earth">Earth</string>
+        <string name="astro_type_star">Star</string>
+        <string name="astro_type_galaxy">Galaxy</string>
+        <string name="astro_type_black_hole">Black hole</string>
+        <string name="astro_type_planet">Planet</string>
+        <string name="astro_type_sun">Sun</string>
+        <string name="astro_type_satellite">Satellite</string>
+        <string name="astro_type_nebula">Nebula</string>
+        <string name="astro_type_open_cluster">Open cluster</string>
+        <string name="astro_type_globular_cluster">Globular cluster</string>
+        <string name="astro_type_galaxy_cluster">Galaxy cluster</string>
+        <string name="astro_type_constellation">Constellation</string>
+        <string name="show_layout_grid_logs">Show grid logs</string>
+        <string name="share_favorite">Share favorite</string>
+        <string name="copy_list">Copy list</string>
     <string name="shared_string_trip_average">Trip average</string>
     <string name="trip_recording_avg_speed_widget_description">Shows the average speed of the current trip, or the average speed during the last uphill or downhill section.</string>
     <string name="trip_recording_moving_time_widget_description">Shows the currently recorded moving time, or the time for the last uphill and downhill.</string>
@@ -172,53 +172,53 @@
     <string name="add_palette">Add palette</string>
     <string name="delete_palette">Delete palette</string>
     <string name="delete_colors_palette_dialog_summary">Are you sure you want to delete %1$s palette?</string>
-	<string name="astro_min_magnitude">Min. magnitude</string>
-	<string name="intersection">Intersection</string>
-	<string name="stars_articles">Stars articles</string>
-	<string name="delete_groups_confirmation">Delete groups?</string>
-	<string name="add_to_track">Add to track</string>
-	<string name="unpin_folder">Unpin folder</string>
-	<string name="pin_folder">Pin folder</string>
-	<string name="favorite_search_empty_state_description">Adjust your search or filters to see if that helps</string>
-	<string name="favorites_empty_folder_description">This folder doesn\’t have any points yet.</string>
-	<string name="astro_rendering">Rendering</string>
-	<string name="astro_configure_view">Configure view</string>
-	<string name="astro_visible_objects">Visible objects</string>
-	<string name="red_filter">Red filter</string>
-	<string name="astro_directions">Directions</string>
-	<string name="astro_daily_path">Daily Path</string>
-	<string name="map_2d">2D</string>
-	<string name="map_3d">3D</string>
-	<string name="astro_deep_sky">Deep sky</string>
-	<string name="astro_star_clusters">Star clusters</string>
-	<string name="astro_nebulas">Nebulas</string>
-	<string name="astro_solar_system">Solar system</string>
-	<string name="building_3d_day_color_content_desc">3d buildings day theme color</string>
-	<string name="building_3d_night_color_content_desc">3d buildings night theme color</string>
-	<string name="building_3d_low_details_content_desc">3d buildings low details</string>
-	<string name="building_3d_high_details_content_desc">3d buildings high</string>
-	<string name="building_3d_near_distance_content_desc">3d buildings distance near</string>
-	<string name="building_3d_far_distance_content_desc">3d buildings distance far</string>
-	<string name="free_custom_color_description">Customize 3D buildings with any color. Perfect for matching a map theme or improving contrast.</string>
-	<string name="buildings_3d_use_map_style_color_description">Use map style (%s) default color.</string>
-	<string name="buildings_3d_visibility_description">Adjust the opacity of 3D structures on the map.</string>
-	<string name="level_of_details">Level of detail</string>
-	<string name="performance">Performance</string>
-	<string name="view_distance">View distance</string>
+        <string name="astro_min_magnitude">Min. magnitude</string>
+        <string name="intersection">Intersection</string>
+        <string name="stars_articles">Stars articles</string>
+        <string name="delete_groups_confirmation">Delete groups?</string>
+        <string name="add_to_track">Add to track</string>
+        <string name="unpin_folder">Unpin folder</string>
+        <string name="pin_folder">Pin folder</string>
+        <string name="favorite_search_empty_state_description">Adjust your search or filters to see if that helps</string>
+        <string name="favorites_empty_folder_description">This folder doesn\’t have any points yet.</string>
+        <string name="astro_rendering">Rendering</string>
+        <string name="astro_configure_view">Configure view</string>
+        <string name="astro_visible_objects">Visible objects</string>
+        <string name="red_filter">Red filter</string>
+        <string name="astro_directions">Directions</string>
+        <string name="astro_daily_path">Daily Path</string>
+        <string name="map_2d">2D</string>
+        <string name="map_3d">3D</string>
+        <string name="astro_deep_sky">Deep sky</string>
+        <string name="astro_star_clusters">Star clusters</string>
+        <string name="astro_nebulas">Nebulas</string>
+        <string name="astro_solar_system">Solar system</string>
+        <string name="building_3d_day_color_content_desc">3d buildings day theme color</string>
+        <string name="building_3d_night_color_content_desc">3d buildings night theme color</string>
+        <string name="building_3d_low_details_content_desc">3d buildings low details</string>
+        <string name="building_3d_high_details_content_desc">3d buildings high</string>
+        <string name="building_3d_near_distance_content_desc">3d buildings distance near</string>
+        <string name="building_3d_far_distance_content_desc">3d buildings distance far</string>
+        <string name="free_custom_color_description">Customize 3D buildings with any color. Perfect for matching a map theme or improving contrast.</string>
+        <string name="buildings_3d_use_map_style_color_description">Use map style (%s) default color.</string>
+        <string name="buildings_3d_visibility_description">Adjust the opacity of 3D structures on the map.</string>
+        <string name="level_of_details">Level of detail</string>
+        <string name="performance">Performance</string>
+        <string name="view_distance">View distance</string>
     <string name="galactic_line">Galactic Line</string>
-	<string name="meridian_line">Meridian Line</string>
-	<string name="equator_line">Equator Line</string>
-	<string name="copy_from_portrait_layout">Copy from Portrait layout</string>
-	<string name="copy_from_landscape_layout">Copy from Landscape layout</string>
-	<string name="panels_layout_compact">Compact</string>
-	<string name="panels_layout_wide">Wide</string>
-	<string name="panels_layout">Panels layout</string>
-	<string name="panels_layout_descr">Choose a layout for the top and bottom panels. They can either be wide, spanning the full width of the screen, or compact, fitting between the side panels and buttons.</string>
-	<string name="single_layout">Single layout</string>
-	<string name="separate_layouts">Separate layouts</string>
-	<string name="use_separate_layouts">Use Separate layouts</string>
-	<string name="map_screen_layout">Map screen layout</string>
-	<string name="map_screen_layout_descr">Choose whether to use a single layout for all orientations, or customize Portrait and Landscape separately.</string>
+        <string name="meridian_line">Meridian Line</string>
+        <string name="equator_line">Equator Line</string>
+        <string name="copy_from_portrait_layout">Copy from Portrait layout</string>
+        <string name="copy_from_landscape_layout">Copy from Landscape layout</string>
+        <string name="panels_layout_compact">Compact</string>
+        <string name="panels_layout_wide">Wide</string>
+        <string name="panels_layout">Panels layout</string>
+        <string name="panels_layout_descr">Choose a layout for the top and bottom panels. They can either be wide, spanning the full width of the screen, or compact, fitting between the side panels and buttons.</string>
+        <string name="single_layout">Single layout</string>
+        <string name="separate_layouts">Separate layouts</string>
+        <string name="use_separate_layouts">Use Separate layouts</string>
+        <string name="map_screen_layout">Map screen layout</string>
+        <string name="map_screen_layout_descr">Choose whether to use a single layout for all orientations, or customize Portrait and Landscape separately.</string>
     <string name="sort_highest_first">Highest first</string>
     <string name="sort_lowest_first">Lowest first</string>
     <string name="no_date">No date</string>
@@ -237,45 +237,45 @@
     <string name="avg_speed">Avg. speed</string>
     <string name="organize_by_max_speed">Max. speed</string>
     <string name="organize_by_max_altitude">Max. altitude</string>
-	<string name="gpx_too_many_points_visible_warning">Large amount of visible GPX tracks leads to high memory usage</string>
-	<string name="astronomy_plugin_name">Astronomy</string>
-	<string name="astronomy_plugin_description">Star charts, 3D star map</string>
-	<string name="star_map">Star map</string>
-	<string name="star_charts_name">Star charts</string>
-	<string name="star_visibility_name">Star visibility</string>
-	<string name="star_altitude_name">Star altitude</string>
-	<string name="astro_name_sun">Sun</string>
-	<string name="astro_name_moon">Moon</string>
-	<string name="astro_name_mercury">Mercury</string>
-	<string name="astro_name_venus">Venus</string>
-	<string name="astro_name_mars">Mars</string>
-	<string name="astro_name_jupiter">Jupiter</string>
-	<string name="astro_name_saturn">Saturn</string>
-	<string name="astro_name_uranus">Uranus</string>
-	<string name="astro_name_neptune">Neptune</string>
-	<string name="astro_name_pluto">Pluto</string>
-	<string name="azimuthal_grid">Azimuthal Grid</string>
-	<string name="equatorial_grid">Equatorial Grid</string>
-	<string name="ecliptic_line">Ecliptic Line</string>
-	<string name="magnitude_filter">Magnitude filter</string>
-	<string name="astro_planets">Planets</string>
-	<string name="astro_constellation">Constellation</string>
-	<string name="astro_constellations">Constellations</string>
-	<string name="astro_stars">Stars</string>
-	<string name="astro_galaxies">Galaxies</string>
-	<string name="astro_nebulae">Nebulae</string>
-	<string name="astro_open_clusters">Open Clusters</string>
-	<string name="astro_globular_clusters">Globular Clusters</string>
-	<string name="astro_galaxy_clusters">Galaxy Clusters</string>
-	<string name="astro_black_holes">Black Holes</string>
-	<string name="visible_layers_and_objects">Visible Layers &amp; Objects</string>
-	<string name="shared_string_azimuth">Azimuth</string>
-	<string name="shared_string_magnitude">Magnitude</string>
-	<string name="astro_rise">Rise</string>
-	<string name="astro_set">Set</string>
-	<string name="show_expand_button">Show expand button</string>
+        <string name="gpx_too_many_points_visible_warning">Large amount of visible GPX tracks leads to high memory usage</string>
+        <string name="astronomy_plugin_name">Astronomy</string>
+        <string name="astronomy_plugin_description">Star charts, 3D star map</string>
+        <string name="star_map">Star map</string>
+        <string name="star_charts_name">Star charts</string>
+        <string name="star_visibility_name">Star visibility</string>
+        <string name="star_altitude_name">Star altitude</string>
+        <string name="astro_name_sun">Sun</string>
+        <string name="astro_name_moon">Moon</string>
+        <string name="astro_name_mercury">Mercury</string>
+        <string name="astro_name_venus">Venus</string>
+        <string name="astro_name_mars">Mars</string>
+        <string name="astro_name_jupiter">Jupiter</string>
+        <string name="astro_name_saturn">Saturn</string>
+        <string name="astro_name_uranus">Uranus</string>
+        <string name="astro_name_neptune">Neptune</string>
+        <string name="astro_name_pluto">Pluto</string>
+        <string name="azimuthal_grid">Azimuthal Grid</string>
+        <string name="equatorial_grid">Equatorial Grid</string>
+        <string name="ecliptic_line">Ecliptic Line</string>
+        <string name="magnitude_filter">Magnitude filter</string>
+        <string name="astro_planets">Planets</string>
+        <string name="astro_constellation">Constellation</string>
+        <string name="astro_constellations">Constellations</string>
+        <string name="astro_stars">Stars</string>
+        <string name="astro_galaxies">Galaxies</string>
+        <string name="astro_nebulae">Nebulae</string>
+        <string name="astro_open_clusters">Open Clusters</string>
+        <string name="astro_globular_clusters">Globular Clusters</string>
+        <string name="astro_galaxy_clusters">Galaxy Clusters</string>
+        <string name="astro_black_holes">Black Holes</string>
+        <string name="visible_layers_and_objects">Visible Layers &amp; Objects</string>
+        <string name="shared_string_azimuth">Azimuth</string>
+        <string name="shared_string_magnitude">Magnitude</string>
+        <string name="astro_rise">Rise</string>
+        <string name="astro_set">Set</string>
+        <string name="show_expand_button">Show expand button</string>
     <string name="imprecise_coordinates">Imprecise coordinates</string>
-	<string name="has_vehicle_metrics">With OBDII data</string>
+        <string name="has_vehicle_metrics">With OBDII data</string>
     <string name="lang_mi">Māori</string>
     <string name="vehicle_metrics_chart_category">Vehicle metrics</string>
     <string name="delete_folder_description">Delete \"%1$s\" folder?</string>
@@ -368,15 +368,15 @@
     <string name="device_address_with_prefix">%1$s%2$s</string>
     <string name="response">Response</string>
     <string name="deleting_history">Deleting history…</string>
-	<string name="n_a">N/A</string>
+        <string name="n_a">N/A</string>
     <string name="next_turn_information">Next turn information</string>
     <string name="next_turn_information_desc">Shows the upcoming turn direction and street name.</string>
-	<string name="description_purchases_fastspring">You can manage your purchases through the FastSpring account management portal.</string>
-	<string name="description_subscription_fastspring">You can manage or cancel your subscription through the FastSpring account management portal.</string>
-	<string name="manage_purchases">Manage purchases</string>
+        <string name="description_purchases_fastspring">You can manage your purchases through the FastSpring account management portal.</string>
+        <string name="description_subscription_fastspring">You can manage or cancel your subscription through the FastSpring account management portal.</string>
+        <string name="manage_purchases">Manage purchases</string>
     <string name="failed_to_connect">Failed to connect to %1s</string>
     <string name="shared_string_osm_link">OSM link</string>
-	<string name="deleting">Deleting…</string>
+        <string name="deleting">Deleting…</string>
     <string name="release_5_1">
         • Added support for web and cross-platform purchases\n\n
         • Moved Temperature units to General settings for easier access\n\n
@@ -539,35 +539,35 @@
     <string name="preview_next_turn">Preview next turn</string>
     <string name="purchase_feature_desc_vehicle_metrics_obd_ii">Track vital vehicle data using the OBD-II protocol. Monitor key metrics like speed, engine RPM, fuel consumption, and more.</string>
     <string name="vehicle_metrics_obd_ii">Vehicle Metrics (OBD-II)</string>
-	<string name="shared_string_hour">Hour</string>
-	<string name="ltr_or_rtl_combine_via_per">%1$s per %2$s</string>
-	<string name="shared_string_volume">Volume</string>
-	<string name="obd_engine_runtime_desc">Shows shows how long the engine has been running since it was started.</string>
-	<string name="obd_engine_runtime">Engine Runtime</string>
-	<string name="obd_battery_voltage_desc">Shows the voltage level of the vehicle\'s battery</string>
-	<string name="obd_alt_battery_voltage_desc">Shows the voltage level on the OBD adapter</string>
-	<string name="obd_fuel_pressure_desc">Shows the pressure within the fuel system</string>
-	<string name="obd_throttle_position">Throttle Position</string>
-	<string name="obd_throttle_position_desc">Shows the angle of the throttle plate in the throttle body.</string>
-	<string name="obd_calculated_engine_load_desc">Shows the percentage of the engine’s available power being used at a given moment.</string>
-	<string name="obd_calculated_engine_load">Calculated Engine Load</string>
-	<string name="obd_engine_coolant_temp_desc">Shows the temperature of the engine’s coolant</string>
-	<string name="obd_speed_desc">Shows speed from the Vehicle Speed Sensor (VSS).</string>
-	<string name="obd_engine_oil_temperature_desc">Shows the temperature of the engine oil.</string>
-	<string name="obd_engine_oil_temperature">Engine Oil Temperature</string>
-	<string name="obd_ambient_air_temp_desc">Shows the temperature outside the vehicle.</string>
-	<string name="obd_air_intake_temp_desc">Shows the temperature of the air entering the engine intake manifold.</string>
-	<string name="obd_fuel_consumption_rate_sensor_type">Use selected units in name.</string>
-	<string name="remaining_fuel_description">Shows the amount of fuel left in the vehicle\'s tank</string>
-	<string name="remaining_fuel">Remaining fuel</string>
-	<string name="obd_fuel_consumption_desc">Shows the rate of fuel usage by the engine, calculated based on remaining fuel, tank size, and distance covered as determined by GPS.</string>
-	<string name="obd_fuel_consumption">Fuel consumption</string>
-	<string name="reset_average_value">Reset average value</string>
-	<string name="average_value_slider_description">Select the time interval for measuring the average value.</string>
-	<string name="average_temperature_slider_description">Select the time interval for measuring the average temperature.</string>
-	<string name="shared_string_instant">Instant</string>
-	<string name="current_temperature">Current temperature</string>
-	<string name="average_temperature">Average temperature</string>
+        <string name="shared_string_hour">Hour</string>
+        <string name="ltr_or_rtl_combine_via_per">%1$s per %2$s</string>
+        <string name="shared_string_volume">Volume</string>
+        <string name="obd_engine_runtime_desc">Shows shows how long the engine has been running since it was started.</string>
+        <string name="obd_engine_runtime">Engine Runtime</string>
+        <string name="obd_battery_voltage_desc">Shows the voltage level of the vehicle\'s battery</string>
+        <string name="obd_alt_battery_voltage_desc">Shows the voltage level on the OBD adapter</string>
+        <string name="obd_fuel_pressure_desc">Shows the pressure within the fuel system</string>
+        <string name="obd_throttle_position">Throttle Position</string>
+        <string name="obd_throttle_position_desc">Shows the angle of the throttle plate in the throttle body.</string>
+        <string name="obd_calculated_engine_load_desc">Shows the percentage of the engine’s available power being used at a given moment.</string>
+        <string name="obd_calculated_engine_load">Calculated Engine Load</string>
+        <string name="obd_engine_coolant_temp_desc">Shows the temperature of the engine’s coolant</string>
+        <string name="obd_speed_desc">Shows speed from the Vehicle Speed Sensor (VSS).</string>
+        <string name="obd_engine_oil_temperature_desc">Shows the temperature of the engine oil.</string>
+        <string name="obd_engine_oil_temperature">Engine Oil Temperature</string>
+        <string name="obd_ambient_air_temp_desc">Shows the temperature outside the vehicle.</string>
+        <string name="obd_air_intake_temp_desc">Shows the temperature of the air entering the engine intake manifold.</string>
+        <string name="obd_fuel_consumption_rate_sensor_type">Use selected units in name.</string>
+        <string name="remaining_fuel_description">Shows the amount of fuel left in the vehicle\'s tank</string>
+        <string name="remaining_fuel">Remaining fuel</string>
+        <string name="obd_fuel_consumption_desc">Shows the rate of fuel usage by the engine, calculated based on remaining fuel, tank size, and distance covered as determined by GPS.</string>
+        <string name="obd_fuel_consumption">Fuel consumption</string>
+        <string name="reset_average_value">Reset average value</string>
+        <string name="average_value_slider_description">Select the time interval for measuring the average value.</string>
+        <string name="average_temperature_slider_description">Select the time interval for measuring the average temperature.</string>
+        <string name="shared_string_instant">Instant</string>
+        <string name="current_temperature">Current temperature</string>
+        <string name="average_temperature">Average temperature</string>
     <string name="show_minor_turns_descr">Lanes will be displayed on all passing intersections regardless voice instructions</string>
     <string name="show_minor_turns">Display on minor intersections when navigating straight</string>
     <string name="wunderlinq_datagrid">WunderLINQ Datagrid</string>
@@ -608,7 +608,7 @@
     <string name="obd_fuel_consumption_rate_percent_hour">Fuel consumption rate %/h</string>
 
     <string name="route_guidance_desc">Provides real-time route guidance, including distance to the next turn, road name, current street name, and lane information. Widgets are active during navigation.</string>
-	<string name="route_guidance">Route guidance</string>
+        <string name="route_guidance">Route guidance</string>
     <string name="obd_widget_vehicle_speed">Vehicle speed</string>
     <string name="obd_widget_engine_speed">Engine speed</string>
     <string name="obd_nothing_found_description">Please check the following:\n
@@ -655,9 +655,9 @@ You will be able to pair this scanner again at any time.</string>
         • Added a tappable icon to display access or other road or path attributes\n\n
     </string>
     <string name="quick_action_showhide_osm_edits_descr">Button to show or hide local OSM edits on the map.</string>
-	<string name="liter_per_hour">L/h</string>
-	<string name="lock_screen_description">Enables or disables touch screen functionality to prevent accidental taps</string>
-	<string name="lock_screen">Lock screen</string>
+        <string name="liter_per_hour">L/h</string>
+        <string name="lock_screen_description">Enables or disables touch screen functionality to prevent accidental taps</string>
+        <string name="lock_screen">Lock screen</string>
     <string name="track_does_not_contain_data_to_save">Track doesn\'t contain data to save.</string>
     <string name="quick_action_finish_trip_recording_summary">A button to save the GPX track and finish trip recording.</string>
     <string name="start_trip_recording_first_m">Please start trip recording first.</string>
@@ -668,21 +668,21 @@ You will be able to pair this scanner again at any time.</string>
     <string name="new_trip_segment">New trip segment</string>
     <string name="quick_action_start_pause_recording">A button to start, pause or resume recording of the GPX track.</string>
     <string name="quick_action_verb_start_pause">Start / Pause</string>
-	<string name="help_article_personal_color_palette_schemes_name">Color Schemes</string>
-	<string name="movies_list">Movies list</string>
-	<string name="third_links">Third Links</string>
-	<string name="reset_average_speed">Reset average speed</string>
-	<string name="unknown_bt_device">Unknown device</string>
-	<string name="obd_vin">VIN</string>
-	<string name="obd_vin_desc">VIN code over OBD</string>
+        <string name="help_article_personal_color_palette_schemes_name">Color Schemes</string>
+        <string name="movies_list">Movies list</string>
+        <string name="third_links">Third Links</string>
+        <string name="reset_average_speed">Reset average speed</string>
+        <string name="unknown_bt_device">Unknown device</string>
+        <string name="obd_vin">VIN</string>
+        <string name="obd_vin_desc">VIN code over OBD</string>
     <string name="unit_volt">V</string>
-	<string name="wikimedia">Wikimedia</string>
-	<string name="open_in_browser">Open in browser</string>
-	<string name="shared_string_source">Source</string>
-	<string name="shared_string_no_internet_connection">No internet connection</string>
-	<string name="no_internet_descr">Please check your connection and try again.</string>
-	<string name="no_photos_available_descr">No user photos have been added to this location yet</string>
-	<string name="no_photos_available">No photos available</string>
+        <string name="wikimedia">Wikimedia</string>
+        <string name="open_in_browser">Open in browser</string>
+        <string name="shared_string_source">Source</string>
+        <string name="shared_string_no_internet_connection">No internet connection</string>
+        <string name="no_internet_descr">Please check your connection and try again.</string>
+        <string name="no_photos_available_descr">No user photos have been added to this location yet</string>
+        <string name="no_photos_available">No photos available</string>
     <string name="shared_string_decrease">Decrease</string>
     <string name="shared_string_increase">Increase</string>
     <string name="raster_layers_action_descr">Change raster layers</string>
@@ -798,6 +798,31 @@ You will be able to pair this scanner again at any time.</string>
     • Intake temperature, Ambient temperature, Coolant temperature, Engine Oil Temperature\n
     • Vehicle speed, Throttle Position, Battery voltage\n</string>
     <string name="obd_support">OBD support</string>
+
+    <!-- Motorcycle Sensors Plugin -->
+    <string name="motorcycle_sensors_plugin_name">Motorcycle Sensors</string>
+    <string name="motorcycle_sensors_plugin_description">Real-time motorcycle telemetry using your phone\'s built-in sensors:\n
+    • Lean angle (using gyroscope + accelerometer fusion)\n
+    • G-force — total, lateral, and longitudinal\n
+    • Sensor data recording to GPX tracks\n
+    • Post-ride analysis with corner detection and ride scoring\n
+    Requires: Accelerometer + Gyroscope sensors on your device.</string>
+    <string name="motorcycle_sensors_widget_group">Motorcycle Sensors</string>
+    <string name="motorcycle_lean_angle_widget">Lean Angle</string>
+    <string name="motorcycle_lean_angle_widget_desc">Displays the current motorcycle lean angle in degrees. Positive values indicate right lean, negative values indicate left lean. Uses device gyroscope and accelerometer sensors.</string>
+    <string name="motorcycle_gforce_widget">G-Force</string>
+    <string name="motorcycle_gforce_widget_desc">Displays the total G-force experienced on the motorcycle. Combines lateral and longitudinal forces.</string>
+    <string name="motorcycle_gforce_lateral_widget">Lateral G-Force</string>
+    <string name="motorcycle_gforce_lateral_widget_desc">Displays the lateral (cornering) G-force. Positive = right, Negative = left.</string>
+    <string name="motorcycle_gforce_longitudinal_widget">Longitudinal G-Force</string>
+    <string name="motorcycle_gforce_longitudinal_widget_desc">Displays the longitudinal (acceleration/braking) G-force. Positive = acceleration, Negative = braking.</string>
+    <string name="motorcycle_no_sensors">Device does not have required sensors (accelerometer + gyroscope)</string>
+    <string name="motorcycle_record_sensor_data">Record sensor data to track</string>
+    <string name="motorcycle_ride_analysis">Ride Analysis</string>
+    <string name="motorcycle_max_lean">Max Lean</string>
+    <string name="motorcycle_max_gforce">Max G-Force</string>
+    <string name="motorcycle_corners">Corners</string>
+    <string name="motorcycle_ride_score">Ride Score</string>
     <string name="background_opacity">Background opacity</string>
     <string name="corner_radius">Corner radius</string>
     <string name="shared_string_dp">dp</string>
@@ -813,43 +838,43 @@ You will be able to pair this scanner again at any time.</string>
     <string name="quick_action_navigation_view_title">Navigation view</string>
     <string name="quick_action_switch_compass_desc">A toggle to switch map orientation.</string>
     <string name="app_mode_suv">SUV</string>
-	<string name="graph_axis">Graph axis</string>
-	<string name="y_axis_description">Select up to two options for Y-Axis.</string>
-	<string name="delete_widget_description">This widget will be removed. You can restore it later in Configure Screen.</string>
-	<string name="delete_widget">Remove widget?</string>
-	<string name="add_widget_below">Add widget below</string>
-	<string name="add_widget_above">Add widget above</string>
-	<string name="add_widget_to_the_right">Add widget to the right</string>
-	<string name="add_widget_to_the_left">Add widget to the left</string>
-	<string name="route_roundabout_exit">Take %1$d exit</string>
-	<string name="help_article_map_tracks_name">Tracks</string>
-	<string name="help_article_map_routes_name">Routes</string>
-	<string name="compass_click_north_is_up">To change orientation mode click and hold</string>
-	<string name="shared_string_automatically">Automatically</string>
-	<string name="ask_every_time">Ask every time</string>
-	<string name="detailed_track_guidance">Detailed track guidance</string>
-	<string name="detailed_track_guidance_description">OsmAnd will match your track to nearby roads for enhanced turn-by-turn guidance.</string>
-	<string name="quick_action_routes_summary">A toggle to show or hide %1$s on the map.</string>
-	<string name="hugerock_promo">Hugerock Promo for %1$s months</string>
-	<string name="hugerock_promo_description">Free access to features including unlimited map downloads, 3D relief etc. for %1$s month</string>
-	<string name="driving_region_uk">UK and similar</string>
-	<string name="driving_region_india">India</string>
-	<string name="auto_25_chars_route_kl">Keep left</string>
-	<string name="auto_25_chars_route_kr">Keep right</string>
-	<string name="auto_25_chars_route_tr">Turn right</string>
-	<string name="auto_25_chars_route_tshr">Turn sharply right</string>
-	<string name="auto_25_chars_route_tslr">Turn slightly right</string>
-	<string name="auto_25_chars_route_tl">Turn left</string>
-	<string name="auto_25_chars_route_tshl">Turn sharply left</string>
-	<string name="auto_25_chars_route_tsll">Turn slightly left</string>
-	<string name="auto_25_chars_route_tu">Make U-turn</string>
-	<string name="resting_position">Resting position</string>
-	<string name="navigation_position">Navigation position</string>
-	<string name="resting_navigation_position">Rest &amp; navigation position</string>
-	<string name="view_angle_description">Displays the cone-shaped area you\'re currently facing</string>
-	<string name="view_angle">View angle</string>
-	<string name="location_radius_description">Shows the circular area representing your current location accuracy</string>
-	<string name="location_radius">Location radius</string>
+        <string name="graph_axis">Graph axis</string>
+        <string name="y_axis_description">Select up to two options for Y-Axis.</string>
+        <string name="delete_widget_description">This widget will be removed. You can restore it later in Configure Screen.</string>
+        <string name="delete_widget">Remove widget?</string>
+        <string name="add_widget_below">Add widget below</string>
+        <string name="add_widget_above">Add widget above</string>
+        <string name="add_widget_to_the_right">Add widget to the right</string>
+        <string name="add_widget_to_the_left">Add widget to the left</string>
+        <string name="route_roundabout_exit">Take %1$d exit</string>
+        <string name="help_article_map_tracks_name">Tracks</string>
+        <string name="help_article_map_routes_name">Routes</string>
+        <string name="compass_click_north_is_up">To change orientation mode click and hold</string>
+        <string name="shared_string_automatically">Automatically</string>
+        <string name="ask_every_time">Ask every time</string>
+        <string name="detailed_track_guidance">Detailed track guidance</string>
+        <string name="detailed_track_guidance_description">OsmAnd will match your track to nearby roads for enhanced turn-by-turn guidance.</string>
+        <string name="quick_action_routes_summary">A toggle to show or hide %1$s on the map.</string>
+        <string name="hugerock_promo">Hugerock Promo for %1$s months</string>
+        <string name="hugerock_promo_description">Free access to features including unlimited map downloads, 3D relief etc. for %1$s month</string>
+        <string name="driving_region_uk">UK and similar</string>
+        <string name="driving_region_india">India</string>
+        <string name="auto_25_chars_route_kl">Keep left</string>
+        <string name="auto_25_chars_route_kr">Keep right</string>
+        <string name="auto_25_chars_route_tr">Turn right</string>
+        <string name="auto_25_chars_route_tshr">Turn sharply right</string>
+        <string name="auto_25_chars_route_tslr">Turn slightly right</string>
+        <string name="auto_25_chars_route_tl">Turn left</string>
+        <string name="auto_25_chars_route_tshl">Turn sharply left</string>
+        <string name="auto_25_chars_route_tsll">Turn slightly left</string>
+        <string name="auto_25_chars_route_tu">Make U-turn</string>
+        <string name="resting_position">Resting position</string>
+        <string name="navigation_position">Navigation position</string>
+        <string name="resting_navigation_position">Rest &amp; navigation position</string>
+        <string name="view_angle_description">Displays the cone-shaped area you\'re currently facing</string>
+        <string name="view_angle">View angle</string>
+        <string name="location_radius_description">Shows the circular area representing your current location accuracy</string>
+        <string name="location_radius">Location radius</string>
     <string name="rendering_value_pale_name">Pale</string>
     <string name="choose_map_orientation">Choose map orientation</string>
     <string name="energy_avg_info">Energy statistics (average 1 / 5 / 15 minutes)</string>
@@ -2969,7 +2994,7 @@ You need to activate the sensor so OsmAnd can find it.</string>
     <string name="ltr_or_rtl_combine_via_slash_with_space">%1$s / %2$s</string>
     <string name="custom_color">Custom color</string>
     <string name="lang_als">Albanian (Tosk)</string>
-	<string name="lang_an">Aragonese</string>
+        <string name="lang_an">Aragonese</string>
     <string name="lang_ba">Bashkir</string>
     <string name="lang_bar">Bavarian</string>
     <string name="lang_ce">Chechen</string>
@@ -2977,7 +3002,7 @@ You need to activate the sensor so OsmAnd can find it.</string>
     <string name="lang_cv">Chuvash</string>
     <string name="lang_crh">Crimean Tatar (latin)</string>
     <string name="lang_fy">Frysk</string>
-	<string name="lang_gu">Gujarati</string>
+        <string name="lang_gu">Gujarati</string>
     <string name="lang_jv">Javanese</string>
     <string name="lang_kk">Kazakh</string>
     <string name="lang_ky">Kyrgyz</string>
@@ -2985,17 +3010,17 @@ You need to activate the sensor so OsmAnd can find it.</string>
     <string name="lang_mg">Malagasy</string>
     <string name="lang_min">Minangkabau</string>
     <string name="lang_mk">Macedonian</string>
-	<string name="lang_mn">Mongolian</string>
+        <string name="lang_mn">Mongolian</string>
     <string name="lang_my">Burmese</string>
     <string name="lang_nap">Neapolitan</string>
     <string name="lang_nds">Low German</string>
-	<string name="lang_ne">Nepali</string>
+        <string name="lang_ne">Nepali</string>
     <string name="lang_pnb">Punjabi</string>
     <string name="lang_sat">Santali</string>
     <string name="lang_scn">Sicilian</string>
     <string name="lang_sco">Scots</string>
     <string name="lang_ta_in">Tamil (India)</string>
-	<string name="lang_tg">Tajik</string>
+        <string name="lang_tg">Tajik</string>
     <string name="lang_tt">Tatar</string>
     <string name="lang_ur">Urdu</string>
     <string name="lang_uz">Uzbek</string>
@@ -3704,11 +3729,11 @@ You need to activate the sensor so OsmAnd can find it.</string>
     <string name="rendering_attr_highway_class_path_name">Path</string>
     <string name="rendering_attr_highway_class_cycleway_name">Cycleway</string>
     <string name="rendering_attr_undefined_name">Undefined</string>
-	<string name="rendering_attr_highway_class_track_grade1_name">Grade 1</string>
-	<string name="rendering_attr_highway_class_track_grade2_name">Grade 2</string>
-	<string name="rendering_attr_highway_class_track_grade3_name">Grade 3</string>
-	<string name="rendering_attr_highway_class_track_grade4_name">Grade 4</string>
-	<string name="rendering_attr_highway_class_track_grade5_name">Grade 5</string>
+        <string name="rendering_attr_highway_class_track_grade1_name">Grade 1</string>
+        <string name="rendering_attr_highway_class_track_grade2_name">Grade 2</string>
+        <string name="rendering_attr_highway_class_track_grade3_name">Grade 3</string>
+        <string name="rendering_attr_highway_class_track_grade4_name">Grade 4</string>
+        <string name="rendering_attr_highway_class_track_grade5_name">Grade 5</string>
     <!-- string name="release_3_3">
     • New \'Directions\' screen: Displays Home and Work destination buttons, \'previous route\' shortcut, list of active GPX tracks and markers, search history\n\n
     • Additional info under \'Route details\': road types, surface, steepness, smoothness\n\n
@@ -3845,9 +3870,9 @@ You need to activate the sensor so OsmAnd can find it.</string>
     <string name="paid_app">Paid app</string>
     <string name="paid_plugin">Paid plugin</string>
     <string name="travel_card_update_descr">New Wikivoyage data available, update it to enjoy.</string>
-	<string name="travel_card_download_descr">Download Wikivoyage travel guides to view articles about places around the world without a connection to the Internet.</string>
-	<string name="update_is_available">Update available</string>
-	<string name="download_file">Download file</string>
+        <string name="travel_card_download_descr">Download Wikivoyage travel guides to view articles about places around the world without a connection to the Internet.</string>
+        <string name="update_is_available">Update available</string>
+        <string name="download_file">Download file</string>
     <string name="start_editing_card_image_text">The free worldwide travel guide anyone can edit.</string>
     <string name="welcome_to_open_beta_description">Travel guides are currently based on Wikivoyage. Test all features during open beta testing for free.</string>
     <string name="start_editing_card_description">You can and should edit any article on Wikivoyage. Share knowledge, experience, talent, and your attention.</string>
@@ -3905,16 +3930,16 @@ You need to activate the sensor so OsmAnd can find it.</string>
     <string name="enter_lon">Enter longitude</string>
     <string name="enter_lat">Enter latitude</string>
     <string name="enter_lat_and_lon">Enter latitude and longitude</string>
-	<string name="dd_mm_ss_format">DD°MM′SS″</string>
-	<string name="dd_dddddd_format">DD.DDDDDD°</string>
-	<string name="dd_ddddd_format">DD.DDDDD°</string>
-	<string name="dd_mm_mmmm_format">DD°MM.MMMM′</string>
-	<string name="dd_mm_mmm_format">DD°MM.MMM′</string>
-	<string name="east_abbreviation">E</string>
-	<string name="west_abbreviation">W</string>
-	<string name="south_abbreviation">S</string>
-	<string name="north_abbreviation">N</string>
-	<string name="optional_point_name">Optional point name</string>
+        <string name="dd_mm_ss_format">DD°MM′SS″</string>
+        <string name="dd_dddddd_format">DD.DDDDDD°</string>
+        <string name="dd_ddddd_format">DD.DDDDD°</string>
+        <string name="dd_mm_mmmm_format">DD°MM.MMMM′</string>
+        <string name="dd_mm_mmm_format">DD°MM.MMM′</string>
+        <string name="east_abbreviation">E</string>
+        <string name="west_abbreviation">W</string>
+        <string name="south_abbreviation">S</string>
+        <string name="north_abbreviation">N</string>
+        <string name="optional_point_name">Optional point name</string>
     <string name="transport_nearby_routes_within">Nearby routes within</string>
     <string name="transport_nearby_routes">Within</string>
     <string name="enter_the_file_name">Type the filename.</string>
@@ -4009,12 +4034,12 @@ You need to activate the sensor so OsmAnd can find it.</string>
     <string name="import_as_gpx">Import as GPX file</string>
     <string name="import_as_favorites">Import as Favorites</string>
     <string name="import_file">Import file</string>
-	<string name="wrong_input">Wrong input</string>
-	<string name="enter_new_name">Enter new name</string>
-	<string name="shared_string_back">Back</string>
-	<string name="shared_string_view">View</string>
-	<string name="waypoints_added_to_map_markers">Waypoints added to map markers</string>
-	<string name="wrong_format">Wrong format</string>
+        <string name="wrong_input">Wrong input</string>
+        <string name="enter_new_name">Enter new name</string>
+        <string name="shared_string_back">Back</string>
+        <string name="shared_string_view">View</string>
+        <string name="waypoints_added_to_map_markers">Waypoints added to map markers</string>
+        <string name="wrong_format">Wrong format</string>
     <string name="shared_string_road">Road</string>
     <string name="show_map">Show map</string>
     <string name="route_is_calculated">Route calculated</string>
@@ -4231,41 +4256,41 @@ You need to activate the sensor so OsmAnd can find it.</string>
     <string name="rendering_attr_depthContours_description">Show depth contours and points.</string>
     <string name="rendering_attr_depthContours_name">Nautical depth contours</string>
     <!-- string name="release_2_6">
-	\u2022 New feature: Quick action button\n\n
-	\u2022 Improved touch screen gesture response (e.g. concurrent panning and zooming)\n\n
-	\u2022 New map fonts covering more locales\n\n
-	\u2022 Support text-to-speech for regional language variants (and accents)\n\n
-	\u2022 Visibility enhancements in several map styles and Wikipedia\n\n
-	\u2022 Support Open Location Code (OLC)\n\n
-	\u2022 Display elevation, slope, and speed profile for recorded GPX tracks and calculated routes\n\n
-	\u2022 \"Riding style\" setting and logic improvements for bicycle routing\n\n
-	\u2022 Altitude data settings for bicycle routing\n\n
-	\u2022 Several other improvements and bug fixes\n\n
-	and more…
-	</string -->
+        \u2022 New feature: Quick action button\n\n
+        \u2022 Improved touch screen gesture response (e.g. concurrent panning and zooming)\n\n
+        \u2022 New map fonts covering more locales\n\n
+        \u2022 Support text-to-speech for regional language variants (and accents)\n\n
+        \u2022 Visibility enhancements in several map styles and Wikipedia\n\n
+        \u2022 Support Open Location Code (OLC)\n\n
+        \u2022 Display elevation, slope, and speed profile for recorded GPX tracks and calculated routes\n\n
+        \u2022 \"Riding style\" setting and logic improvements for bicycle routing\n\n
+        \u2022 Altitude data settings for bicycle routing\n\n
+        \u2022 Several other improvements and bug fixes\n\n
+        and more…
+        </string -->
     <!-- string name="release_2_7">
-	\u2022 Mapillary plugin with street-level imagery\n\n
-	\u2022 Ruler widget for distance measurement\n\n
-	\u2022 GPX split intervals with detailed info about your track\n\n
-	\u2022 Other improvements and bug fixes\n\n
-	</string -->
+        \u2022 Mapillary plugin with street-level imagery\n\n
+        \u2022 Ruler widget for distance measurement\n\n
+        \u2022 GPX split intervals with detailed info about your track\n\n
+        \u2022 Other improvements and bug fixes\n\n
+        </string -->
     <!-- string name="release_2_8">
-	\u2022 Completely reworked map markers with directional lines and route planning\n\n
-	\u2022 Measure distance tool offering snap to road feature and saving points as track\n\n
-	\u2022 OsmAnd Live: Bug fixes, fresh data on the server every 30 minutes, updates implemented into the navigation\n\n
-	</string -->
+        \u2022 Completely reworked map markers with directional lines and route planning\n\n
+        \u2022 Measure distance tool offering snap to road feature and saving points as track\n\n
+        \u2022 OsmAnd Live: Bug fixes, fresh data on the server every 30 minutes, updates implemented into the navigation\n\n
+        </string -->
     <!-- string name="release_2_9">
-	\u2022 Updated the context menu: Show when the POI opens / closes\n\n
-	\u2022 Transport menu: all available routes are now at the top\n\n
-	\u2022 Wikipedia: added the button to open the original article, updated the appearance of articles\n\n
-	\u2022 Route: added possibility to swap start and end points in one tap\n\n
-	\u2022 OSM notes: Added sorting by type and date\n\n
-	\u2022 OSM edits: Show an icon and a name of the POI category, display completed actions\n\n
-	\u2022 New quick coordinate input screen for quick markers creation\n\n
+        \u2022 Updated the context menu: Show when the POI opens / closes\n\n
+        \u2022 Transport menu: all available routes are now at the top\n\n
+        \u2022 Wikipedia: added the button to open the original article, updated the appearance of articles\n\n
+        \u2022 Route: added possibility to swap start and end points in one tap\n\n
+        \u2022 OSM notes: Added sorting by type and date\n\n
+        \u2022 OSM edits: Show an icon and a name of the POI category, display completed actions\n\n
+        \u2022 New quick coordinate input screen for quick markers creation\n\n
     \u2022 Detection of stop signs now considers driving direction\n\n
-	\u2022 New algorithm providing meaningful ascent/descent values for GPX tracks\n\n
-	\u2022 Terrain (ascent) aware hiking time (Naismith\'s rule)\n\n
-	</string -->
+        \u2022 New algorithm providing meaningful ascent/descent values for GPX tracks\n\n
+        \u2022 Terrain (ascent) aware hiking time (Naismith\'s rule)\n\n
+        </string -->
     <string name="auto_split_recording_title">Auto-split recordings after gap</string>
     <string name="auto_split_recording_descr">Start new segment after gap of 6 min, new track after gap of 2 h, or new file after a longer gap if the date has changed.</string>
     <string name="rendering_attr_contourDensity_description">Contour line density</string>
@@ -4299,13 +4324,13 @@ You need to activate the sensor so OsmAnd can find it.</string>
     <string name="shared_string_record">Record</string>
     <string name="gpx_logging_no_data">No data</string>
     <!-- string name="release_2_5">
-	\u2022 Tappable icons on the map\n\n
-	\u2022 Powerful POI filter search: Search, e.g. restaurants by cuisine, or campgrounds with specific facilities\n\n
-	\u2022 New Topo Map style for cyclists and hikers\n\n
-	\u2022 Enhanced trip recording\n\n
-	\u2022 Improved navigation notifications (Android Wear)\n\n
-	\u2022 Many other improvements and bug fixes\n\n
-	and more…
+        \u2022 Tappable icons on the map\n\n
+        \u2022 Powerful POI filter search: Search, e.g. restaurants by cuisine, or campgrounds with specific facilities\n\n
+        \u2022 New Topo Map style for cyclists and hikers\n\n
+        \u2022 Enhanced trip recording\n\n
+        \u2022 Improved navigation notifications (Android Wear)\n\n
+        \u2022 Many other improvements and bug fixes\n\n
+        and more…
     </string -->
     <string name="rendering_attr_contourColorScheme_description">Contour lines color scheme</string>
     <string name="save_track_min_speed">Logging minimum speed</string>
@@ -4370,13 +4395,13 @@ You need to activate the sensor so OsmAnd can find it.</string>
     <string name="confirmation_to_delete_history_items">Remove selected items from \'History\'?</string>
     <string name="show_something_on_map">Show %1$s on the map</string>
     <!-- string name="release_2_4">
-	\u2022 New very powerful free text search\n\n
-	\u2022 Car audio system / speaker phone integration via Bluetooth\n\n
-	\u2022 Improved route guidance, voice prompting, and turn lane indication\n\n
-	\u2022 Improved transport layer with route rendering\n\n
-	\u2022 Added more locales and now support regional locales\n\n
-	\u2022 Many other improvements and bugfixes\n\n
-	and more…
+        \u2022 New very powerful free text search\n\n
+        \u2022 Car audio system / speaker phone integration via Bluetooth\n\n
+        \u2022 Improved route guidance, voice prompting, and turn lane indication\n\n
+        \u2022 Improved transport layer with route rendering\n\n
+        \u2022 Added more locales and now support regional locales\n\n
+        \u2022 Many other improvements and bugfixes\n\n
+        and more…
     </string -->
     <string name="dist_away_from_my_location">Search %1$s away</string>
     <string name="share_history_subject"> shared via OsmAnd</string>
@@ -4442,12 +4467,12 @@ You need to activate the sensor so OsmAnd can find it.</string>
     <string name="report">Report</string>
     <string name="storage_permission_restart_is_required">The app is now allowed to write to external storage, but needs to be started again to do so.</string>
     <!-- string name="release_2_3">
-	\u2022 OSM Live. Support map contributors and developers and get hourly map updates. \n\n
-	\u2022 Map markers. A new way to quickly select places on the map.\n\n
-	\u2022 More detailed OSM maps with country specific road shields and lots of new map features.\n\n
-	\u2022 Improved Look and Feel of Route preparation. \n\n
-	\u2022 Many improvements in the map context menu such as contextual address lookup.\n\n
-	and more…
+        \u2022 OSM Live. Support map contributors and developers and get hourly map updates. \n\n
+        \u2022 Map markers. A new way to quickly select places on the map.\n\n
+        \u2022 More detailed OSM maps with country specific road shields and lots of new map features.\n\n
+        \u2022 Improved Look and Feel of Route preparation. \n\n
+        \u2022 Many improvements in the map context menu such as contextual address lookup.\n\n
+        and more…
         </string -->
     <string name="shared_string_move_up">Move ↑</string>
     <string name="shared_string_move_down">Move ↓</string>
@@ -4568,15 +4593,15 @@ You need to activate the sensor so OsmAnd can find it.</string>
     <string name="show_on_start">Show on start</string>
     <string name="copied_to_clipboard">Copied to clipboard</string>
     <!-- string name="release_2_2">
-	\u2022 New context-sensitive UI for tapping locations on the map and on other screens\n\n
-	\u2022 Map screen is now launched directly unless \'Show dashboard on app start\' is selected\n\n
-	\u2022 Set up which and how cards are displayed on the dashboard\n\n
-	\u2022 Bypass the dashboard if you like menu-based app control\n\n
-	\u2022 To download maps, regions can be directly selected by tapping on the world map\n\n
-	\u2022 POI Search now supports more specific queries\n\n
-	\u2022 Improved POI and OSM editing functionality\n\n
-	\u2022 Map data download structure and interface reworked\n\n
-	and more…
+        \u2022 New context-sensitive UI for tapping locations on the map and on other screens\n\n
+        \u2022 Map screen is now launched directly unless \'Show dashboard on app start\' is selected\n\n
+        \u2022 Set up which and how cards are displayed on the dashboard\n\n
+        \u2022 Bypass the dashboard if you like menu-based app control\n\n
+        \u2022 To download maps, regions can be directly selected by tapping on the world map\n\n
+        \u2022 POI Search now supports more specific queries\n\n
+        \u2022 Improved POI and OSM editing functionality\n\n
+        \u2022 Map data download structure and interface reworked\n\n
+        and more…
         </string -->
     <string name="osm_save_offline">Save offline</string>
     <string name="osm_edit_modified_poi">Modified OSM POI</string>
@@ -4852,12 +4877,12 @@ Download tile maps directly, or copy them as SQLite database files to OsmAnd\'s 
     <string name="srtm_plugin_description">Provides terrain and detailed topography for a visual understanding of landscape relief and traversability, using contour lines, hillshading or slope coloring, and a 3D view.\n\nTo enable these features for a region, you need to additionally download the Contour lines and/or Terrain (3D) map, compiled from SRTM and ASTER data.\n\nFurther reading at %1$s.</string>
     <string name="plugin_touringview_name">Touring map view</string>
     <string name="plugin_touringview_descr">Activating this view changes OsmAnd\'s map style to \'Touring view\', this is a special high-detail view for travelers and professional drivers.
-		\n\nThis view provides, at any given map zoom, the maximum amount of travel details available in the map data (particularly roads, tracks, paths, and orientation marks).
-		\n\nIt also clearly depicts all types of roads unambiguously by color coding, which is useful when e.g. driving large vehicles.
-		\n\nAnd it provides special touring options like showing bicycle routes or Alpine mountain routes.
-		\n\nA special map download is not needed, the view is created from our standard maps.
-		\n\nThis view can be reverted by either de-activating it again here, or by changing the \'Map style\' under \'Configure map\' as desired.
-	</string>
+                \n\nThis view provides, at any given map zoom, the maximum amount of travel details available in the map data (particularly roads, tracks, paths, and orientation marks).
+                \n\nIt also clearly depicts all types of roads unambiguously by color coding, which is useful when e.g. driving large vehicles.
+                \n\nAnd it provides special touring options like showing bicycle routes or Alpine mountain routes.
+                \n\nA special map download is not needed, the view is created from our standard maps.
+                \n\nThis view can be reverted by either de-activating it again here, or by changing the \'Map style\' under \'Configure map\' as desired.
+        </string>
     <string name="plugin_nautical_name">Nautical map view</string>
     <string name="plugin_nautical_descr">Enriches your map with information about sailing routes, navigation lights, nautical danger zones, zones with sailing or docking restrictions, etc. To use, download the respective Nautical maps and enable the \"Nautical map\" style under \"Configure map\". \n\nFurther reading at %1$s.</string>
     <string name="plugin_ski_name">Ski map view</string>
@@ -5404,29 +5429,29 @@ Download tile maps directly, or copy them as SQLite database files to OsmAnd\'s 
     <string name="osmand_play_title_30_chars">OsmAnd Maps &amp; Navigation</string>
     <string name="osmand_short_description_80_chars">Global mobile map viewing and navigation for offline and online OSM maps</string>
     <string name="osmand_long_description_1000_chars">
-		OsmAnd (OSM Automated Navigation Directions)\n\n
+                OsmAnd (OSM Automated Navigation Directions)\n\n
 
-		OsmAnd is an open source software navigation app with access to a wide variety of global OSM data. All map data (vector or tile maps) can be stored on the phone memory card for offline usage. Offline and online routing functionality is also offered, including turn-by-turn voice guidance.\n\n
+                OsmAnd is an open source software navigation app with access to a wide variety of global OSM data. All map data (vector or tile maps) can be stored on the phone memory card for offline usage. Offline and online routing functionality is also offered, including turn-by-turn voice guidance.\n\n
 
-		Some of the core features:\n
-		- Complete offline functionality (store downloaded vector or tile maps in the device storage)\n
-		- Compact offline vector maps for the whole world available\n
-		- Download country or region maps directly from the app\n
-		- Overlay of several map layers possible, like GPX or navigation tracks, points of interest, favorites, public transport stops, additional maps with customizable transparency, topography features like contour lines/hillshade/slope\n
-		- Offline search for addresses and places (POIs)\n
-		- Offline routing for medium-range distances\n
-		- Car, bicycle, and pedestrian modes with optional:\n
-		-  Automated day/night view switching\n
-		-  Speed-dependent map zooming\n
-		-  Map alignment according to compass or direction of motion\n
-		-  Lane guidance, speed limit display, recorded and text-to-speech voices\n\n
+                Some of the core features:\n
+                - Complete offline functionality (store downloaded vector or tile maps in the device storage)\n
+                - Compact offline vector maps for the whole world available\n
+                - Download country or region maps directly from the app\n
+                - Overlay of several map layers possible, like GPX or navigation tracks, points of interest, favorites, public transport stops, additional maps with customizable transparency, topography features like contour lines/hillshade/slope\n
+                - Offline search for addresses and places (POIs)\n
+                - Offline routing for medium-range distances\n
+                - Car, bicycle, and pedestrian modes with optional:\n
+                -  Automated day/night view switching\n
+                -  Speed-dependent map zooming\n
+                -  Map alignment according to compass or direction of motion\n
+                -  Lane guidance, speed limit display, recorded and text-to-speech voices\n\n
 
-		Limitations of this free version of OsmAnd:\n
-		- Number of map downloads limited\n
-		- No offline access to Wikipedia POIs\n\n
+                Limitations of this free version of OsmAnd:\n
+                - Number of map downloads limited\n
+                - No offline access to Wikipedia POIs\n\n
 
-		OsmAnd is actively being developed and our project and its continued progress relies on financial contributions for development and testing of new functionality. Please consider buying OsmAnd+, or funding specific new features or making a general donation on https://osmand.net.
-	</string>
+                OsmAnd is actively being developed and our project and its continued progress relies on financial contributions for development and testing of new functionality. Please consider buying OsmAnd+, or funding specific new features or making a general donation on https://osmand.net.
+        </string>
     <string name="osmand_extended_description_part1">
     OsmAnd (OSM Automated Navigation Directions) is a map and navigation app with access to the free, worldwide, and high-quality OSM data.\n\n
 
@@ -5500,26 +5525,26 @@ Download tile maps directly, or copy them as SQLite database files to OsmAnd\'s 
     <string name="osmand_plus_play_title_30_chars">OsmAnd+ Maps &amp; Navigation</string>
     <string name="osmand_plus_short_description_80_chars">Global Mobile Map Viewing &amp; Navigation for Offline and Online OSM Maps</string>
     <string name="osmand_plus_long_description_1000_chars">
-		OsmAnd+ (OSM Automated Navigation Directions)\n\n
+                OsmAnd+ (OSM Automated Navigation Directions)\n\n
 
-		OsmAnd+ is an open source software navigation app with access to a wide variety of global OSM data. All map data (vector or tile maps) can be stored on the phone memory card for offline use. Offline and online routing functionality is also offered, including turn-by-turn voice guidance.\n\n
+                OsmAnd+ is an open source software navigation app with access to a wide variety of global OSM data. All map data (vector or tile maps) can be stored on the phone memory card for offline use. Offline and online routing functionality is also offered, including turn-by-turn voice guidance.\n\n
 
-		OsmAnd+ is the paid app version, by buying it you support the project, fund the development of new features, and receive the latest updates.\n\n
+                OsmAnd+ is the paid app version, by buying it you support the project, fund the development of new features, and receive the latest updates.\n\n
 
-		Some of the core features:\n
-		- Complete offline functionality (store downloaded vector or tile maps in the device storage)\n
-		- Compact offline vector maps for the whole world available\n
-		- Unlimited downloading of country or region maps directly from the app\n
-		- Offline Wikipedia feature (download Wikipedia POIs), great for sightseeing\n
-		- Overlay of several map layers possible, like GPX or navigation tracks, points of interest, Favorites, public transport stops, additional maps with customizable transparency, topography features like contour lines/hillshade/slope\n\n
-		- Offline search for addresses and places (POIs)\n
-		- Offline routing for medium-range distances\n
-		- Car, bicycle, and pedestrian modes with optional:\n
-		-  Automated day/night view switching\n
-		-  Speed-dependent map zooming\n
-		-  Map alignment according to compass or direction of motion\n
-		-  Lane guidance, speed limit display, recorded and text-to-speech voices\n
-	</string>
+                Some of the core features:\n
+                - Complete offline functionality (store downloaded vector or tile maps in the device storage)\n
+                - Compact offline vector maps for the whole world available\n
+                - Unlimited downloading of country or region maps directly from the app\n
+                - Offline Wikipedia feature (download Wikipedia POIs), great for sightseeing\n
+                - Overlay of several map layers possible, like GPX or navigation tracks, points of interest, Favorites, public transport stops, additional maps with customizable transparency, topography features like contour lines/hillshade/slope\n\n
+                - Offline search for addresses and places (POIs)\n
+                - Offline routing for medium-range distances\n
+                - Car, bicycle, and pedestrian modes with optional:\n
+                -  Automated day/night view switching\n
+                -  Speed-dependent map zooming\n
+                -  Map alignment according to compass or direction of motion\n
+                -  Lane guidance, speed limit display, recorded and text-to-speech voices\n
+        </string>
     <string name="osmand_plus_extended_description_part1">
         OsmAnd+ (OSM Automated Navigation Directions) is a map and navigation app with access to the free, worldwide, and high-quality OSM data.\n
         Enjoy voice and optical navigation, viewing POIs (points of interest), creating and managing GPX tracks, using contour lines visualization and topography info, a choice between driving, cycling, pedestrian modes, OSM editing and much more.\n\n

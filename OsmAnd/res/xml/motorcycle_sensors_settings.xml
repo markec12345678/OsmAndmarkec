@@ -91,4 +91,20 @@
         android:inputType="phone"
         android:dialogTitle="@string/motorcycle_emergency_contact_dialog_title" />
 
+    <EditTextPreference
+        android:key="motorcycle_emergency_contact_2"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_emergency_contact_2"
+        android:summary="@string/motorcycle_emergency_contact_2_desc"
+        android:inputType="phone"
+        android:dialogTitle="@string/motorcycle_emergency_contact_dialog_title" />
+
+    <EditTextPreference
+        android:key="motorcycle_emergency_contact_3"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_emergency_contact_3"
+        android:summary="@string/motorcycle_emergency_contact_3_desc"
+        android:inputType="phone"
+        android:dialogTitle="@string/motorcycle_emergency_contact_dialog_title" />
+
 </PreferenceScreen>

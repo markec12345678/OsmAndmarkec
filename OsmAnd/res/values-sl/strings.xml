@@ -5324,4 +5324,126 @@
     <string name="shared_string_unlock">Odkleni</string>
     <string name="no_objects_found">Ni najdenih predmetov</string>
     <string name="astro_search_info_solar_system">Osončje je težnostno vezan sistem Sonca in teles, ki ga obkrožajo, predvsem osmih planetov, med katerimi je tudi Zemlja.</string>
+
+    <!-- Motorcycle Sensors Plugin -->
+    <string name="motorcycle_sensors_plugin_name">Motociklistični senzorji</string>
+    <string name="motorcycle_sensors_plugin_description">Telemetrija motocikla v realnem času z vgrajenimi senzorji telefona:\n
+\n• Nagib motocikla (giroskop + pospeškomer fuzija)\n
+• G-sila (pospešek s kompenzacijo gravitacije)\n
+• Zaznavanje nesreč z avtomatskim SMS klicem na pomoč\n
+• Snemanje podatkov v GPX za analizo po vožnji\n
+• Usmerjanje po vijugastih cestah</string>
+    <string name="motorcycle_sensors_widget_group">Motociklistični senzorji</string>
+    <string name="motorcycle_lean_angle_widget">Nagib</string>
+    <string name="motorcycle_lean_angle_widget_desc">Prikaže trenutni nagib motocikla v stopinjah. Pozitivne vrednosti pomenijo nagib v desno, negativne v levo. Uporablja giroskop in pospeškomer naprave.</string>
+    <string name="motorcycle_gforce_widget">G-sila</string>
+    <string name="motorcycle_gforce_widget_desc">Prikaže skupno G-silo na motociklu. Združuje bočno in vzdolžno silo.</string>
+    <string name="motorcycle_gforce_lateral_widget">Bočna G-sila</string>
+    <string name="motorcycle_gforce_lateral_widget_desc">Prikaže bočno (vzmetno) G-silo. Pozitivno = desno, negativno = levo.</string>
+    <string name="motorcycle_gforce_longitudinal_widget">Vzdolžna G-sila</string>
+    <string name="motorcycle_gforce_longitudinal_widget_desc">Prikaže vzdolžno (pospešek/zaviranje) G-silo. Pozitivno = pospeševanje, negativno = zaviranje.</string>
+    <string name="motorcycle_no_sensors">Naprava nima potrebnih senzorjev (pospeškomer + giroskop)</string>
+    <string name="motorcycle_record_sensor_data">Snemaj podatke senzorjev na sled</string>
+    <string name="motorcycle_ride_analysis">Analiza vožnje</string>
+    <string name="motorcycle_max_lean">Max nagib</string>
+    <string name="motorcycle_max_gforce">Max G-sila</string>
+    <string name="motorcycle_corners">Ovineki</string>
+    <string name="motorcycle_ride_score">Ocena vožnje</string>
+    <string name="motorcycle_curvy_roads">Vijugaste ceste</string>
+    <string name="motorcycle_curvy_roads_desc">Preferiraj vijugaste, slikovite ceste pred ravnimi avtocestami. Naredi vožnjo bolj zabavno!</string>
+    <string name="motorcycle_avoid_motorway">Izogibaj se avtocestam</string>
+    <string name="motorcycle_avoid_motorway_desc">Izogibaj se avtocestam in hitrim cestam — dolgočasne so za motocikliste</string>
+    <string name="motorcycle_prefer_scenic">Preferiraj slikovite poti</string>
+    <string name="motorcycle_prefer_scenic_desc">Preferiraj ceste, znane po razgledih in ovinkih</string>
+    <string name="motorcycle_route_fun_score">Zabavna ocena</string>
+    <string name="motorcycle_route_curviness">Vijugavost poti</string>
+    <string name="motorcycle_twistiness_gentle">Rahlo vijugasto</string>
+    <string name="motorcycle_twistiness_moderate">Zmerno vijugasto</string>
+    <string name="motorcycle_twistiness_twisty">Vijugasto</string>
+    <string name="motorcycle_twistiness_very_twisty">Zelo vijugasto</string>
+    <string name="motorcycle_cornerness_corners">ovinek</string>
+    <string name="motorcycle_cornerness_per_km">ovinki/km</string>
+    <string name="motorcycle_crash_detected">Zaznana nesreča!</string>
+    <string name="motorcycle_crash_detected_desc">Zaznana je bila morebitna nesreča. Ali ste v redu?</string>
+    <string name="motorcycle_crash_im_okay">Sem v redu</string>
+    <string name="motorcycle_crash_emergency">Klic v sili</string>
+    <string name="motorcycle_crash_detection">Zaznavanje nesreč</string>
+    <string name="motorcycle_crash_detection_desc">Samodejno zaznaj morebitne nesreče s pomočjo senzorjev in pošlji SMS v sili</string>
+    <string name="motorcycle_crash_sms_message">Mogoče sem imel motociklistično nesrečo. Moja lokacija: %s. Prosimo, preverite!</string>
+    <string name="motorcycle_settings">Motociklistične nastavitve</string>
+    <string name="motorcycle_accel_filter">Filter pospeškomera</string>
+    <string name="motorcycle_accel_filter_desc">Raven glajenja podatkov pospeškomera. Višja = bolj gladko, a počasnejši odziv.</string>
+    <string name="motorcycle_gyro_filter">Filter giroskopa</string>
+    <string name="motorcycle_gyro_filter_desc">Raven glajenja podatkov giroskopa. Višja = bolj gladko, a počasnejši odziv.</string>
+    <string name="motorcycle_auto_start_recording">Samodejni začetek snemanja</string>
+    <string name="motorcycle_auto_start_recording_desc">Samodejno začni snemanje senzorjev ob vožnji v motociklističnem načinu</string>
+    <string name="motorcycle_sensor_settings_category">Senzorji</string>
+    <string name="motorcycle_lean_angle_enable_desc">Prikaži widget nagiba v realnem času na nadzorni plošči zemljevida</string>
+    <string name="motorcycle_gforce_enable_desc">Prikaži widget G-sile v realnem času na nadzorni plošči zemljevida</string>
+    <string name="motorcycle_recording_settings_category">Snemanje vožnje</string>
+    <string name="motorcycle_record_sensor_data_desc">Snemaj nagib in G-silo v GPX razširitve sledi za analizo po vožnji</string>
+    <string name="motorcycle_routing_settings_category">Vijugasto usmerjanje</string>
+    <string name="motorcycle_crash_settings_category">Zaznavanje nesreč</string>
+    <string name="motorcycle_crash_sensitivity">Občutljivost zaznave nesreč</string>
+    <string name="motorcycle_crash_sensitivity_desc">Kako občutljivo je zaznavanje nesreč. Višja občutljivost lahko povzroči lažne alarme ob vožnji po slabih cestah.</string>
+    <string name="motorcycle_crash_sensitivity_low">Nizka — manj lažnih alarmov</string>
+    <string name="motorcycle_crash_sensitivity_medium">Srednja — uravnotežena</string>
+    <string name="motorcycle_crash_sensitivity_high">Visoka — bolj občutljiva</string>
+    <string name="motorcycle_emergency_contact">Stik v sili</string>
+    <string name="motorcycle_emergency_contact_desc">Telefonska številka za pošiljanje SMS ob zaznani nesreči, ko poteče odštevalnik</string>
+    <string name="motorcycle_emergency_contact_dialog_title">Vnesite telefonsko številko v sili</string>
+    <string name="motorcycle_emergency_contact_not_set">Ni nastavljeno — SMS ne bo poslan</string>
+    <string name="motorcycle_crash_sms_sent">SMS v sili poslan</string>
+    <string name="motorcycle_crash_sms_failed">Pošiljanje SMS v sili ni uspelo</string>
+    <string name="motorcycle_crash_sms_no_contact">Stik v sili ni nastavljen — SMS ni bil poslan</string>
+    <string name="motorcycle_emergency_contact_2">Stik v sili 2</string>
+    <string name="motorcycle_emergency_contact_3">Stik v sili 3</string>
+    <string name="motorcycle_emergency_contact_2_desc">Dodatna telefonska številka za SMS v sili (npr. prijatelj)</string>
+    <string name="motorcycle_emergency_contact_3_desc">Dodatna telefonska številka za SMS v sili (npr. sorodnik)</string>
+    <string name="crash_alert_title">ZAZNANA NESREČA</string>
+    <string name="crash_alert_subtitle">Ali ste v redu?</string>
+    <string name="crash_alert_gforce_label">Sila trka:</string>
+    <string name="crash_alert_rotation_label">Vrtenje:</string>
+    <string name="crash_alert_speed_label">Hitrost:</string>
+    <string name="crash_alert_location_label">Lokacija:</string>
+    <string name="crash_alert_time_label">Čas:</string>
+    <string name="crash_alert_im_ok">SEM V REDU</string>
+    <string name="crash_alert_countdown_hint">Pritisnite \"SEM V REDU\" za preklic. Dogodek bo zabeležen, ko poteče odštevalnik.</string>
+    <string name="motorcycle_calibration_title">Kalibracija senzorjev</string>
+    <string name="motorcycle_calibration_desc">Kalibrirajte senzorje za nosilec telefona. Vožite naravnost pri enakomerni nizki hitrosti 30 sekund.</string>
+    <string name="motorcycle_calibration_start">Začni kalibracijsko vožnjo</string>
+    <string name="motorcycle_calibration_progress">Kalibriram… %1$d%%</string>
+    <string name="motorcycle_calibration_complete">Kalibracija končana! Kvaliteta: %1$s</string>
+    <string name="motorcycle_calibration_failed">Kalibracija ni uspela: %1$s</string>
+    <string name="motorcycle_diagnostics_title">Dijagnostika senzorjev</string>
+    <string name="motorcycle_diagnostics_desc">Zbirajte podatke o kakovosti senzorjev med vožnjami za analizo</string>
+    <string name="motorcycle_routing_sanity">Čuvaj kakovosti poti</string>
+    <string name="motorcycle_routing_sanity_desc">Prepreči, da bi vijugasto usmerjanje predlagalo zelo dolge ali počasne poti</string>
+    <string name="motorcycle_filter_no_smoothing">Brez glajenja</string>
+    <string name="motorcycle_filter_smoothing_level">%1$d%% glajenja</string>
+    <string name="motorcycle_ride_summary_title">Povzetek vožnje</string>
+    <string name="motorcycle_avg_lean">Povp. nagib</string>
+    <string name="motorcycle_avg_gforce">Povp. G-sila</string>
+    <string name="motorcycle_max_lateral_g">Max bočna G</string>
+    <string name="motorcycle_max_braking_g">Max zaviralna G</string>
+    <string name="motorcycle_twisty_pct">Vijugaste ceste</string>
+    <string name="motorcycle_weather_routing_title">Vremenski vpliv na pot</string>
+    <string name="motorcycle_weather_warning_wind">Opozorilo: močan veter na poti!</string>
+    <string name="motorcycle_weather_warning_rain">Opozorilo: dež na poti!</string>
+    <string name="motorcycle_weather_warning_ice">Opozorilo: možnost poledice na poti!</string>
+    <string name="motorcycle_weather_warning_snow">Opozorilo: sneg na poti!</string>
+    <string name="motorcycle_trackday_title">Track Day način</string>
+    <string name="motorcycle_trackday_desc">Krožno merjenje časa, sektorji, najboljši krog za dirkališča</string>
+    <string name="motorcycle_trackday_best_lap">Najboljši krog</string>
+    <string name="motorcycle_trackday_last_lap">Zadnji krog</string>
+    <string name="motorcycle_trackday_lap_number">Krog %1$d</string>
+    <string name="motorcycle_trackday_sector">Sektor %1$d</string>
+    <string name="motorcycle_trackday_start">Začni Track Day</string>
+    <string name="motorcycle_trackday_stop">Ustavi Track Day</string>
+    <string name="motorcycle_group_riding_title">Skupinska vožnja</string>
+    <string name="motorcycle_group_riding_desc">Delite svojo pozicijo v realnem času z drugimi motociklisti</string>
+    <string name="motorcycle_group_riding_create">Ustvari skupino</string>
+    <string name="motorcycle_group_riding_join">Pridruži se skupini</string>
+    <string name="motorcycle_group_riding_leave">Zapusti skupino</string>
+    <string name="motorcycle_group_riding_members">Člani skupine</string>
 </resources>

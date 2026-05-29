@@ -230,12 +230,12 @@ class CrashAlertDialog : BaseFullScreenDialogFragment() {
     }
 
     /**
-     * Send emergency SMS to the configured emergency contact.
+     * Send emergency SMS to all configured emergency contacts.
      *
-     * SMS format: "I may have had a motorcycle accident. My location: lat,lon. Please check on me!"
+     * SMS format: "I may have had a motorcycle accident. My location: https://maps.google.com/?q=lat,lon. Please check on me!"
      *
      * If no contact is configured, logs a warning and does nothing.
-     * Requires SEND_SMS permission (requested at runtime if needed).
+     * Requires SEND_SMS permission (checked at runtime).
      */
     private fun sendEmergencySms(
         gForce: Float, lat: Double, lon: Double,
@@ -247,9 +247,9 @@ class CrashAlertDialog : BaseFullScreenDialogFragment() {
             return
         }
 
-        val emergencyNumber = plugin.EMERGENCY_CONTACT_NUMBER.get()
-        if (emergencyNumber.isNullOrEmpty()) {
-            LOG.warn("CrashAlert: No emergency contact configured - SMS not sent")
+        val emergencyNumbers = plugin.getEmergencyContacts()
+        if (emergencyNumbers.isEmpty()) {
+            LOG.warn("CrashAlert: No emergency contacts configured - SMS not sent")
             return
         }
 
@@ -268,24 +268,34 @@ class CrashAlertDialog : BaseFullScreenDialogFragment() {
             return
         }
 
-        try {
-            val locationStr = if (lat != 0.0 || lon != 0.0) {
-                String.format("%.5f, %.5f", lat, lon)
-            } else {
-                "Unknown"
-            }
-
-            val message = getString(R.string.motorcycle_crash_sms_message, locationStr)
-
-            val smsManager = SmsManager.getDefault()
-            smsManager.sendTextMessage(emergencyNumber, null, message, null, null)
-
-            LOG.info("CrashAlert: Emergency SMS sent to $emergencyNumber")
-        } catch (e: SecurityException) {
-            LOG.error("CrashAlert: SMS permission denied - cannot send emergency SMS", e)
-        } catch (e: Exception) {
-            LOG.error("CrashAlert: Failed to send emergency SMS", e)
+        // Build location string with Google Maps link
+        val locationStr = if (lat != 0.0 || lon != 0.0) {
+            "https://maps.google.com/?q=${String.format("%.5f", lat)},${String.format("%.5f", lon)}"
+        } else {
+            "Unknown"
         }
+
+        val message = getString(R.string.motorcycle_crash_sms_message, locationStr)
+
+        var sentCount = 0
+        var failCount = 0
+
+        for (number in emergencyNumbers) {
+            try {
+                val smsManager = SmsManager.getDefault()
+                smsManager.sendTextMessage(number, null, message, null, null)
+                sentCount++
+                LOG.info("CrashAlert: Emergency SMS sent to $number")
+            } catch (e: SecurityException) {
+                failCount++
+                LOG.error("CrashAlert: SMS permission denied for $number", e)
+            } catch (e: Exception) {
+                failCount++
+                LOG.error("CrashAlert: Failed to send SMS to $number", e)
+            }
+        }
+
+        LOG.info("CrashAlert: SMS summary - sent: $sentCount, failed: $failCount, total: ${emergencyNumbers.size}")
     }
 
     override fun onDestroyView() {

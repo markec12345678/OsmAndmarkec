@@ -31,6 +31,9 @@ import net.osmand.plus.plugins.motorcyclesensors.safety.CrashEventLog
 import net.osmand.plus.plugins.motorcyclesensors.instrumentation.SensorDiagnosticsHelper
 import net.osmand.plus.plugins.motorcyclesensors.calibration.SensorCalibrationHelper
 import net.osmand.plus.plugins.motorcyclesensors.routing.RoutingSanityGuard
+import net.osmand.plus.plugins.motorcyclesensors.weather.WeatherRoutingHelper
+import net.osmand.plus.plugins.motorcyclesensors.trackday.TrackDayHelper
+import net.osmand.plus.plugins.motorcyclesensors.group.GroupRidingHelper
 import net.osmand.plus.routing.RoutingHelper
 import net.osmand.plus.settings.backend.ApplicationMode
 import net.osmand.plus.settings.backend.OsmandSettings
@@ -91,6 +94,11 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
     val calibration = SensorCalibrationHelper(app.settings)
     val routingSanityGuard = RoutingSanityGuard(app)
 
+    // Future features (architecture ready)
+    val weatherRouting = WeatherRoutingHelper()
+    val trackDay = TrackDayHelper()
+    val groupRiding = GroupRidingHelper()
+
     // Latest computed values
     var lastLeanAngleDeg: Float = 0f
         private set
@@ -130,6 +138,23 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
 
     val EMERGENCY_CONTACT_NUMBER = registerStringPreference("motorcycle_emergency_contact", "")
         .makeProfile().cache() as CommonPreference<String>
+
+    val EMERGENCY_CONTACT_2 = registerStringPreference("motorcycle_emergency_contact_2", "")
+        .makeProfile().cache() as CommonPreference<String>
+
+    val EMERGENCY_CONTACT_3 = registerStringPreference("motorcycle_emergency_contact_3", "")
+        .makeProfile().cache() as CommonPreference<String>
+
+    /**
+     * Get all configured emergency contact numbers (non-empty only).
+     */
+    fun getEmergencyContacts(): List<String> {
+        return listOf(
+            EMERGENCY_CONTACT_NUMBER.get(),
+            EMERGENCY_CONTACT_2.get(),
+            EMERGENCY_CONTACT_3.get()
+        ).filter { !it.isNullOrEmpty() }
+    }
 
     // Last route curviness stats (updated when new route is calculated)
     var lastRouteCurvinessStats: RouteCurvinessStats? = null
@@ -480,6 +505,17 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
 
         // Feed GPS to diagnostics
         diagnostics.updateGpsData(location)
+
+        // Feed GPS to Track Day mode
+        if (trackDay.getState() == TrackDayHelper.SessionState.RACING ||
+            trackDay.getState() == TrackDayHelper.SessionState.WAITING) {
+            trackDay.updateLocation(location)
+        }
+
+        // Feed GPS to Group Riding
+        if (groupRiding.getState() == GroupRidingHelper.GroupState.CONNECTED) {
+            groupRiding.updateMyLocation(location)
+        }
     }
 
     /**

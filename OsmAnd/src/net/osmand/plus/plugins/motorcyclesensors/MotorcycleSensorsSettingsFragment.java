@@ -1,9 +1,13 @@
 package net.osmand.plus.plugins.motorcyclesensors;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.Preference;
 
 import net.osmand.plus.R;
@@ -22,8 +26,11 @@ import androidx.preference.EditTextPreference;
  * - Ride recording (GPX telemetry logging, auto-start)
  * - Curvy road routing preference
  * - Crash detection sensitivity
+ * - Emergency contacts (up to 3 phone numbers)
  */
 public class MotorcycleSensorsSettingsFragment extends BaseSettingsFragment {
+
+        private static final int REQUEST_SMS_PERMISSION = 1001;
 
         private final MotorcycleSensorsPlugin plugin = PluginsHelper.requirePlugin(MotorcycleSensorsPlugin.class);
 
@@ -46,7 +53,9 @@ public class MotorcycleSensorsSettingsFragment extends BaseSettingsFragment {
                 // Crash detection
                 setupCrashDetection();
                 setupCrashSensitivity();
-                setupEmergencyContact();
+                setupEmergencyContact(plugin.EMERGENCY_CONTACT_NUMBER, R.string.motorcycle_emergency_contact_desc);
+                setupEmergencyContact(plugin.EMERGENCY_CONTACT_2, R.string.motorcycle_emergency_contact_2_desc);
+                setupEmergencyContact(plugin.EMERGENCY_CONTACT_3, R.string.motorcycle_emergency_contact_3_desc);
         }
 
         // ===== Sensor Display =====
@@ -66,7 +75,6 @@ public class MotorcycleSensorsSettingsFragment extends BaseSettingsFragment {
         }
 
         private void setupAccelFilter() {
-                // Smoothing values from 0.1 (very smooth, high latency) to 1.0 (no smoothing, noisy)
                 Float[] entryValues = {0.2f, 0.4f, 0.6f, 0.8f, 0.9f, 1.0f};
                 String[] entries = new String[entryValues.length];
                 for (int i = 0; i < entryValues.length; i++) {
@@ -148,7 +156,6 @@ public class MotorcycleSensorsSettingsFragment extends BaseSettingsFragment {
         }
 
         private void setupCrashSensitivity() {
-                // Sensitivity levels: 1=low (fewer false positives), 2=medium, 3=high (more responsive)
                 Integer[] entryValues = {1, 2, 3};
                 String[] entries = {
                                 getString(R.string.motorcycle_crash_sensitivity_low),
@@ -164,35 +171,66 @@ public class MotorcycleSensorsSettingsFragment extends BaseSettingsFragment {
                 }
         }
 
-        private void setupEmergencyContact() {
-                EditTextPreference emergencyContact = findPreference(plugin.EMERGENCY_CONTACT_NUMBER.getId());
-                if (emergencyContact != null) {
-                        String currentNumber = plugin.EMERGENCY_CONTACT_NUMBER.get();
-                        if (currentNumber == null || currentNumber.isEmpty()) {
-                                emergencyContact.setSummary(R.string.motorcycle_emergency_contact_not_set);
-                        } else {
-                                emergencyContact.setSummary(getString(
-                                        R.string.motorcycle_emergency_contact_desc) + "\n" + currentNumber);
-                        }
+        /**
+         * Setup an emergency contact EditTextPreference with summary and SMS permission request.
+         * When user enters a phone number, automatically request SEND_SMS permission.
+         */
+        private void setupEmergencyContact(
+                        net.osmand.plus.settings.backend.preferences.CommonPreference<String> contactPref,
+                        int descResId) {
+                EditTextPreference contactField = findPreference(contactPref.getId());
+                if (contactField == null) return;
 
-                        emergencyContact.setOnPreferenceChangeListener((preference, newValue) -> {
-                                String number = (String) newValue;
-                                if (number == null || number.trim().isEmpty()) {
-                                        preference.setSummary(R.string.motorcycle_emergency_contact_not_set);
-                                } else {
-                                        preference.setSummary(getString(
-                                                R.string.motorcycle_emergency_contact_desc) + "\n" + number);
-                                }
-                                return true;
-                        });
+                String currentNumber = contactPref.get();
+                if (currentNumber == null || currentNumber.isEmpty()) {
+                        contactField.setSummary(R.string.motorcycle_emergency_contact_not_set);
+                } else {
+                        contactField.setSummary(getString(descResId) + "\n" + currentNumber);
                 }
+
+                contactField.setOnPreferenceChangeListener((preference, newValue) -> {
+                        String number = (String) newValue;
+                        if (number == null || number.trim().isEmpty()) {
+                                preference.setSummary(R.string.motorcycle_emergency_contact_not_set);
+                        } else {
+                                preference.setSummary(getString(descResId) + "\n" + number);
+                                // Request SEND_SMS permission when user sets an emergency contact
+                                requestSmsPermissionIfNeeded();
+                        }
+                        return true;
+                });
+        }
+
+        /**
+         * Request SEND_SMS runtime permission if not already granted.
+         * Required for emergency SMS to work on Android 6+.
+         */
+        private void requestSmsPermissionIfNeeded() {
+                if (getActivity() == null) return;
+
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.SEND_SMS)
+                                != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(getActivity(),
+                                        new String[]{Manifest.permission.SEND_SMS},
+                                        REQUEST_SMS_PERMISSION);
+                }
+        }
+
+        @Override
+        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                        @NonNull int[] grantResults) {
+                if (requestCode == REQUEST_SMS_PERMISSION) {
+                        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                                // SMS permission granted - emergency SMS will work
+                        }
+                }
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
                 String key = preference.getKey();
 
-                // When filter coefficients change, apply them to the sensor helper immediately
                 if (key.equals(plugin.ACCEL_FILTER_COEFFICIENT.getId())) {
                         plugin.sensorHelper.setAccelFilterCoefficient((Float) newValue);
                 } else if (key.equals(plugin.GYRO_FILTER_COEFFICIENT.getId())) {
@@ -201,7 +239,6 @@ public class MotorcycleSensorsSettingsFragment extends BaseSettingsFragment {
                         plugin.crashDetection.setSensitivity((Integer) newValue);
                 } else if (key.equals(plugin.PREFER_CURVY_ROADS.getId()) ||
                                 key.equals(plugin.AVOID_MOTORWAY.getId())) {
-                        // Re-apply routing preferences when curvy roads or motorway avoidance changes
                         plugin.applyMotorcycleRoutingPrefs();
                 }
 

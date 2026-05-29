@@ -114,10 +114,11 @@ class MotorcycleRoutingHelper(private val app: OsmandApplication) {
     }
 
     /**
-     * Build curviness route statistics for display in route details.
+     * Build curviness breakdown for route segments.
+     * Returns list of (distance, classification) pairs.
      */
-    fun buildCurvinessStatistics(route: RouteCalculationResult) =
-        curvyRoadRouter.buildCurvinessRouteStatistics(collectRouteSegments(route))
+    fun buildCurvinessBreakdown(route: RouteCalculationResult): List<Pair<Float, net.osmand.plus.plugins.motorcyclesensors.routing.TwistinessClass>> =
+        curvyRoadRouter.buildCurvinessBreakdown(collectRouteSegments(route))
 
     /**
      * Get the fun score for a route (0-100).

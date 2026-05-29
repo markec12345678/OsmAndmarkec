@@ -2,6 +2,7 @@ package net.osmand.plus.plugins.motorcyclesensors.widgets
 
 import android.view.View
 import net.osmand.plus.activities.MapActivity
+import net.osmand.plus.plugins.PluginsHelper
 import net.osmand.plus.plugins.motorcyclesensors.MotorcycleSensorsPlugin
 import net.osmand.plus.views.mapwidgets.WidgetType
 import net.osmand.plus.views.mapwidgets.WidgetsPanel
@@ -34,7 +35,7 @@ class LeanAngleWidget(
     }
 
     override fun updateInfo(view: View) {
-        val plugin = app.pluginsHelper.getPlugin(MotorcycleSensorsPlugin::class.java)
+        val plugin = PluginsHelper.getPlugin(MotorcycleSensorsPlugin::class.java)
         if (plugin == null || !plugin.isActive) {
             setText("—")
             setSmallText("°")

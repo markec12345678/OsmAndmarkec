@@ -2,9 +2,7 @@ package net.osmand.plus.plugins.motorcyclesensors.routing
 
 import net.osmand.PlatformUtil
 import net.osmand.plus.OsmandApplication
-import net.osmand.plus.plugins.motorcyclesensors.instrumentation.SensorDiagnosticsHelper
 import net.osmand.router.RouteCalculationResult
-import kotlin.math.abs
 
 /**
  * Routing Sanity Guard - Prevents curvy routing from producing terrible routes.

@@ -437,6 +437,13 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
      */
     fun stopRecording() {
         sensorRecorder.stopRecording()
+        // Show ride summary if we have a map activity
+        mapActivity?.let { activity ->
+            if (sensorRecorder.getRideStatistics().dataPointCount > 0) {
+                val dialog = MotorcycleRideSummaryDialog()
+                dialog.show(activity.supportFragmentManager)
+            }
+        }
     }
 
     /**

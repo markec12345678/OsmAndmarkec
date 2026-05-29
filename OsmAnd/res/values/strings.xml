@@ -871,6 +871,12 @@ You will be able to pair this scanner again at any time.</string>
     <string name="motorcycle_crash_sensitivity_high">High - more responsive</string>
     <string name="motorcycle_filter_no_smoothing">No smoothing</string>
     <string name="motorcycle_filter_smoothing_level">%1$d%% smoothing</string>
+    <string name="motorcycle_ride_summary_title">Ride Summary</string>
+    <string name="motorcycle_avg_lean">Avg Lean</string>
+    <string name="motorcycle_avg_gforce">Avg G-Force</string>
+    <string name="motorcycle_max_lateral_g">Max Lateral G</string>
+    <string name="motorcycle_max_braking_g">Max Braking G</string>
+    <string name="motorcycle_twisty_pct">Twisty Roads</string>
     <string name="background_opacity">Background opacity</string>
     <string name="corner_radius">Corner radius</string>
     <string name="shared_string_dp">dp</string>

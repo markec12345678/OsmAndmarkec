@@ -12,8 +12,12 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import net.osmand.PlatformUtil
+import net.osmand.plus.OsmandApplication
+import net.osmand.plus.PluginsHelper
 import net.osmand.plus.R
 import net.osmand.plus.base.BaseFullScreenDialogFragment
+import net.osmand.plus.plugins.motorcyclesensors.MotorcycleSensorsPlugin
+import android.telephony.SmsManager
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -30,15 +34,17 @@ import java.util.Locale
  *
  * If the countdown reaches zero:
  * - The event is logged to the crash event log
- * - NO SMS is sent (that's a future feature requiring permissions)
+ * - An emergency SMS is sent to the configured contact (if set)
  * - The dialog dismisses with "event_logged" status
+ *
+ * If no emergency contact is configured, SMS is skipped and only the event is logged.
  *
  * Design decisions:
  * - Full-screen + wake lock = impossible to miss
  * - Large touch target for "I'M OK" = easy to hit with gloves
  * - Countdown = prevents accidental dismissal without attention
- * - Event logging only = no side effects until permissions are granted
- * - No network calls = works even in areas with no signal
+ * - SMS only to configured contact = no accidental emergency calls
+ * - No network calls = works even in areas with no signal (SMS works offline)
  */
 class CrashAlertDialog : BaseFullScreenDialogFragment() {
 
@@ -186,8 +192,7 @@ class CrashAlertDialog : BaseFullScreenDialogFragment() {
 
     /**
      * Log a crash event to the persistent crash event log.
-     * This is the ONLY side effect of the countdown reaching zero.
-     * No SMS, no calls, no network requests.
+     * If countdown expired (not cancelled), send emergency SMS to configured contact.
      */
     private fun logCrashEvent(
         gForce: Float, rotation: Float,
@@ -216,8 +221,53 @@ class CrashAlertDialog : BaseFullScreenDialogFragment() {
             LOG.info("CrashAlert: User confirmed OK - event logged as false alarm")
             eventListener?.onCrashCancelled(event)
         } else {
-            LOG.warn("CrashAlert: Countdown expired - crash event logged (no emergency response yet)")
+            LOG.warn("CrashAlert: Countdown expired - crash event logged, sending emergency SMS")
+            sendEmergencySms(gForce, lat, lon, speedMs, timestamp)
             eventListener?.onCrashEventLogged(event)
+        }
+    }
+
+    /**
+     * Send emergency SMS to the configured emergency contact.
+     *
+     * SMS format: "I may have had a motorcycle accident. My location: lat,lon. Please check on me!"
+     *
+     * If no contact is configured, logs a warning and does nothing.
+     * Requires SEND_SMS permission (requested at runtime if needed).
+     */
+    private fun sendEmergencySms(
+        gForce: Float, lat: Double, lon: Double,
+        speedMs: Float, timestamp: Long
+    ) {
+        val plugin = PluginsHelper.getPlugin(MotorcycleSensorsPlugin::class.java)
+        if (plugin == null) {
+            LOG.error("CrashAlert: Cannot send SMS - plugin not found")
+            return
+        }
+
+        val emergencyNumber = plugin.EMERGENCY_CONTACT_NUMBER.get()
+        if (emergencyNumber.isNullOrEmpty()) {
+            LOG.warn("CrashAlert: No emergency contact configured - SMS not sent")
+            return
+        }
+
+        try {
+            val locationStr = if (lat != 0.0 || lon != 0.0) {
+                String.format("%.5f, %.5f", lat, lon)
+            } else {
+                "Unknown"
+            }
+
+            val message = getString(R.string.motorcycle_crash_sms_message, locationStr)
+
+            val smsManager = SmsManager.getDefault()
+            smsManager.sendTextMessage(emergencyNumber, null, message, null, null)
+
+            LOG.info("CrashAlert: Emergency SMS sent to $emergencyNumber")
+        } catch (e: SecurityException) {
+            LOG.error("CrashAlert: SMS permission denied - cannot send emergency SMS", e)
+        } catch (e: Exception) {
+            LOG.error("CrashAlert: Failed to send emergency SMS", e)
         }
     }
 

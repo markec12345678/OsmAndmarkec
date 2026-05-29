@@ -124,8 +124,9 @@ Multi-signal crash detection using a **2-of-3 signal fusion** within a 3-second 
 
 **Crash Alert Dialog** — Full-screen emergency UI when a crash is detected:
 - Large "I'm Okay" button to dismiss false alerts
-- "Emergency" button to send SMS with GPS location
-- 30-second countdown timer — if not dismissed, automatically triggers emergency protocol
+- **Emergency SMS** automatically sent to configured contact when countdown expires
+- 10-second countdown timer — if not dismissed, sends SMS with GPS location
+- **Emergency contact** configurable in plugin settings (phone number with phone keyboard input)
 - Persistent crash event log with timestamps, GPS coordinates, and sensor readings
 
 ### Plugin Settings UI
@@ -139,6 +140,7 @@ Dedicated settings screen accessible from **Profile → Motorcycle → Plugin se
 - **Avoid motorway** — Skip highways in route calculation
 - **Crash detection** — Enable/disable crash detection system
 - **Crash detection sensitivity** — Low / Medium / High threshold presets
+- **Emergency contact** — Phone number for emergency SMS (phone keyboard input, optional)
 - **Sensor calibration** — Start 30-second calibration ride
 
 ### Ride Recording & Analytics
@@ -334,7 +336,6 @@ OsmAnd/src/net/osmand/plus/plugins/motorcyclesensors/
 
 | Issue | Description | Status |
 |-------|-------------|--------|
-| **No emergency contact configuration** | Crash detection sends an SMS, but there's no UI to configure the emergency contact phone number or customize the message template. | Missing |
 | **No curvy road map overlay** | `TwistinessCalculator` computes road curvature and defines overlay colors, but there's no `OsmandMapTileView` overlay implementation to visualize twistiness on the map. Riders can't see which roads are twisty without planning a route. | Missing |
 | **No lean angle heat map** | Planned feature — overlay on the map showing lean angle intensity along recorded tracks, color-coded by angle. Not implemented. | Planned |
 | **Routing profile not properly separated** | The MOTORCYCLE mode inherits from CAR. Need a proper separate routing profile with motorcycle-specific speed assumptions, road restrictions, and the curvy road preference built-in. | Partial |
@@ -373,12 +374,12 @@ We welcome contributions from riders, developers, and motorcycle enthusiasts!
 
 ### Priority Areas for Contributions
 
-1. **Emergency contact UI** — Makes crash detection actually usable
-2. **Curvy road map overlay** — Visual twistiness on the map
-3. **Build verification** — Test that it compiles and runs
-4. **Unit tests** — Reliability for core algorithms
-5. **Translations** — Multi-language support
-6. **Custom motorcycle rendering style** — Motorcycle-friendly map display
+1. **Curvy road map overlay** — Visual twistiness on the map
+2. **Build verification** — Test that it compiles and runs
+3. **Unit tests** — Reliability for core algorithms
+4. **Translations** — Multi-language support
+5. **Custom motorcycle rendering style** — Motorcycle-friendly map display
+6. **Custom SMS message template** — Let users customize the emergency message text
 
 ### Code Style
 

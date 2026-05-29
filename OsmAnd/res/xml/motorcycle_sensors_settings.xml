@@ -83,4 +83,12 @@
         android:title="@string/motorcycle_crash_sensitivity"
         tools:summary="@string/motorcycle_crash_sensitivity_desc" />
 
+    <EditTextPreference
+        android:key="motorcycle_emergency_contact"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_emergency_contact"
+        android:summary="@string/motorcycle_emergency_contact_desc"
+        android:inputType="phone"
+        android:dialogTitle="@string/motorcycle_emergency_contact_dialog_title" />
+
 </PreferenceScreen>

@@ -869,6 +869,13 @@ You will be able to pair this scanner again at any time.</string>
     <string name="motorcycle_crash_sensitivity_low">Low - fewer false positives</string>
     <string name="motorcycle_crash_sensitivity_medium">Medium - balanced</string>
     <string name="motorcycle_crash_sensitivity_high">High - more responsive</string>
+    <string name="motorcycle_emergency_contact">Emergency contact</string>
+    <string name="motorcycle_emergency_contact_desc">Phone number to send SMS to when crash is detected and countdown expires</string>
+    <string name="motorcycle_emergency_contact_dialog_title">Enter emergency phone number</string>
+    <string name="motorcycle_emergency_contact_not_set">Not set — SMS will not be sent</string>
+    <string name="motorcycle_crash_sms_sent">Emergency SMS sent</string>
+    <string name="motorcycle_crash_sms_failed">Failed to send emergency SMS</string>
+    <string name="motorcycle_crash_sms_no_contact">No emergency contact configured — SMS not sent</string>
     <string name="crash_alert_title">CRASH DETECTED</string>
     <string name="crash_alert_subtitle">Are you okay?</string>
     <string name="crash_alert_gforce_label">Impact Force:</string>

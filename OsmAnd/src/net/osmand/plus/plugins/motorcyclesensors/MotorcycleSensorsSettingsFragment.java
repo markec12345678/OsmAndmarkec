@@ -11,6 +11,7 @@ import net.osmand.plus.plugins.PluginsHelper;
 import net.osmand.plus.settings.fragments.BaseSettingsFragment;
 import net.osmand.plus.settings.preferences.ListPreferenceEx;
 import net.osmand.plus.settings.preferences.SwitchPreferenceEx;
+import androidx.preference.EditTextPreference;
 
 /**
  * Settings fragment for the Motorcycle Sensors Plugin.
@@ -45,6 +46,7 @@ public class MotorcycleSensorsSettingsFragment extends BaseSettingsFragment {
                 // Crash detection
                 setupCrashDetection();
                 setupCrashSensitivity();
+                setupEmergencyContact();
         }
 
         // ===== Sensor Display =====
@@ -159,6 +161,30 @@ public class MotorcycleSensorsSettingsFragment extends BaseSettingsFragment {
                         sensitivity.setEntries(entries);
                         sensitivity.setEntryValues(entryValues);
                         sensitivity.setDescription(R.string.motorcycle_crash_sensitivity_desc);
+                }
+        }
+
+        private void setupEmergencyContact() {
+                EditTextPreference emergencyContact = findPreference(plugin.EMERGENCY_CONTACT_NUMBER.getId());
+                if (emergencyContact != null) {
+                        String currentNumber = plugin.EMERGENCY_CONTACT_NUMBER.get();
+                        if (currentNumber == null || currentNumber.isEmpty()) {
+                                emergencyContact.setSummary(R.string.motorcycle_emergency_contact_not_set);
+                        } else {
+                                emergencyContact.setSummary(getString(
+                                        R.string.motorcycle_emergency_contact_desc) + "\n" + currentNumber);
+                        }
+
+                        emergencyContact.setOnPreferenceChangeListener((preference, newValue) -> {
+                                String number = (String) newValue;
+                                if (number == null || number.trim().isEmpty()) {
+                                        preference.setSummary(R.string.motorcycle_emergency_contact_not_set);
+                                } else {
+                                        preference.setSummary(getString(
+                                                R.string.motorcycle_emergency_contact_desc) + "\n" + number);
+                                }
+                                return true;
+                        });
                 }
         }
 

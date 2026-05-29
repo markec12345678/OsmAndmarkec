@@ -128,6 +128,9 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
     val CRASH_SENSITIVITY = registerIntPreference("motorcycle_crash_sensitivity", 2)
         .makeProfile().cache() as CommonPreference<Int>
 
+    val EMERGENCY_CONTACT_NUMBER = registerStringPreference("motorcycle_emergency_contact", "")
+        .makeProfile().cache() as CommonPreference<String>
+
     // Last route curviness stats (updated when new route is calculated)
     var lastRouteCurvinessStats: RouteCurvinessStats? = null
         private set

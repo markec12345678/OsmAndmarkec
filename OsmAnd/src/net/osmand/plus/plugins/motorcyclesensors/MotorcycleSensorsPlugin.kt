@@ -26,6 +26,7 @@ import net.osmand.plus.plugins.motorcyclesensors.routing.CurvyRoadRouter
 import net.osmand.plus.plugins.motorcyclesensors.routing.MotorcycleRoutingHelper
 import net.osmand.plus.plugins.motorcyclesensors.routing.RouteCurvinessStats
 import net.osmand.plus.plugins.motorcyclesensors.safety.CrashDetectionHelper
+import net.osmand.plus.routing.RoutingHelper
 import net.osmand.plus.settings.backend.ApplicationMode
 import net.osmand.plus.settings.backend.OsmandSettings
 import net.osmand.plus.settings.backend.preferences.CommonPreference
@@ -117,6 +118,10 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
     val CRASH_SENSITIVITY = registerIntPreference("motorcycle_crash_sensitivity", 2)
         .makeProfile().cache() as CommonPreference<Int>
 
+    // Last route curviness stats (updated when new route is calculated)
+    var lastRouteCurvinessStats: RouteCurvinessStats? = null
+        private set
+
     private var mapActivity: MapActivity? = null
 
     override fun getId(): String = PLUGIN_ID
@@ -147,6 +152,8 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
             LOG.warn("MotorcycleSensorsPlugin: Device lacks required sensors (accelerometer + gyroscope)")
         }
         crashDetection.setSensitivity(CRASH_SENSITIVITY.get())
+        // Apply motorcycle routing preferences on init
+        applyMotorcycleRoutingPrefs()
         return true
     }
 
@@ -445,9 +452,72 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
      * Get route curviness stats for the current route
      */
     fun getRouteCurvinessStats(): RouteCurvinessStats? {
-        val routingHelper = app.routingHelper
-        val route = routingHelper?.route ?: return null
+        val osmandRoutingHelper = app.routingHelper
+        val route = osmandRoutingHelper?.route ?: return lastRouteCurvinessStats
         return routingHelper.analyzeRouteCurviness(route)
+    }
+
+    // ===== Routing Integration =====
+
+    /**
+     * Called when OsmAnd finishes calculating a new route.
+     *
+     * We use this to:
+     * 1. Analyze route curviness and compute Fun Score
+     * 2. Sync motorcycle routing preferences with OsmAnd routing parameters
+     */
+    override fun newRouteIsCalculated(newRoute: Boolean) {
+        if (!isActive) return
+
+        val osmandRoutingHelper = app.routingHelper
+        val route = osmandRoutingHelper?.route
+        if (route != null && route.isCalculated) {
+            // Analyze route curviness
+            lastRouteCurvinessStats = routingHelper.analyzeRouteCurviness(route)
+            lastRouteCurvinessStats?.let { stats ->
+                val funScore = curvyRoadRouter.calculateFunScore(stats)
+                LOG.info("Route calculated - Curviness: ${stats.classification.displayName}, " +
+                    "Fun Score: $funScore/100, " +
+                    "Corners: ${stats.totalCorners}, " +
+                    "Corners/km: ${"%.1f".format(stats.cornersPerKm)}")
+            }
+        }
+    }
+
+    /**
+     * Apply motorcycle-specific routing preferences when in MOTORCYCLE mode.
+     *
+     * This syncs plugin preferences (PREFER_CURVY_ROADS, AVOID_MOTORWAY)
+     * with OsmAnd's native routing parameters via OsmandSettings.
+     *
+     * OsmAnd's RouteProvider.initOsmAndRoutingConfig() reads routing parameters
+     * from OsmandSettings and passes them to GeneralRouter. By setting the
+     * appropriate routing boolean properties, we influence route calculation.
+     */
+    fun applyMotorcycleRoutingPrefs() {
+        if (!isActive) return
+        val mode = ApplicationMode.MOTORCYCLE
+
+        // Sync AVOID_MOTORWAY with OsmAnd's native routing parameter
+        val avoidMotorwayPref = settings.getCustomRoutingBooleanProperty(
+            net.osmand.router.GeneralRouter.AVOID_MOTORWAY, false)
+        if (AVOID_MOTORWAY.get()) {
+            avoidMotorwayPref.setModeValue(mode, true)
+        }
+
+        // Sync PREFER_CURVY_ROADS: use "short_way" preference to prefer
+        // shorter (typically more winding) routes over fast straight highways.
+        // This is the key trick: "short_way" mode in OsmAnd prefers distance
+        // over speed, which naturally favors curvy secondary roads.
+        val shortWayPref = settings.getCustomRoutingBooleanProperty(
+            net.osmand.router.GeneralRouter.USE_SHORTEST_WAY, false)
+        if (PREFER_CURVY_ROADS.get()) {
+            // When curvy roads is ON, disable fast route mode (prefer shorter/winding routes)
+            settings.FAST_ROUTE_MODE.setModeValue(mode, false)
+        } else {
+            // When curvy roads is OFF, use normal fast routing
+            settings.FAST_ROUTE_MODE.setModeValue(mode, true)
+        }
     }
 
     /**

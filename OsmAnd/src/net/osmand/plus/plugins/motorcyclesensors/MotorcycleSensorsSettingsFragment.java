@@ -173,6 +173,10 @@ public class MotorcycleSensorsSettingsFragment extends BaseSettingsFragment {
                         plugin.sensorHelper.setGyroFilterCoefficient((Float) newValue);
                 } else if (key.equals(plugin.CRASH_SENSITIVITY.getId())) {
                         plugin.crashDetection.setSensitivity((Integer) newValue);
+                } else if (key.equals(plugin.PREFER_CURVY_ROADS.getId()) ||
+                                key.equals(plugin.AVOID_MOTORWAY.getId())) {
+                        // Re-apply routing preferences when curvy roads or motorway avoidance changes
+                        plugin.applyMotorcycleRoutingPrefs();
                 }
 
                 return super.onPreferenceChange(preference, newValue);

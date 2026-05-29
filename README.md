@@ -129,6 +129,53 @@ Multi-signal crash detection using a **2-of-3 signal fusion** within a 3-second 
 - **Emergency contact** configurable in plugin settings (phone number with phone keyboard input)
 - Persistent crash event log with timestamps, GPS coordinates, and sensor readings
 
+### Auto 3D Map Mode
+
+Automatically switches between 2D and 3D map perspective based on riding speed:
+
+- **Above speed threshold** (default 20 km/h): Switches to 3D perspective with configurable elevation angle (default 45 degrees)
+- **Below threshold for 5+ seconds**: Returns to 2D top-down view
+- **Manual override**: If you manually change the tilt angle, auto-mode respects your choice
+- **OpenGL required**: 3D mode uses OsmAnd's OpenGL renderer (default on Android 9+)
+- **Works with terrain**: Compatible with hillshade, 3D buildings, and relief overlays
+
+Configurable in plugin settings: speed threshold (10-40 km/h), elevation angle (25-65 degrees).
+
+### Weather Routing
+
+Checks weather conditions along your planned route and warns about motorcycle safety risks:
+
+- **Wind**: Dangerous crosswind >40 km/h, warning >25 km/h
+- **Rain**: Any precipitation reduces grip significantly
+- **Ice**: Temperature below 3C with moisture = black ice risk
+- **Snow**: Below 0C with precipitation = extremely dangerous
+- **Thunderstorm**: WMO codes 95-99 = lightning risk
+- **Open-Meteo API**: Free, no API key required
+- **30-minute cache**: Reduces API calls during navigation
+
+### Track Day Mode
+
+GPS-based lap timing for track day sessions — no transponders needed:
+
+- **Auto-detect laps**: GPS proximity to start/finish line (20m radius)
+- **Sector splits**: Define sector boundaries for split timing
+- **Best lap tracking**: Automatic best lap detection with delta display
+- **Consistency score**: 0-100 rating of lap time consistency
+- **Lap statistics**: Max lean angle, max G-force, average speed per lap
+- **Direction check**: Only counts crossings in the correct direction
+- **Minimum lap time**: 30s prevents false double-triggers
+
+### Group Riding
+
+Real-time position sharing between riders:
+
+- **Create/Join groups**: Short 6-digit invite code for easy joining
+- **Position updates**: Every 2 seconds (configurable)
+- **Proximity alerts**: Rider fell behind (>500m), stopped unexpectedly, too close (<50m)
+- **Member colors**: Distinct color for each rider on the map
+- **Architecture**: WiFi Direct (P2P) or MQTT relay server (internet)
+- **Heartbeat**: 10-second keepalive with 30-second disconnect timeout
+
 ### Plugin Settings UI
 
 Dedicated settings screen accessible from **Profile → Motorcycle → Plugin settings**:
@@ -144,6 +191,10 @@ Dedicated settings screen accessible from **Profile → Motorcycle → Plugin se
 - **SMS permission** — Auto-requested when emergency contact is set
 - **Google Maps link** — SMS includes clickable location link for instant navigation
 - **Sensor calibration** — Start 30-second calibration ride
+- **Auto 3D Map** — Toggle and configure automatic 2D/3D perspective switching
+- **Weather routing** — Enable weather safety checks along your route
+- **Track Day** — Enable GPS lap timing mode
+- **Group Riding** — Enable real-time position sharing
 
 ### Ride Recording & Analytics
 
@@ -203,6 +254,8 @@ OsmAnd/src/net/osmand/plus/plugins/motorcyclesensors/
 │   └── SensorDiagnosticsHelper.kt           # Ring buffer monitoring, noise analysis
 ├── analytics/
 │   └── RideAnalyticsEngine.kt               # Real-time ride aggregation & statistics
+├── map3d/
+│   └── AutoMap3DHelper.kt                   # Auto 2D/3D switching based on speed
 ├── weather/
 │   └── WeatherRoutingHelper.kt              # Weather impact on route (Open-Meteo API ready)
 ├── trackday/
@@ -349,18 +402,15 @@ OsmAnd/src/net/osmand/plus/plugins/motorcyclesensors/
 | **Routing profile not properly separated** | The MOTORCYCLE mode inherits from CAR. Need a proper separate routing profile with motorcycle-specific speed assumptions, road restrictions, and the curvy road preference built-in. | Partial |
 | **No custom motorcycle rendering style** | No dedicated map rendering style for motorcycles. Should highlight twisty roads, show fuel stations prominently, and use motorcycle-friendly POI categories. | Missing |
 | **Build not fully tested** | The code has been written and committed but the full OsmAnd project has NOT been compiled end-to-end. There may be compilation errors, missing imports, or API mismatches with the OsmAnd codebase. A full build test is needed. | Untested |
-| **Weather routing — network integration** | `WeatherRoutingHelper` architecture is complete with safety thresholds and route analysis. Needs async Open-Meteo API integration for real weather data. | Architecture ready |
-| **Track Day Mode — UI needed** | `TrackDayHelper` with GPS lap timing, sector splits, best lap tracking is implemented. Needs Track Day UI (start/stop button, lap display, track setup). | Architecture ready |
-| **Group Riding — networking needed** | `GroupRidingHelper` with group management and proximity alerts is implemented. Needs WiFi Direct / MQTT relay networking for real-time position sharing. | Architecture ready |
+| **Weather routing — network integration** | `WeatherRoutingHelper` architecture is complete with safety thresholds and route analysis. Settings UI added. Needs async Open-Meteo API integration for real weather data. | Settings ready, API integration needed |
+| **Track Day Mode — UI needed** | `TrackDayHelper` with GPS lap timing, sector splits, best lap tracking is implemented. Settings toggle added. Needs Track Day UI (start/stop button, lap display, track setup). | Settings ready, UI needed |
+| **Group Riding — networking needed** | `GroupRidingHelper` with group management and proximity alerts is implemented. Settings toggle added. Needs WiFi Direct / MQTT relay networking for real-time position sharing. | Settings ready, networking needed |
 
 ### Medium (Nice-to-have improvements)
 
 | Issue | Description | Status |
 |-------|-------------|--------|
-| **Group Riding** | Real-time position sharing between riders via peer-to-peer or relay server. Track your riding group on the map. | Planned |
-| **Track Day Mode** | Lap timing, sector splits, best lap tracking for track day sessions. Uses GPS for timing, not transponders. | Planned |
 | **Fuel range overlay** | Show remaining fuel range as a polygon on the map based on fuel tank size and consumption rate. | Planned |
-| **Weather integration** | Show wind speed/direction, temperature, and precipitation along the route. Critical for motorcycle safety. | Planned |
 | **OBD2 sensor integration** | Extend the existing `VehicleMetricsPlugin` OBD2 support for motorcycle-specific data: RPM, gear position, throttle position, coolant temp. | Planned |
 | **Apple CarPlay / Android Auto** | Adapt the motorcycle dashboard for automotive displays. | Planned |
 | **Wear OS companion** | Quick glance at lean angle and G-force on a smartwatch. | Planned |

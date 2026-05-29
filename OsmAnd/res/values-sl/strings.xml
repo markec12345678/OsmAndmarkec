@@ -5446,4 +5446,15 @@
     <string name="motorcycle_group_riding_join">Pridruži se skupini</string>
     <string name="motorcycle_group_riding_leave">Zapusti skupino</string>
     <string name="motorcycle_group_riding_members">Člani skupine</string>
+    <string name="motorcycle_auto_3d_category">Samodejni 3D zemljevid</string>
+    <string name="motorcycle_auto_3d_title">Samodejni 3D način</string>
+    <string name="motorcycle_auto_3d_desc">Samodejno preklopi v 3D perspektivo med vožnjo in vrne v 2D ob postanku. Izboljša prostorsko zaznavanje pri večjih hitrostih.</string>
+    <string name="motorcycle_auto_3d_speed_title">Hitrostni prag</string>
+    <string name="motorcycle_auto_3d_speed_desc">Hitrost, nad katero se zemljevid preklopi v 3D perspektivo. Nižje vrednosti aktivirajo 3D prej.</string>
+    <string name="motorcycle_auto_3d_angle_title">Kot nagiba v 3D</string>
+    <string name="motorcycle_auto_3d_angle_desc">Kot nagiba zemljevida v 3D načinu. Nižje vrednosti = bolj nagnjena perspektiva. Zahteva OpenGL renderer.</string>
+    <string name="motorcycle_weather_settings_category">Vremensko usmerjanje</string>
+    <string name="motorcycle_weather_routing_desc">Preveri vremenske razmere na poti. Opozarja na močan veter, dež, poledico in sneg, ki vplivajo na varnost motocikla. Uporablja Open-Meteo API (brezplačno, brez ključa).</string>
+    <string name="motorcycle_trackday_settings_category">Track Day</string>
+    <string name="motorcycle_group_riding_settings_category">Skupinska vožnja</string>
 </resources>

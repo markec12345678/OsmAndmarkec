@@ -107,4 +107,60 @@
         android:inputType="phone"
         android:dialogTitle="@string/motorcycle_emergency_contact_dialog_title" />
 
+    <PreferenceCategory
+        android:key="motorcycle_auto_3d_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_auto_3d_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_auto_3d_map"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_auto_3d_title"
+        tools:summary="@string/motorcycle_auto_3d_desc" />
+
+    <net.osmand.plus.settings.preferences.ListPreferenceEx
+        android:key="motorcycle_auto_3d_speed"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_auto_3d_speed_title"
+        tools:summary="@string/motorcycle_auto_3d_speed_desc" />
+
+    <net.osmand.plus.settings.preferences.ListPreferenceEx
+        android:key="motorcycle_auto_3d_angle"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_auto_3d_angle_title"
+        tools:summary="@string/motorcycle_auto_3d_angle_desc" />
+
+    <PreferenceCategory
+        android:key="motorcycle_weather_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_weather_settings_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_weather_routing"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_weather_routing_title"
+        tools:summary="@string/motorcycle_weather_routing_desc" />
+
+    <PreferenceCategory
+        android:key="motorcycle_trackday_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_trackday_settings_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_track_day"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_trackday_title"
+        tools:summary="@string/motorcycle_trackday_desc" />
+
+    <PreferenceCategory
+        android:key="motorcycle_group_riding_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_group_riding_settings_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_group_riding"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_group_riding_title"
+        tools:summary="@string/motorcycle_group_riding_desc" />
+
 </PreferenceScreen>

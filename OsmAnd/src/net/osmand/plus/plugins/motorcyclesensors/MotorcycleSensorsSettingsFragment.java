@@ -56,6 +56,20 @@ public class MotorcycleSensorsSettingsFragment extends BaseSettingsFragment {
                 setupEmergencyContact(plugin.EMERGENCY_CONTACT_NUMBER, R.string.motorcycle_emergency_contact_desc);
                 setupEmergencyContact(plugin.EMERGENCY_CONTACT_2, R.string.motorcycle_emergency_contact_2_desc);
                 setupEmergencyContact(plugin.EMERGENCY_CONTACT_3, R.string.motorcycle_emergency_contact_3_desc);
+
+                // Auto 3D Map
+                setupAuto3DMap();
+                setupAuto3DSpeedThreshold();
+                setupAuto3DElevationAngle();
+
+                // Weather routing
+                setupWeatherRouting();
+
+                // Track Day
+                setupTrackDay();
+
+                // Group Riding
+                setupGroupRiding();
         }
 
         // ===== Sensor Display =====
@@ -227,6 +241,72 @@ public class MotorcycleSensorsSettingsFragment extends BaseSettingsFragment {
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
+        // ===== Auto 3D Map =====
+
+        private void setupAuto3DMap() {
+                SwitchPreferenceEx auto3d = findPreference(plugin.AUTO_3D_MAP.getId());
+                if (auto3d != null) {
+                        auto3d.setDescription(R.string.motorcycle_auto_3d_desc);
+                }
+        }
+
+        private void setupAuto3DSpeedThreshold() {
+                Integer[] entryValues = {10, 15, 20, 25, 30, 40};
+                String[] entries = new String[entryValues.length];
+                for (int i = 0; i < entryValues.length; i++) {
+                        entries[i] = entryValues[i] + " km/h";
+                }
+
+                ListPreferenceEx speedThreshold = findPreference(plugin.AUTO_3D_SPEED_THRESHOLD.getId());
+                if (speedThreshold != null) {
+                        speedThreshold.setEntries(entries);
+                        speedThreshold.setEntryValues(entryValues);
+                        speedThreshold.setDescription(R.string.motorcycle_auto_3d_speed_desc);
+                }
+        }
+
+        private void setupAuto3DElevationAngle() {
+                Integer[] entryValues = {25, 35, 45, 55, 65};
+                String[] entries = new String[entryValues.length];
+                for (int i = 0; i < entryValues.length; i++) {
+                        entries[i] = entryValues[i] + "\u00B0";
+                }
+
+                ListPreferenceEx angle = findPreference(plugin.AUTO_3D_ELEVATION_ANGLE.getId());
+                if (angle != null) {
+                        angle.setEntries(entries);
+                        angle.setEntryValues(entryValues);
+                        angle.setDescription(R.string.motorcycle_auto_3d_angle_desc);
+                }
+        }
+
+        // ===== Weather Routing =====
+
+        private void setupWeatherRouting() {
+                SwitchPreferenceEx weather = findPreference(plugin.WEATHER_ROUTING_ENABLED.getId());
+                if (weather != null) {
+                        weather.setDescription(R.string.motorcycle_weather_routing_desc);
+                }
+        }
+
+        // ===== Track Day =====
+
+        private void setupTrackDay() {
+                SwitchPreferenceEx trackDay = findPreference(plugin.TRACK_DAY_ENABLED.getId());
+                if (trackDay != null) {
+                        trackDay.setDescription(R.string.motorcycle_trackday_desc);
+                }
+        }
+
+        // ===== Group Riding =====
+
+        private void setupGroupRiding() {
+                SwitchPreferenceEx groupRiding = findPreference(plugin.GROUP_RIDING_ENABLED.getId());
+                if (groupRiding != null) {
+                        groupRiding.setDescription(R.string.motorcycle_group_riding_desc);
+                }
+        }
+
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
                 String key = preference.getKey();
@@ -240,6 +320,12 @@ public class MotorcycleSensorsSettingsFragment extends BaseSettingsFragment {
                 } else if (key.equals(plugin.PREFER_CURVY_ROADS.getId()) ||
                                 key.equals(plugin.AVOID_MOTORWAY.getId())) {
                         plugin.applyMotorcycleRoutingPrefs();
+                } else if (key.equals(plugin.AUTO_3D_MAP.getId())) {
+                        plugin.autoMap3D.setEnabled((Boolean) newValue);
+                } else if (key.equals(plugin.AUTO_3D_SPEED_THRESHOLD.getId())) {
+                        plugin.autoMap3D.setSpeedThresholdKmh(((Integer) newValue).floatValue());
+                } else if (key.equals(plugin.AUTO_3D_ELEVATION_ANGLE.getId())) {
+                        plugin.autoMap3D.setElevationAngle3D((Integer) newValue);
                 }
 
                 return super.onPreferenceChange(preference, newValue);

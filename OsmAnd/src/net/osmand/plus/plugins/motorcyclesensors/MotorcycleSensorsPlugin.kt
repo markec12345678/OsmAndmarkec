@@ -34,6 +34,7 @@ import net.osmand.plus.plugins.motorcyclesensors.routing.RoutingSanityGuard
 import net.osmand.plus.plugins.motorcyclesensors.weather.WeatherRoutingHelper
 import net.osmand.plus.plugins.motorcyclesensors.trackday.TrackDayHelper
 import net.osmand.plus.plugins.motorcyclesensors.group.GroupRidingHelper
+import net.osmand.plus.plugins.motorcyclesensors.map3d.AutoMap3DHelper
 import net.osmand.plus.routing.RoutingHelper
 import net.osmand.plus.settings.backend.ApplicationMode
 import net.osmand.plus.settings.backend.OsmandSettings
@@ -98,6 +99,7 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
     val weatherRouting = WeatherRoutingHelper()
     val trackDay = TrackDayHelper()
     val groupRiding = GroupRidingHelper()
+    val autoMap3D = AutoMap3DHelper(app)
 
     // Latest computed values
     var lastLeanAngleDeg: Float = 0f
@@ -144,6 +146,24 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
 
     val EMERGENCY_CONTACT_3 = registerStringPreference("motorcycle_emergency_contact_3", "")
         .makeProfile().cache() as CommonPreference<String>
+
+    val AUTO_3D_MAP = registerBooleanPreference("motorcycle_auto_3d_map", false)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    val AUTO_3D_SPEED_THRESHOLD = registerIntPreference("motorcycle_auto_3d_speed", 20)
+        .makeProfile().cache() as CommonPreference<Int>
+
+    val AUTO_3D_ELEVATION_ANGLE = registerIntPreference("motorcycle_auto_3d_angle", 45)
+        .makeProfile().cache() as CommonPreference<Int>
+
+    val WEATHER_ROUTING_ENABLED = registerBooleanPreference("motorcycle_weather_routing", false)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    val TRACK_DAY_ENABLED = registerBooleanPreference("motorcycle_track_day", false)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    val GROUP_RIDING_ENABLED = registerBooleanPreference("motorcycle_group_riding", false)
+        .makeProfile().cache() as CommonPreference<Boolean>
 
     /**
      * Get all configured emergency contact numbers (non-empty only).
@@ -206,6 +226,13 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
 
         // Apply motorcycle routing preferences on init
         applyMotorcycleRoutingPrefs()
+
+        // Initialize Auto 3D Map mode
+        if (AUTO_3D_MAP.get()) {
+            autoMap3D.speedThresholdKmh = AUTO_3D_SPEED_THRESHOLD.get().toFloat()
+            autoMap3D.elevationAngle3D = AUTO_3D_ELEVATION_ANGLE.get()
+            autoMap3D.setEnabled(true)
+        }
         return true
     }
 
@@ -515,6 +542,11 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
         // Feed GPS to Group Riding
         if (groupRiding.getState() == GroupRidingHelper.GroupState.CONNECTED) {
             groupRiding.updateMyLocation(location)
+        }
+
+        // Feed GPS to Auto 3D Map
+        if (autoMap3D.isEnabled) {
+            autoMap3D.updateLocation(location)
         }
     }
 

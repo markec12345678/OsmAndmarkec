@@ -926,6 +926,17 @@ You will be able to pair this scanner again at any time.</string>
     <string name="motorcycle_group_riding_join">Join group</string>
     <string name="motorcycle_group_riding_leave">Leave group</string>
     <string name="motorcycle_group_riding_members">Group members</string>
+    <string name="motorcycle_auto_3d_category">Auto 3D Map</string>
+    <string name="motorcycle_auto_3d_title">Auto 3D Mode</string>
+    <string name="motorcycle_auto_3d_desc">Automatically switch to 3D perspective when riding and return to 2D when stopped. Provides better spatial awareness at speed.</string>
+    <string name="motorcycle_auto_3d_speed_title">Speed threshold</string>
+    <string name="motorcycle_auto_3d_speed_desc">Speed above which the map switches to 3D perspective. Lower values activate 3D sooner.</string>
+    <string name="motorcycle_auto_3d_angle_title">3D Elevation angle</string>
+    <string name="motorcycle_auto_3d_angle_desc">Map tilt angle in 3D mode. Lower values = more tilted perspective. Requires OpenGL renderer.</string>
+    <string name="motorcycle_weather_settings_category">Weather Routing</string>
+    <string name="motorcycle_weather_routing_desc">Check weather conditions along your route. Warns about strong wind, rain, ice, and snow that affect motorcycle safety. Uses Open-Meteo API (free, no key required).</string>
+    <string name="motorcycle_trackday_settings_category">Track Day</string>
+    <string name="motorcycle_group_riding_settings_category">Group Riding</string>
     <string name="background_opacity">Background opacity</string>
     <string name="corner_radius">Corner radius</string>
     <string name="shared_string_dp">dp</string>

@@ -50,6 +50,9 @@ class CrashDetectionHelper {
     private var lastCrashDetectionTimeMs: Long = 0
     private var crashSignals: Int = 0
 
+    // Sensitivity level (1=low, 2=medium, 3=high)
+    private var sensitivityLevel: Int = 2
+
     // Sensor tracking
     private var highGDetectedTimeMs: Long = 0
     private var highRotationDetectedTimeMs: Long = 0
@@ -78,6 +81,40 @@ class CrashDetectionHelper {
 
     fun removeListener(listener: CrashDetectionListener) {
         listeners.remove(listener)
+    }
+
+    /**
+     * Set sensitivity level for crash detection.
+     * @param level 1=Low (fewer false positives, higher thresholds),
+     *              2=Medium (default),
+     *              3=High (more responsive, lower thresholds)
+     */
+    fun setSensitivity(level: Int) {
+        sensitivityLevel = level.coerceIn(1, 3)
+    }
+
+    /**
+     * Get the effective G-force threshold based on sensitivity.
+     * Low: 3.5G, Medium: 2.5G, High: 1.8G
+     */
+    private fun getEffectiveGThreshold(): Float {
+        return when (sensitivityLevel) {
+            1 -> CRASH_G_THRESHOLD * 1.4f     // 3.5G - fewer false positives
+            3 -> CRASH_G_THRESHOLD * 0.72f    // 1.8G - very responsive
+            else -> CRASH_G_THRESHOLD          // 2.5G - default
+        }
+    }
+
+    /**
+     * Get the effective rotation rate threshold based on sensitivity.
+     * Low: 7.33 rad/s (~420 deg/s), Medium: 5.24 rad/s (~300 deg/s), High: 3.49 rad/s (~200 deg/s)
+     */
+    private fun getEffectiveRotationThreshold(): Float {
+        return when (sensitivityLevel) {
+            1 -> CRASH_ROTATION_RATE * 1.4f   // 7.33 rad/s
+            3 -> CRASH_ROTATION_RATE * 0.667f  // 3.49 rad/s
+            else -> CRASH_ROTATION_RATE         // 5.24 rad/s
+        }
     }
 
     /**
@@ -113,17 +150,17 @@ class CrashDetectionHelper {
         lastGyroRotationRate = rotationRate
 
         // Check for high G-force signal
-        if (totalG >= CRASH_G_THRESHOLD && speedBeforeEventMs >= MIN_SPEED_FOR_CRASH_MS) {
+        if (totalG >= getEffectiveGThreshold() && speedBeforeEventMs >= MIN_SPEED_FOR_CRASH_MS) {
             highGDetectedTimeMs = nowMs
             crashSignals = crashSignals or SIGNAL_HIGH_G
-            LOG.warn("CrashDetection: High G detected: ${"%.2f".format(totalG)}G at speed ${"%.1f".format(speedBeforeEventMs)}m/s")
+            LOG.warn("CrashDetection: High G detected: ${"%.2f".format(totalG)}G (threshold: ${"%.2f".format(getEffectiveGThreshold())}G) at speed ${"%.1f".format(speedBeforeEventMs)}m/s")
         }
 
         // Check for high rotation rate signal
-        if (rotationRate >= CRASH_ROTATION_RATE && speedBeforeEventMs >= MIN_SPEED_FOR_CRASH_MS) {
+        if (rotationRate >= getEffectiveRotationThreshold() && speedBeforeEventMs >= MIN_SPEED_FOR_CRASH_MS) {
             highRotationDetectedTimeMs = nowMs
             crashSignals = crashSignals or SIGNAL_HIGH_ROTATION
-            LOG.warn("CrashDetection: High rotation detected: ${"%.2f".format(rotationRate)}rad/s")
+            LOG.warn("CrashDetection: High rotation detected: ${"%.2f".format(rotationRate)}rad/s (threshold: ${"%.2f".format(getEffectiveRotationThreshold())}rad/s)")
         }
 
         // Evaluate crash signals
@@ -184,7 +221,7 @@ class CrashDetectionHelper {
         }
 
         // Single signal: potential crash notification (lower confidence)
-        if (activeSignals == 1 && highGRecent && gForceAtImpact > CRASH_G_THRESHOLD * 1.5f) {
+        if (activeSignals == 1 && highGRecent && gForceAtImpact > getEffectiveGThreshold() * 1.5f) {
             // Very high G alone might be enough (e.g., head-on collision)
             for (listener in listeners) {
                 listener.onPotentialCrash(gForceAtImpact, "Very high G-force: ${"%.1f".format(gForceAtImpact)}G")

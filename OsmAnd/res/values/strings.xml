@@ -857,6 +857,20 @@ You will be able to pair this scanner again at any time.</string>
     <string name="motorcycle_gyro_filter_desc">Smoothing level for gyroscope data. Higher = smoother but slower response.</string>
     <string name="motorcycle_auto_start_recording">Auto-start recording</string>
     <string name="motorcycle_auto_start_recording_desc">Automatically start sensor recording when riding in motorcycle mode</string>
+    <string name="motorcycle_sensor_settings_category">Sensors</string>
+    <string name="motorcycle_lean_angle_enable_desc">Show real-time lean angle widget on the map dashboard</string>
+    <string name="motorcycle_gforce_enable_desc">Show real-time G-force widget on the map dashboard</string>
+    <string name="motorcycle_recording_settings_category">Ride Recording</string>
+    <string name="motorcycle_record_sensor_data_desc">Record lean angle and G-force data to GPX track extensions for post-ride analysis</string>
+    <string name="motorcycle_routing_settings_category">Curvy Road Routing</string>
+    <string name="motorcycle_crash_settings_category">Crash Detection</string>
+    <string name="motorcycle_crash_sensitivity">Crash sensitivity</string>
+    <string name="motorcycle_crash_sensitivity_desc">How responsive crash detection is. Higher sensitivity may cause false positives from speed bumps.</string>
+    <string name="motorcycle_crash_sensitivity_low">Low - fewer false positives</string>
+    <string name="motorcycle_crash_sensitivity_medium">Medium - balanced</string>
+    <string name="motorcycle_crash_sensitivity_high">High - more responsive</string>
+    <string name="motorcycle_filter_no_smoothing">No smoothing</string>
+    <string name="motorcycle_filter_smoothing_level">%1$d%% smoothing</string>
     <string name="background_opacity">Background opacity</string>
     <string name="corner_radius">Corner radius</string>
     <string name="shared_string_dp">dp</string>

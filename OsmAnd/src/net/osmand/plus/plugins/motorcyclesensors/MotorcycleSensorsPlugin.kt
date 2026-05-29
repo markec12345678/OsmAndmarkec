@@ -111,6 +111,12 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
     val CRASH_DETECTION_ENABLED = registerBooleanPreference("motorcycle_crash_detection", true)
         .makeProfile().cache() as CommonPreference<Boolean>
 
+    val AUTO_START_RECORDING = registerBooleanPreference("motorcycle_auto_start_recording", true)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    val CRASH_SENSITIVITY = registerIntPreference("motorcycle_crash_sensitivity", 2)
+        .makeProfile().cache() as CommonPreference<Int>
+
     private var mapActivity: MapActivity? = null
 
     override fun getId(): String = PLUGIN_ID
@@ -127,6 +133,10 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
 
     override fun isEnableByDefault(): Boolean = false
 
+    override fun getSettingsScreenType(): net.osmand.plus.settings.fragments.SettingsScreenType {
+        return net.osmand.plus.settings.fragments.SettingsScreenType.MOTORCYCLE_SENSORS_SETTINGS
+    }
+
     override fun init(app: OsmandApplication, activity: Activity?): Boolean {
         if (sensorHelper.hasRequiredSensors()) {
             sensorHelper.addListener(this)
@@ -136,6 +146,7 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
         } else {
             LOG.warn("MotorcycleSensorsPlugin: Device lacks required sensors (accelerometer + gyroscope)")
         }
+        crashDetection.setSensitivity(CRASH_SENSITIVITY.get())
         return true
     }
 
@@ -386,7 +397,7 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
      */
     override fun updateLocation(location: Location) {
         // Auto-start recording when in motorcycle mode with active plugin
-        if (isActive && RECORD_SENSOR_DATA.get() && !sensorRecorder.isRecording) {
+        if (isActive && RECORD_SENSOR_DATA.get() && AUTO_START_RECORDING.get() && !sensorRecorder.isRecording) {
             val isMotorcycleMode = settings.applicationMode == ApplicationMode.MOTORCYCLE
             if (isMotorcycleMode && location.speed > 0.5f) {
                 startRecording()

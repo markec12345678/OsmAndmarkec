@@ -41,6 +41,10 @@ import static net.osmand.plus.views.mapwidgets.WidgetType.SUNSET;
 import static net.osmand.plus.views.mapwidgets.WidgetType.SUN_POSITION;
 import static net.osmand.plus.views.mapwidgets.WidgetType.TIME_TO_DESTINATION;
 import static net.osmand.plus.views.mapwidgets.WidgetType.TIME_TO_INTERMEDIATE;
+import static net.osmand.plus.views.mapwidgets.WidgetType.MOTORCYCLE_LEAN_ANGLE;
+import static net.osmand.plus.views.mapwidgets.WidgetType.MOTORCYCLE_GFORCE;
+import static net.osmand.plus.views.mapwidgets.WidgetType.MOTORCYCLE_GFORCE_LATERAL;
+import static net.osmand.plus.views.mapwidgets.WidgetType.MOTORCYCLE_GFORCE_LONGITUDINAL;
 import static net.osmand.plus.views.mapwidgets.WidgetType.TRUE_BEARING;
 
 import androidx.annotation.NonNull;
@@ -58,134 +62,143 @@ import java.util.Set;
 
 public class WidgetsAvailabilityHelper {
 
-	private static final long ROUTE_WIDGETS_V2_INTRO_TIME_MS = 1704096000000L; // Mon Jan 01 2024
-	private static final Map<String, Set<ApplicationMode>> widgetsVisibilityMap = new LinkedHashMap<>();
-	private static final Map<String, Set<ApplicationMode>> widgetsAvailabilityMap = new LinkedHashMap<>();
+        private static final long ROUTE_WIDGETS_V2_INTRO_TIME_MS = 1704096000000L; // Mon Jan 01 2024
+        private static final Map<String, Set<ApplicationMode>> widgetsVisibilityMap = new LinkedHashMap<>();
+        private static final Map<String, Set<ApplicationMode>> widgetsAvailabilityMap = new LinkedHashMap<>();
 
-	public static boolean isWidgetAvailable(@NonNull OsmandApplication app, @NonNull String widgetId, @NonNull ApplicationMode appMode) {
-		if (app.getAppCustomization().areWidgetsCustomized()) {
-			return app.getAppCustomization().isWidgetAvailable(widgetId, appMode);
-		}
-		String defaultWidgetId = WidgetType.getDefaultWidgetId(widgetId);
-		Set<ApplicationMode> availableForModes = widgetsAvailabilityMap.get(defaultWidgetId);
-		return availableForModes == null || availableForModes.contains(appMode);
-	}
+        public static boolean isWidgetAvailable(@NonNull OsmandApplication app, @NonNull String widgetId, @NonNull ApplicationMode appMode) {
+                if (app.getAppCustomization().areWidgetsCustomized()) {
+                        return app.getAppCustomization().isWidgetAvailable(widgetId, appMode);
+                }
+                String defaultWidgetId = WidgetType.getDefaultWidgetId(widgetId);
+                Set<ApplicationMode> availableForModes = widgetsAvailabilityMap.get(defaultWidgetId);
+                return availableForModes == null || availableForModes.contains(appMode);
+        }
 
-	public static boolean isWidgetVisibleByDefault(@NonNull OsmandApplication app, @NonNull String widgetId, @NonNull ApplicationMode appMode) {
-		if (app.getAppCustomization().areWidgetsCustomized()) {
-			return app.getAppCustomization().isWidgetVisible(widgetId, appMode);
-		}
-		Set<ApplicationMode> widgetsVisibility = widgetsVisibilityMap.get(widgetId);
-		return widgetsVisibility != null && widgetsVisibility.contains(appMode);
-	}
+        public static boolean isWidgetVisibleByDefault(@NonNull OsmandApplication app, @NonNull String widgetId, @NonNull ApplicationMode appMode) {
+                if (app.getAppCustomization().areWidgetsCustomized()) {
+                        return app.getAppCustomization().isWidgetVisible(widgetId, appMode);
+                }
+                Set<ApplicationMode> widgetsVisibility = widgetsVisibilityMap.get(widgetId);
+                return widgetsVisibility != null && widgetsVisibility.contains(appMode);
+        }
 
-	public static void initRegVisibility(@NonNull OsmandApplication app) {
-		ApplicationMode[] exceptDefault = {CAR, BICYCLE, PEDESTRIAN, PUBLIC_TRANSPORT, BOAT,
-				AIRCRAFT, SKI, TRUCK, MOTORCYCLE, HORSE, MOPED, TRAIN};
-		ApplicationMode[] all = null;
-		ApplicationMode[] none = {};
+        public static void initRegVisibility(@NonNull OsmandApplication app) {
+                ApplicationMode[] exceptDefault = {CAR, BICYCLE, PEDESTRIAN, PUBLIC_TRANSPORT, BOAT,
+                                AIRCRAFT, SKI, TRUCK, MOTORCYCLE, HORSE, MOPED, TRAIN};
+                ApplicationMode[] all = null;
+                ApplicationMode[] none = {};
 
-		// left
-		ApplicationMode[] nextTurnSet = {CAR, BICYCLE, BOAT, SKI, TRUCK, MOTORCYCLE, HORSE, MOPED};
-		ApplicationMode[] smallNextTurnSet = {PEDESTRIAN, PUBLIC_TRANSPORT, AIRCRAFT, TRAIN};
-		ApplicationMode[] secondNextTurnSet = {CAR, BICYCLE, PEDESTRIAN, BOAT, SKI, TRUCK, MOTORCYCLE, HORSE, MOPED};
+                // left
+                ApplicationMode[] nextTurnSet = {CAR, BICYCLE, BOAT, SKI, TRUCK, MOTORCYCLE, HORSE, MOPED};
+                ApplicationMode[] smallNextTurnSet = {PEDESTRIAN, PUBLIC_TRANSPORT, AIRCRAFT, TRAIN};
+                ApplicationMode[] secondNextTurnSet = {CAR, BICYCLE, PEDESTRIAN, BOAT, SKI, TRUCK, MOTORCYCLE, HORSE, MOPED};
 
-		boolean enableWidgetsV2 = Version.getInstallTime(app) >= ROUTE_WIDGETS_V2_INTRO_TIME_MS;
-		if (enableWidgetsV2) {
-			regWidgetVisibility(ROUTE_INFO, exceptDefault);
-		}
+                boolean enableWidgetsV2 = Version.getInstallTime(app) >= ROUTE_WIDGETS_V2_INTRO_TIME_MS;
+                if (enableWidgetsV2) {
+                        regWidgetVisibility(ROUTE_INFO, exceptDefault);
+                }
 
-		regWidgetVisibility(NEXT_TURN, nextTurnSet);
-		regWidgetVisibility(SMALL_NEXT_TURN, smallNextTurnSet);
-		regWidgetVisibility(SECOND_NEXT_TURN, secondNextTurnSet);
-		
-		regWidgetAvailability(NEXT_TURN, exceptDefault);
-		regWidgetAvailability(SMALL_NEXT_TURN, exceptDefault);
-		regWidgetAvailability(SECOND_NEXT_TURN, exceptDefault);
+                regWidgetVisibility(NEXT_TURN, nextTurnSet);
+                regWidgetVisibility(SMALL_NEXT_TURN, smallNextTurnSet);
+                regWidgetVisibility(SECOND_NEXT_TURN, secondNextTurnSet);
+                
+                regWidgetAvailability(NEXT_TURN, exceptDefault);
+                regWidgetAvailability(SMALL_NEXT_TURN, exceptDefault);
+                regWidgetAvailability(SECOND_NEXT_TURN, exceptDefault);
 
-		if (!enableWidgetsV2) {
-			regWidgetVisibility(INTERMEDIATE_DESTINATION, all);
-			regWidgetVisibility(DISTANCE_TO_DESTINATION, all);
-			regWidgetVisibility(TIME_TO_INTERMEDIATE, all);
-			regWidgetVisibility(TIME_TO_DESTINATION, all);
-		}
+                if (!enableWidgetsV2) {
+                        regWidgetVisibility(INTERMEDIATE_DESTINATION, all);
+                        regWidgetVisibility(DISTANCE_TO_DESTINATION, all);
+                        regWidgetVisibility(TIME_TO_INTERMEDIATE, all);
+                        regWidgetVisibility(TIME_TO_DESTINATION, all);
+                }
 
-		regWidgetVisibility(CURRENT_SPEED, BICYCLE, BOAT, SKI, PUBLIC_TRANSPORT, AIRCRAFT, HORSE, TRAIN);
-		regWidgetVisibility(MAX_SPEED, none);
-		regWidgetVisibility(ALTITUDE_MAP_CENTER, PEDESTRIAN, BICYCLE);
-		regWidgetVisibility(ALTITUDE_MY_LOCATION, PEDESTRIAN, BICYCLE);
+                regWidgetVisibility(CURRENT_SPEED, BICYCLE, BOAT, SKI, PUBLIC_TRANSPORT, AIRCRAFT, HORSE, TRAIN);
+                regWidgetVisibility(MAX_SPEED, none);
+                regWidgetVisibility(ALTITUDE_MAP_CENTER, PEDESTRIAN, BICYCLE);
+                regWidgetVisibility(ALTITUDE_MY_LOCATION, PEDESTRIAN, BICYCLE);
 
-		regWidgetAvailability(ROUTE_INFO, all);
-		regWidgetAvailability(INTERMEDIATE_DESTINATION, all);
-		regWidgetAvailability(DISTANCE_TO_DESTINATION, all);
-		regWidgetAvailability(TIME_TO_INTERMEDIATE, all);
-		regWidgetAvailability(TIME_TO_DESTINATION, all);
-		regWidgetAvailability(CURRENT_SPEED, all);
-		regWidgetAvailability(MAX_SPEED, all);
-		regWidgetAvailability(AVERAGE_SPEED, all);
-		regWidgetAvailability(ALTITUDE_MY_LOCATION, all);
-		regWidgetAvailability(ALTITUDE_MAP_CENTER, all);
-		regWidgetAvailability(SUNRISE, all);
-		regWidgetAvailability(SUNSET, all);
-		regWidgetAvailability(SUN_POSITION, all);
-		regWidgetAvailability(GLIDE_TARGET, all);
-		regWidgetAvailability(GLIDE_AVERAGE, all);
+                regWidgetAvailability(ROUTE_INFO, all);
+                regWidgetAvailability(INTERMEDIATE_DESTINATION, all);
+                regWidgetAvailability(DISTANCE_TO_DESTINATION, all);
+                regWidgetAvailability(TIME_TO_INTERMEDIATE, all);
+                regWidgetAvailability(TIME_TO_DESTINATION, all);
+                regWidgetAvailability(CURRENT_SPEED, all);
+                regWidgetAvailability(MAX_SPEED, all);
+                regWidgetAvailability(AVERAGE_SPEED, all);
+                regWidgetAvailability(ALTITUDE_MY_LOCATION, all);
+                regWidgetAvailability(ALTITUDE_MAP_CENTER, all);
+                regWidgetAvailability(SUNRISE, all);
+                regWidgetAvailability(SUNSET, all);
+                regWidgetAvailability(SUN_POSITION, all);
+                regWidgetAvailability(GLIDE_TARGET, all);
+                regWidgetAvailability(GLIDE_AVERAGE, all);
 
-		// vertical
-		regWidgetVisibility(STREET_NAME, CAR);
-		regWidgetVisibility(LANES, CAR, BICYCLE);
-		regWidgetVisibility(MARKERS_TOP_BAR, all);
+                // vertical
+                regWidgetVisibility(STREET_NAME, CAR);
+                regWidgetVisibility(LANES, CAR, BICYCLE);
+                regWidgetVisibility(MARKERS_TOP_BAR, all);
 
-		// all = null everything
-		regWidgetAvailability(SIDE_MARKER_1, all);
-		regWidgetAvailability(SIDE_MARKER_2, all);
-		regWidgetAvailability(GPS_INFO, all);
-		regWidgetAvailability(BATTERY, all);
-		regWidgetAvailability(RELATIVE_BEARING, all);
-		regWidgetAvailability(MAGNETIC_BEARING, all);
-		regWidgetAvailability(TRUE_BEARING, all);
-		regWidgetAvailability(RADIUS_RULER, all);
-		regWidgetAvailability(CURRENT_TIME, all);
-	}
+                // all = null everything
+                regWidgetAvailability(SIDE_MARKER_1, all);
+                regWidgetAvailability(SIDE_MARKER_2, all);
+                regWidgetAvailability(GPS_INFO, all);
+                regWidgetAvailability(BATTERY, all);
+                regWidgetAvailability(RELATIVE_BEARING, all);
+                regWidgetAvailability(MAGNETIC_BEARING, all);
+                regWidgetAvailability(TRUE_BEARING, all);
+                regWidgetAvailability(RADIUS_RULER, all);
+                regWidgetAvailability(CURRENT_TIME, all);
 
-	@NonNull
-	public static Set<ApplicationMode> regWidgetVisibility(@NonNull WidgetType widgetType, @Nullable ApplicationMode... appModes) {
-		return regWidgetVisibility(widgetType.id, appModes);
-	}
+                // Motorcycle Sensors widgets - visible by default in MOTORCYCLE mode, available in all modes
+                regWidgetVisibility(MOTORCYCLE_LEAN_ANGLE, MOTORCYCLE);
+                regWidgetVisibility(MOTORCYCLE_GFORCE, MOTORCYCLE);
 
-	@NonNull
-	public static Set<ApplicationMode> regWidgetVisibility(@NonNull String widgetId, @Nullable ApplicationMode... appModes) {
-		return registerWidget(widgetId, widgetsVisibilityMap, appModes);
-	}
+                regWidgetAvailability(MOTORCYCLE_LEAN_ANGLE, all);
+                regWidgetAvailability(MOTORCYCLE_GFORCE, all);
+                regWidgetAvailability(MOTORCYCLE_GFORCE_LATERAL, all);
+                regWidgetAvailability(MOTORCYCLE_GFORCE_LONGITUDINAL, all);
+        }
 
-	@NonNull
-	public static Set<ApplicationMode> regWidgetAvailability(@NonNull WidgetType widgetType, @Nullable ApplicationMode... appModes) {
-		return regWidgetAvailability(widgetType.id, appModes);
-	}
+        @NonNull
+        public static Set<ApplicationMode> regWidgetVisibility(@NonNull WidgetType widgetType, @Nullable ApplicationMode... appModes) {
+                return regWidgetVisibility(widgetType.id, appModes);
+        }
 
-	@NonNull
-	public static Set<ApplicationMode> regWidgetAvailability(@NonNull String widgetId, @Nullable ApplicationMode... appModes) {
-		return registerWidget(widgetId, widgetsAvailabilityMap, appModes);
-	}
+        @NonNull
+        public static Set<ApplicationMode> regWidgetVisibility(@NonNull String widgetId, @Nullable ApplicationMode... appModes) {
+                return registerWidget(widgetId, widgetsVisibilityMap, appModes);
+        }
 
-	// returns modifiable ! Set<ApplicationMode> to exclude non-wanted derived
-	@NonNull
-	private static Set<ApplicationMode> registerWidget(@NonNull String widgetId,
-	                                                   @NonNull Map<String, Set<ApplicationMode>> map,
-	                                                   @Nullable ApplicationMode... appModes) {
-		HashSet<ApplicationMode> set = new HashSet<>();
-		if (appModes == null) {
-			set.addAll(ApplicationMode.allPossibleValues());
-		} else {
-			Collections.addAll(set, appModes);
-		}
-		for (ApplicationMode mode : ApplicationMode.allPossibleValues()) {
-			// add derived modes
-			if (set.contains(mode.getParent())) {
-				set.add(mode);
-			}
-		}
-		map.put(widgetId, set);
-		return set;
-	}
+        @NonNull
+        public static Set<ApplicationMode> regWidgetAvailability(@NonNull WidgetType widgetType, @Nullable ApplicationMode... appModes) {
+                return regWidgetAvailability(widgetType.id, appModes);
+        }
+
+        @NonNull
+        public static Set<ApplicationMode> regWidgetAvailability(@NonNull String widgetId, @Nullable ApplicationMode... appModes) {
+                return registerWidget(widgetId, widgetsAvailabilityMap, appModes);
+        }
+
+        // returns modifiable ! Set<ApplicationMode> to exclude non-wanted derived
+        @NonNull
+        private static Set<ApplicationMode> registerWidget(@NonNull String widgetId,
+                                                           @NonNull Map<String, Set<ApplicationMode>> map,
+                                                           @Nullable ApplicationMode... appModes) {
+                HashSet<ApplicationMode> set = new HashSet<>();
+                if (appModes == null) {
+                        set.addAll(ApplicationMode.allPossibleValues());
+                } else {
+                        Collections.addAll(set, appModes);
+                }
+                for (ApplicationMode mode : ApplicationMode.allPossibleValues()) {
+                        // add derived modes
+                        if (set.contains(mode.getParent())) {
+                                set.add(mode);
+                        }
+                }
+                map.put(widgetId, set);
+                return set;
+        }
 }

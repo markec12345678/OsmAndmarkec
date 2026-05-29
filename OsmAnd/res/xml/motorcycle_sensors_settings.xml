@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:title="@string/motorcycle_sensors_plugin_name">
+
+    <PreferenceCategory
+        android:key="motorcycle_sensors_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_sensor_settings_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_show_lean_angle"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_lean_angle_widget"
+        tools:summary="@string/motorcycle_lean_angle_enable_desc" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_show_gforce"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_gforce_widget"
+        tools:summary="@string/motorcycle_gforce_enable_desc" />
+
+    <net.osmand.plus.settings.preferences.ListPreferenceEx
+        android:key="motorcycle_accel_filter"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_accel_filter"
+        tools:summary="@string/motorcycle_accel_filter_desc" />
+
+    <net.osmand.plus.settings.preferences.ListPreferenceEx
+        android:key="motorcycle_gyro_filter"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_gyro_filter"
+        tools:summary="@string/motorcycle_gyro_filter_desc" />
+
+    <PreferenceCategory
+        android:key="motorcycle_recording_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_recording_settings_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_record_sensor_data"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_record_sensor_data"
+        tools:summary="@string/motorcycle_record_sensor_data_desc" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_auto_start_recording"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_auto_start_recording"
+        tools:summary="@string/motorcycle_auto_start_recording_desc" />
+
+    <PreferenceCategory
+        android:key="motorcycle_routing_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_routing_settings_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_curvy_roads"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_curvy_roads"
+        tools:summary="@string/motorcycle_curvy_roads_desc" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_avoid_motorway"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_avoid_motorway"
+        tools:summary="@string/motorcycle_avoid_motorway_desc" />
+
+    <PreferenceCategory
+        android:key="motorcycle_crash_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_crash_settings_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_crash_detection"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_crash_detection"
+        tools:summary="@string/motorcycle_crash_detection_desc" />
+
+    <net.osmand.plus.settings.preferences.ListPreferenceEx
+        android:key="motorcycle_crash_sensitivity"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_crash_sensitivity"
+        tools:summary="@string/motorcycle_crash_sensitivity_desc" />
+
+</PreferenceScreen>

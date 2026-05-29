@@ -18,6 +18,8 @@ import net.osmand.plus.R
 import net.osmand.plus.base.BaseFullScreenDialogFragment
 import net.osmand.plus.plugins.motorcyclesensors.MotorcycleSensorsPlugin
 import android.telephony.SmsManager
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -248,6 +250,21 @@ class CrashAlertDialog : BaseFullScreenDialogFragment() {
         val emergencyNumber = plugin.EMERGENCY_CONTACT_NUMBER.get()
         if (emergencyNumber.isNullOrEmpty()) {
             LOG.warn("CrashAlert: No emergency contact configured - SMS not sent")
+            return
+        }
+
+        // Check SEND_SMS runtime permission (Android 6+)
+        val ctx = context
+        if (ctx == null) {
+            LOG.error("CrashAlert: Cannot send SMS - no context")
+            return
+        }
+
+        if (ContextCompat.checkSelfPermission(ctx, android.Manifest.permission.SEND_SMS)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            LOG.error("CrashAlert: SEND_SMS permission not granted - cannot send emergency SMS. " +
+                "Please grant SMS permission in Android Settings > Apps > OsmAnd > Permissions")
             return
         }
 

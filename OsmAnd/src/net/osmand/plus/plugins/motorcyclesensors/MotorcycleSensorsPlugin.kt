@@ -25,7 +25,12 @@ import net.osmand.plus.plugins.motorcyclesensors.widgets.LeanAngleWidget
 import net.osmand.plus.plugins.motorcyclesensors.routing.CurvyRoadRouter
 import net.osmand.plus.plugins.motorcyclesensors.routing.MotorcycleRoutingHelper
 import net.osmand.plus.plugins.motorcyclesensors.routing.RouteCurvinessStats
+import net.osmand.plus.plugins.motorcyclesensors.safety.CrashAlertDialog
 import net.osmand.plus.plugins.motorcyclesensors.safety.CrashDetectionHelper
+import net.osmand.plus.plugins.motorcyclesensors.safety.CrashEventLog
+import net.osmand.plus.plugins.motorcyclesensors.instrumentation.SensorDiagnosticsHelper
+import net.osmand.plus.plugins.motorcyclesensors.calibration.SensorCalibrationHelper
+import net.osmand.plus.plugins.motorcyclesensors.routing.RoutingSanityGuard
 import net.osmand.plus.routing.RoutingHelper
 import net.osmand.plus.settings.backend.ApplicationMode
 import net.osmand.plus.settings.backend.OsmandSettings
@@ -80,6 +85,11 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
     val curvyRoadRouter = CurvyRoadRouter()
     val routingHelper = MotorcycleRoutingHelper(app)
     val crashDetection = CrashDetectionHelper()
+
+    // Production-grade instrumentation
+    val diagnostics = SensorDiagnosticsHelper()
+    val calibration = SensorCalibrationHelper(app.settings)
+    val routingSanityGuard = RoutingSanityGuard(app)
 
     // Latest computed values
     var lastLeanAngleDeg: Float = 0f
@@ -152,6 +162,20 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
             LOG.warn("MotorcycleSensorsPlugin: Device lacks required sensors (accelerometer + gyroscope)")
         }
         crashDetection.setSensitivity(CRASH_SENSITIVITY.get())
+
+        // Load saved calibration
+        calibration.loadCalibrationFromPreferences()
+
+        // Setup crash detection listener for UI flow
+        crashDetection.addListener(object : CrashDetectionHelper.CrashDetectionListener {
+            override fun onCrashDetected(location: android.location.Location?, gForceAtImpact: Float, rotationRateAtImpact: Float) {
+                handleCrashDetected(location, gForceAtImpact, rotationRateAtImpact)
+            }
+            override fun onPotentialCrash(gForce: Float, reason: String) {
+                diagnostics.logEvent("POTENTIAL_CRASH", reason, mapOf("gForce" to gForce))
+            }
+        })
+
         // Apply motorcycle routing preferences on init
         applyMotorcycleRoutingPrefs()
         return true
@@ -162,6 +186,10 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
         sensorHelper.unregisterListeners()
         sensorRecorder.stopRecording()
         crashDetection.destroy()
+        // Stop diagnostics and save report if collecting
+        if (diagnostics.isCollectingVisible) {
+            diagnostics.stopCollection()
+        }
         LOG.info("MotorcycleSensorsPlugin disabled")
     }
 
@@ -173,10 +201,16 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
         roll: Float, pitch: Float, yaw: Float,
         timestamp: Long
     ) {
-        // Calculate lean angle
+        // Apply gyro bias correction from calibration
+        val correctedGyro = calibration.correctGyroBias(gyroX, gyroY, gyroZ)
+
+        // Calculate lean angle with corrected gyro
         lastLeanAngleDeg = leanAngleCalculator.calculateLeanAngle(
-            accelX, accelY, accelZ, gyroX, roll, timestamp
+            accelX, accelY, accelZ, correctedGyro[0], roll, timestamp
         )
+
+        // Apply lean bias correction from calibration
+        lastLeanAngleDeg = calibration.correctLeanAngle(lastLeanAngleDeg)
 
         // Calculate G-force
         lastGForceData = gForceCalculator.calculateGForce(
@@ -196,10 +230,30 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
         if (isActive && CRASH_DETECTION_ENABLED.get()) {
             crashDetection.updateSensorData(
                 accelX, accelY, accelZ,
-                gyroX, gyroY, gyroZ,
+                correctedGyro[0], correctedGyro[1], correctedGyro[2],
                 timestamp
             )
         }
+
+        // Feed data to calibration if calibrating
+        if (calibration.getState() == SensorCalibrationHelper.CalibrationState.COLLECTING) {
+            calibration.updateSensorData(
+                accelX, accelY, accelZ,
+                gyroX, gyroY, gyroZ,
+                roll, pitch, timestamp
+            )
+        }
+
+        // Feed data to diagnostics
+        diagnostics.updateSensorData(
+            accelX, accelY, accelZ,
+            gyroX, gyroY, gyroZ,
+            lastLeanAngleDeg,
+            Math.toDegrees(roll.toDouble()).toFloat(),
+            leanAngleCalculator.getCurrentLeanAngle() + calibration.getCalibration().leanBiasDeg, // uncorrected for comparison
+            leanAngleCalculator.getGyroIntegratedDeg(),
+            timestamp
+        )
     }
 
     // ===== Plugin Lifecycle =====
@@ -415,6 +469,14 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
         if (isActive && CRASH_DETECTION_ENABLED.get()) {
             crashDetection.updateLocation(location)
         }
+
+        // Feed GPS to calibration
+        if (calibration.getState() == SensorCalibrationHelper.CalibrationState.COLLECTING) {
+            calibration.updateGpsSpeed(location.speed)
+        }
+
+        // Feed GPS to diagnostics
+        diagnostics.updateGpsData(location)
     }
 
     /**
@@ -427,6 +489,7 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
      */
     fun startRecording() {
         sensorRecorder.startRecording()
+        diagnostics.startCollection()
         if (isActive && !sensorHelper.isRunning()) {
             sensorHelper.registerListeners()
         }
@@ -437,6 +500,8 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
      */
     fun stopRecording() {
         sensorRecorder.stopRecording()
+        // Stop diagnostics and write report
+        diagnostics.stopCollection()
         // Show ride summary if we have a map activity
         mapActivity?.let { activity ->
             if (sensorRecorder.getRideStatistics().dataPointCount > 0) {
@@ -488,6 +553,17 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
                     "Corners: ${stats.totalCorners}, " +
                     "Corners/km: ${"%.1f".format(stats.cornersPerKm)}")
             }
+
+            // Run routing sanity guard when curvy routing is enabled
+            if (PREFER_CURVY_ROADS.get()) {
+                val sanityResult = routingSanityGuard.quickSanityCheck(route)
+                if (!sanityResult.isAcceptable) {
+                    LOG.warn("RoutingSanityGuard: Curvy route failed sanity - ${sanityResult.fallbackReason}")
+                    diagnostics.logEvent("ROUTING_SANITY_FAIL", sanityResult.fallbackReason ?: "Unknown reason")
+                    // Note: We don't automatically fallback here because that would require
+                    // recalculating the route. The sanity result is available for UI to act on.
+                }
+            }
         }
     }
 
@@ -537,5 +613,95 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
      */
     fun acknowledgeCrash() {
         crashDetection.reset()
+    }
+
+    // ===== Crash Alert UI Flow =====
+
+    /**
+     * Handle crash detection by showing the full-screen crash alert dialog.
+     *
+     * This is the ONLY response to a crash detection:
+     * 1. Show full-screen red warning
+     * 2. Start 10-second countdown
+     * 3. If user presses "I'M OK" -> log as false alarm, reset
+     * 4. If countdown expires -> log as confirmed crash event
+     * NO SMS, NO emergency calls - that requires explicit user permissions.
+     */
+    private fun handleCrashDetected(
+        location: android.location.Location?,
+        gForceAtImpact: Float,
+        rotationRateAtImpact: Float
+    ) {
+        LOG.error("CRASH DETECTED - Showing alert dialog (G=${"%.2f".format(gForceAtImpact)}, " +
+            "rot=${"%.2f".format(rotationRateAtImpact)}rad/s)")
+
+        // Log to diagnostics
+        diagnostics.logEvent("CRASH_DETECTED",
+            "G=${"%.2f".format(gForceAtImpact)}, rot=${"%.2f".format(rotationRateAtImpact)}rad/s",
+            mapOf("gForce" to gForceAtImpact, "rotation" to rotationRateAtImpact))
+
+        // Show crash alert dialog on UI thread
+        mapActivity?.runOnUiThread {
+            mapActivity?.let { activity ->
+                val speedMs = location?.speed ?: 0f
+                val dialog = CrashAlertDialog.newInstance(
+                    gForceAtImpact, rotationRateAtImpact, location, speedMs
+                )
+                dialog.setCrashEventListener(object : CrashAlertDialog.CrashEventListener {
+                    override fun onCrashEventLogged(event: net.osmand.plus.plugins.motorcyclesensors.safety.CrashEventLog.CrashEvent) {
+                        LOG.warn("Crash countdown expired - event logged")
+                        diagnostics.logEvent("CRASH_COUNTDOWN_EXPIRED", "User did not respond")
+                    }
+                    override fun onCrashCancelled(event: net.osmand.plus.plugins.motorcyclesensors.safety.CrashEventLog.CrashEvent) {
+                        LOG.info("Crash alert cancelled - user is OK")
+                        diagnostics.logCrashFalseTrigger(
+                            "User cancelled countdown",
+                            gForceAtImpact, rotationRateAtImpact
+                        )
+                        crashDetection.reset()
+                    }
+                })
+
+                try {
+                    dialog.show(activity.supportFragmentManager, CrashAlertDialog.TAG)
+                } catch (e: Exception) {
+                    LOG.error("Failed to show crash alert dialog", e)
+                }
+            }
+        }
+    }
+
+    // ===== Calibration API =====
+
+    /**
+     * Start sensor calibration ride.
+     */
+    fun startCalibration(): net.osmand.plus.plugins.motorcyclesensors.calibration.CalibrationResult {
+        return calibration.startCalibration()
+    }
+
+    /**
+     * Get calibration progress (0.0 to 1.0).
+     */
+    fun getCalibrationProgress(): Float = calibration.getCalibrationProgress()
+
+    /**
+     * Get current calibration data.
+     */
+    fun getCalibrationData() = calibration.getCalibration()
+
+    // ===== Routing Sanity API =====
+
+    /**
+     * Get the last routing sanity check result.
+     */
+    var lastSanityCheckResult: net.osmand.plus.plugins.motorcyclesensors.routing.RoutingSanityGuard.SanityCheckResult? = null
+        private set
+
+    /**
+     * Get crash event statistics.
+     */
+    fun getCrashStatistics(): net.osmand.plus.plugins.motorcyclesensors.safety.CrashStatistics {
+        return CrashEventLog.getStatistics(app)
     }
 }

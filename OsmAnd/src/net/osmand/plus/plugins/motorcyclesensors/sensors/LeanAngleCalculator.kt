@@ -88,13 +88,23 @@ class LeanAngleCalculator {
         // Sensor fusion: Complementary filter
         // Use rotation vector as primary source (most accurate for static lean)
         // Augment with gyroscope for fast dynamic changes
-        val fusedLeanAngle: Float = if (Math.abs(rollFromRotationVector) > 0.1) {
-            // Rotation vector available - use complementary filter with gyro
-            COMPLEMENTARY_ALPHA * rollFromAccel + (1 - COMPLEMENTARY_ALPHA) * gyroLeanDeg
+        //
+        // CRITICAL: When rotation vector is available, use it as the "accelerometer
+        // reference" in the complementary filter instead of the raw accel-derived angle.
+        // The rotation vector is far more accurate (uses sensor fusion from hardware).
+        // When no rotation vector, fall back to raw accelerometer angle.
+        val referenceAngle: Float = if (Math.abs(rollFromRotationVector) > 0.1) {
+            // Rotation vector available - this is our ground truth reference
+            rollFromRotationVector
         } else {
-            // No rotation vector - use accelerometer as primary
-            COMPLEMENTARY_ALPHA * rollFromAccel + (1 - COMPLEMENTARY_ALPHA) * gyroLeanDeg
+            // No rotation vector - use accelerometer as reference
+            rollFromAccel
         }
+
+        // Complementary filter: blend reference angle (slow but accurate) with
+        // gyro integration (fast but drifts). The alpha determines how much we
+        // trust the reference vs the gyro.
+        val fusedLeanAngle: Float = COMPLEMENTARY_ALPHA * referenceAngle + (1 - COMPLEMENTARY_ALPHA) * gyroLeanDeg
 
         // Clamp to realistic range
         val clampedLean = fusedLeanAngle.coerceIn(-MAX_LEAN_ANGLE, MAX_LEAN_ANGLE)
@@ -159,6 +169,12 @@ class LeanAngleCalculator {
      * Get the current lean angle without recalculating
      */
     fun getCurrentLeanAngle(): Float = currentLeanAngleDeg
+
+    /**
+     * Get the current gyro-integrated lean angle (before correction).
+     * Useful for diagnostics to compare against rotation vector reference.
+     */
+    fun getGyroIntegratedDeg(): Float = gyroIntegratedLeanDeg
 
     /**
      * Get the absolute lean angle (always positive)

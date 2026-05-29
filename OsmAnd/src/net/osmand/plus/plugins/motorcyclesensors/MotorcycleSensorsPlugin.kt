@@ -10,6 +10,7 @@ import net.osmand.PlatformUtil
 import net.osmand.plus.OsmandApplication
 import net.osmand.plus.R
 import net.osmand.plus.activities.MapActivity
+import net.osmand.plus.charts.ChartUtils
 import net.osmand.plus.charts.GPXDataSetAxisType
 import net.osmand.plus.charts.GPXDataSetType
 import net.osmand.plus.charts.OrderedLineDataSet
@@ -21,6 +22,10 @@ import net.osmand.plus.plugins.motorcyclesensors.sensors.LeanAngleCalculator
 import net.osmand.plus.plugins.motorcyclesensors.recording.MotorcycleSensorRecorder
 import net.osmand.plus.plugins.motorcyclesensors.widgets.GForceWidget
 import net.osmand.plus.plugins.motorcyclesensors.widgets.LeanAngleWidget
+import net.osmand.plus.plugins.motorcyclesensors.routing.CurvyRoadRouter
+import net.osmand.plus.plugins.motorcyclesensors.routing.MotorcycleRoutingHelper
+import net.osmand.plus.plugins.motorcyclesensors.routing.RouteCurvinessStats
+import net.osmand.plus.plugins.motorcyclesensors.safety.CrashDetectionHelper
 import net.osmand.plus.settings.backend.ApplicationMode
 import net.osmand.plus.settings.backend.OsmandSettings
 import net.osmand.plus.settings.backend.preferences.CommonPreference
@@ -71,6 +76,9 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
     val leanAngleCalculator = LeanAngleCalculator()
     val gForceCalculator = GForceCalculator()
     val sensorRecorder = MotorcycleSensorRecorder(app)
+    val curvyRoadRouter = CurvyRoadRouter()
+    val routingHelper = MotorcycleRoutingHelper(app)
+    val crashDetection = CrashDetectionHelper()
 
     // Latest computed values
     var lastLeanAngleDeg: Float = 0f
@@ -93,6 +101,15 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
 
     val GYRO_FILTER_COEFFICIENT = registerFloatPreference("motorcycle_gyro_filter", 0.7f)
         .makeProfile().cache() as CommonPreference<Float>
+
+    val PREFER_CURVY_ROADS = registerBooleanPreference("motorcycle_curvy_roads", true)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    val AVOID_MOTORWAY = registerBooleanPreference("motorcycle_avoid_motorway", true)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    val CRASH_DETECTION_ENABLED = registerBooleanPreference("motorcycle_crash_detection", true)
+        .makeProfile().cache() as CommonPreference<Boolean>
 
     private var mapActivity: MapActivity? = null
 
@@ -126,6 +143,7 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
         super.disable(app)
         sensorHelper.unregisterListeners()
         sensorRecorder.stopRecording()
+        crashDetection.destroy()
         LOG.info("MotorcycleSensorsPlugin disabled")
     }
 
@@ -155,6 +173,15 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
                 timestamp = timestamp
             )
         }
+
+        // Feed sensor data to crash detection
+        if (isActive && CRASH_DETECTION_ENABLED.get()) {
+            crashDetection.updateSensorData(
+                accelX, accelY, accelZ,
+                gyroX, gyroY, gyroZ,
+                timestamp
+            )
+        }
     }
 
     // ===== Plugin Lifecycle =====
@@ -177,6 +204,7 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
     override fun mapActivityDestroy(activity: MapActivity) {
         sensorHelper.unregisterListeners()
         sensorHelper.destroy()
+        crashDetection.destroy()
         mapActivity = null
     }
 
@@ -281,15 +309,22 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
         analysis: @NonNull GpxTrackAnalysis,
         availableTypes: @NonNull MutableList<GPXDataSetType>
     ) {
-        // Add motorcycle sensor chart types if data exists
-        val hasLeanAngleData = analysis.analysisExtensionFields?.contains(GPX_EXTENSION_LEAN_ANGLE) == true
-        val hasGForceData = analysis.analysisExtensionFields?.contains(GPX_EXTENSION_TOTAL_G) == true
+        // Check if motorcycle sensor data exists in the track's point attributes
+        val pointAttributes = analysis.pointAttributes
+        var hasLeanAngle = false
+        var hasTotalG = false
 
-        if (hasLeanAngleData) {
+        for (attr in pointAttributes) {
+            if (!attr.leanAngle.isNaN()) hasLeanAngle = true
+            if (!attr.totalG.isNaN()) hasTotalG = true
+            if (hasLeanAngle && hasTotalG) break
+        }
+
+        if (hasLeanAngle) {
             availableTypes.add(GPXDataSetType.MOTORCYCLE_LEAN_ANGLE)
         }
-        if (hasGForceData) {
-            availableTypes.add(GPXDataSetType.MOTORCYCLE_GFORCE)
+        if (hasTotalG) {
+            availableTypes.add(GPXDataSetType.MOTORCYCLE_TOTAL_G)
         }
     }
 
@@ -301,8 +336,67 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
         calcWithoutGaps: Boolean,
         useRightAxis: Boolean
     ): OrderedLineDataSet? {
-        // TODO: Implement chart data creation for lean angle and G-force graphs
-        return null
+        if (graphType != GPXDataSetType.MOTORCYCLE_LEAN_ANGLE && graphType != GPXDataSetType.MOTORCYCLE_TOTAL_G) {
+            return null
+        }
+
+        val divX = ChartUtils.getDivX(app, chart, analysis, axisType, calcWithoutGaps)
+        val mainUnitY = graphType.getMainUnitY(app)
+
+        val textColor = net.osmand.plus.utils.ColorUtilities.getColor(app, graphType.textColorId)
+        val yAxis = ChartUtils.getYAxis(chart, textColor, useRightAxis)
+        yAxis.granularity = 1f
+        yAxis.resetAxisMinimum()
+
+        val dataKey = graphType.dataKey
+        val values = ChartUtils.getPointAttributeValues(
+            dataKey, analysis.pointAttributes, axisType, divX,
+            Float.NaN, Float.NaN, calcWithoutGaps
+        )
+
+        if (values.isEmpty()) return null
+
+        val dataSet = OrderedLineDataSet(values, "", graphType, axisType, !useRightAxis)
+
+        // Calculate priority based on max absolute value
+        val maxVal = values.maxOfOrNull { Math.abs(it.y) } ?: 0f
+        dataSet.priority = maxVal
+        dataSet.divX = divX
+        dataSet.units = mainUnitY
+
+        val formatY = if (graphType == GPXDataSetType.MOTORCYCLE_LEAN_ANGLE) {
+            "{0,number,0.#} "
+        } else {
+            "{0,number,0.00} "
+        }
+        yAxis.valueFormatter = com.github.mikephil.charting.formatter.IAxisValueFormatter { value, axis ->
+            String.format(formatY.trimEnd() + mainUnitY, value)
+        }
+
+        val nightMode = app.daynightHelper.isNightMode(net.osmand.plus.settings.enums.ThemeUsageContext.APP)
+        val color = net.osmand.plus.utils.ColorUtilities.getColor(app, graphType.fillColorId)
+        ChartUtils.setupDataSet(app, dataSet, color, color, true, false, useRightAxis, nightMode)
+
+        return dataSet
+    }
+
+    /**
+     * Auto-start sensor recording when MOTORCYCLE mode is active and trip recording starts.
+     * Also feeds location data to crash detection.
+     */
+    override fun updateLocation(location: Location) {
+        // Auto-start recording when in motorcycle mode with active plugin
+        if (isActive && RECORD_SENSOR_DATA.get() && !sensorRecorder.isRecording) {
+            val isMotorcycleMode = settings.applicationMode == ApplicationMode.MOTORCYCLE
+            if (isMotorcycleMode && location.speed > 0.5f) {
+                startRecording()
+            }
+        }
+
+        // Feed location to crash detection
+        if (isActive && CRASH_DETECTION_ENABLED.get()) {
+            crashDetection.updateLocation(location)
+        }
     }
 
     /**
@@ -334,5 +428,26 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
         leanAngleCalculator.reset()
         gForceCalculator.resetPeaks()
         sensorRecorder.reset()
+    }
+
+    /**
+     * Get route curviness stats for the current route
+     */
+    fun getRouteCurvinessStats(): RouteCurvinessStats? {
+        val routingHelper = app.routingHelper
+        val route = routingHelper?.route ?: return null
+        return routingHelper.analyzeRouteCurviness(route)
+    }
+
+    /**
+     * Check if crash has been detected
+     */
+    fun isCrashDetected(): Boolean = crashDetection.isCrashDetected()
+
+    /**
+     * Acknowledge crash (user is okay)
+     */
+    fun acknowledgeCrash() {
+        crashDetection.reset()
     }
 }

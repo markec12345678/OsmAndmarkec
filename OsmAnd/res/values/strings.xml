@@ -823,6 +823,40 @@ You will be able to pair this scanner again at any time.</string>
     <string name="motorcycle_max_gforce">Max G-Force</string>
     <string name="motorcycle_corners">Corners</string>
     <string name="motorcycle_ride_score">Ride Score</string>
+
+    <!-- Motorcycle Curvy Road Routing -->
+    <string name="motorcycle_curvy_roads">Curvy Roads</string>
+    <string name="motorcycle_curvy_roads_desc">Prefer twisty, scenic roads over straight highways. Makes the ride more enjoyable!</string>
+    <string name="motorcycle_avoid_motorway">Avoid motorways</string>
+    <string name="motorcycle_avoid_motorway_desc">Avoid motorways and highways - they are boring for motorcyclists</string>
+    <string name="motorcycle_prefer_scenic">Prefer scenic routes</string>
+    <string name="motorcycle_prefer_scenic_desc">Prefer roads known for scenic views and curves</string>
+    <string name="motorcycle_route_fun_score">Fun Score</string>
+    <string name="motorcycle_route_curviness">Route Curviness</string>
+    <string name="motorcycle_twistiness_gentle">Gentle</string>
+    <string name="motorcycle_twistiness_moderate">Moderate</string>
+    <string name="motorcycle_twistiness_twisty">Twisty</string>
+    <string name="motorcycle_twistiness_very_twisty">Very Twisty</string>
+    <string name="motorcycle_cornerness_corners">corners</string>
+    <string name="motorcycle_cornerness_per_km">corners/km</string>
+
+    <!-- Motorcycle Crash Detection -->
+    <string name="motorcycle_crash_detected">Crash Detected!</string>
+    <string name="motorcycle_crash_detected_desc">A potential crash has been detected. Are you okay?</string>
+    <string name="motorcycle_crash_im_okay">I\'m Okay</string>
+    <string name="motorcycle_crash_emergency">Emergency</string>
+    <string name="motorcycle_crash_detection">Crash Detection</string>
+    <string name="motorcycle_crash_detection_desc">Automatically detect potential crashes using sensor data and offer to send emergency SMS</string>
+    <string name="motorcycle_crash_sms_message">I may have had a motorcycle accident. My location: %s. Please check on me!</string>
+
+    <!-- Motorcycle Settings -->
+    <string name="motorcycle_settings">Motorcycle Settings</string>
+    <string name="motorcycle_accel_filter">Accelerometer filter</string>
+    <string name="motorcycle_accel_filter_desc">Smoothing level for accelerometer data. Higher = smoother but slower response.</string>
+    <string name="motorcycle_gyro_filter">Gyroscope filter</string>
+    <string name="motorcycle_gyro_filter_desc">Smoothing level for gyroscope data. Higher = smoother but slower response.</string>
+    <string name="motorcycle_auto_start_recording">Auto-start recording</string>
+    <string name="motorcycle_auto_start_recording_desc">Automatically start sensor recording when riding in motorcycle mode</string>
     <string name="background_opacity">Background opacity</string>
     <string name="corner_radius">Corner radius</string>
     <string name="shared_string_dp">dp</string>

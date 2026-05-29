@@ -128,10 +128,10 @@ public enum WidgetType {
 //      OBD_VIN("obd_vin", R.string.obd_vin, R.string.obd_vin_desc, R.drawable.widget_weather_temperature_day, R.drawable.widget_weather_temperature_night, 0, VEHICLE_METRICS, RIGHT),
 //      OBD_FUEL_TYPE("obd_fuel_type", R.string.obd_fuel_type, R.string.obd_fuel_type_desc, R.drawable.widget_weather_temperature_day, R.drawable.widget_weather_temperature_night, 0, VEHICLE_METRICS, RIGHT),
 
-        MOTORCYCLE_LEAN_ANGLE("motorcycle_lean_angle", R.string.motorcycle_lean_angle_widget, R.string.motorcycle_lean_angle_widget_desc, R.drawable.ic_action_motorcycle_dark, R.drawable.ic_action_motorcycle_dark, 0, MOTORCYCLE_SENSORS, RIGHT),
-        MOTORCYCLE_GFORCE("motorcycle_gforce", R.string.motorcycle_gforce_widget, R.string.motorcycle_gforce_widget_desc, R.drawable.ic_action_motorcycle_dark, R.drawable.ic_action_motorcycle_dark, 0, MOTORCYCLE_SENSORS, RIGHT),
-        MOTORCYCLE_GFORCE_LATERAL("motorcycle_gforce_lateral", R.string.motorcycle_gforce_lateral_widget, R.string.motorcycle_gforce_lateral_widget_desc, R.drawable.ic_action_motorcycle_dark, R.drawable.ic_action_motorcycle_dark, 0, MOTORCYCLE_SENSORS, RIGHT),
-        MOTORCYCLE_GFORCE_LONGITUDINAL("motorcycle_gforce_longitudinal", R.string.motorcycle_gforce_longitudinal_widget, R.string.motorcycle_gforce_longitudinal_widget_desc, R.drawable.ic_action_motorcycle_dark, R.drawable.ic_action_motorcycle_dark, 0, MOTORCYCLE_SENSORS, RIGHT),
+        MOTORCYCLE_LEAN_ANGLE("motorcycle_lean_angle", R.string.motorcycle_lean_angle_widget, R.string.motorcycle_lean_angle_widget_desc, R.drawable.widget_motorcycle_lean_angle_day, R.drawable.widget_motorcycle_lean_angle_night, 0, MOTORCYCLE_SENSORS, RIGHT),
+        MOTORCYCLE_GFORCE("motorcycle_gforce", R.string.motorcycle_gforce_widget, R.string.motorcycle_gforce_widget_desc, R.drawable.widget_motorcycle_gforce_day, R.drawable.widget_motorcycle_gforce_night, 0, MOTORCYCLE_SENSORS, RIGHT),
+        MOTORCYCLE_GFORCE_LATERAL("motorcycle_gforce_lateral", R.string.motorcycle_gforce_lateral_widget, R.string.motorcycle_gforce_lateral_widget_desc, R.drawable.widget_motorcycle_gforce_day, R.drawable.widget_motorcycle_gforce_night, 0, MOTORCYCLE_SENSORS, RIGHT),
+        MOTORCYCLE_GFORCE_LONGITUDINAL("motorcycle_gforce_longitudinal", R.string.motorcycle_gforce_longitudinal_widget, R.string.motorcycle_gforce_longitudinal_widget_desc, R.drawable.widget_motorcycle_gforce_day, R.drawable.widget_motorcycle_gforce_night, 0, MOTORCYCLE_SENSORS, RIGHT),
 
         TEMPERATURE("temperature_sensor", R.string.shared_string_temperature, R.string.sensor_temperature_desc, R.drawable.widget_weather_temperature_day, R.drawable.widget_weather_temperature_night, 0, ANT_PLUS, RIGHT),
         HEART_RATE("ant_heart_rate", R.string.map_widget_ant_heart_rate, R.string.map_widget_ant_heart_rate_desc, R.drawable.widget_sensor_heart_rate_day, R.drawable.widget_sensor_heart_rate_night, 0, ANT_PLUS, RIGHT),

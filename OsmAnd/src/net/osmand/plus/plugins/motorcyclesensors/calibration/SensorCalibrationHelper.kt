@@ -1,6 +1,6 @@
 package net.osmand.plus.plugins.motorcyclesensors.calibration
 
-import android.location.Location
+import net.osmand.Location
 import net.osmand.PlatformUtil
 import net.osmand.plus.settings.backend.OsmandSettings
 import java.util.concurrent.ConcurrentLinkedQueue

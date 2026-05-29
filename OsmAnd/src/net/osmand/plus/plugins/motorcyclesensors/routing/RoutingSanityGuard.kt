@@ -94,8 +94,8 @@ class RoutingSanityGuard(private val app: OsmandApplication) {
         val curvyFunScore = curvyRoadRouter.calculateFunScore(curvyStats)
 
         // Calculate curvy route metrics
-        val curvyDistanceM = curvyRoute.wholeRouteDistance
-        val curvyTimeSec = curvyRoute.routingTime.toFloat()
+        val curvyDistanceM = curvyRoute.wholeDistance
+        val curvyTimeSec = curvyRoute.routingTime
         val curvyAvgSpeedKmh = if (curvyTimeSec > 0)
             (curvyDistanceM / curvyTimeSec) * 3.6f else 0f
 
@@ -105,8 +105,8 @@ class RoutingSanityGuard(private val app: OsmandApplication) {
 
         // Compare against baseline if available
         if (baselineRoute != null && baselineRoute.isCalculated) {
-            val baselineDistanceM = baselineRoute.wholeRouteDistance
-            val baselineTimeSec = baselineRoute.routingTime.toFloat()
+            val baselineDistanceM = baselineRoute.wholeDistance
+            val baselineTimeSec = baselineRoute.routingTime
             val baselineStats = motorcycleRoutingHelper.analyzeRouteCurviness(baselineRoute)
             baselineFunScore = curvyRoadRouter.calculateFunScore(baselineStats)
 

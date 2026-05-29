@@ -1,6 +1,6 @@
 package net.osmand.plus.plugins.motorcyclesensors.instrumentation
 
-import android.location.Location
+import net.osmand.Location
 import net.osmand.PlatformUtil
 import org.json.JSONArray
 import org.json.JSONObject

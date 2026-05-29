@@ -1,19 +1,19 @@
 package net.osmand.plus.plugins.motorcyclesensors.safety
 
-import android.app.Activity
-import android.content.Intent
-import android.location.Location
+import net.osmand.Location
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import net.osmand.PlatformUtil
 import net.osmand.plus.R
-import net.osmand.plus.base.BaseOsmAndDialogFragment
+import net.osmand.plus.base.BaseFullScreenDialogFragment
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -40,7 +40,7 @@ import java.util.Locale
  * - Event logging only = no side effects until permissions are granted
  * - No network calls = works even in areas with no signal
  */
-class CrashAlertDialog : BaseOsmAndDialogFragment() {
+class CrashAlertDialog : BaseFullScreenDialogFragment() {
 
     companion object {
         private val LOG = PlatformUtil.getLog(CrashAlertDialog::class.java)
@@ -83,8 +83,8 @@ class CrashAlertDialog : BaseOsmAndDialogFragment() {
 
     // Crash event log listener
     interface CrashEventListener {
-        fun onCrashEventLogged(event: CrashEvent)
-        fun onCrashCancelled(event: CrashEvent)
+        fun onCrashEventLogged(event: CrashEventLog.CrashEvent)
+        fun onCrashCancelled(event: CrashEventLog.CrashEvent)
     }
 
     private var eventListener: CrashEventListener? = null
@@ -93,10 +93,12 @@ class CrashAlertDialog : BaseOsmAndDialogFragment() {
         eventListener = listener
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        // Full-screen dialog
-        setStyle(STYLE_NO_FRAME, R.style.Theme_OsmandLight_FullScreen)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return inflater.inflate(R.layout.crash_alert_dialog, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -196,7 +198,7 @@ class CrashAlertDialog : BaseOsmAndDialogFragment() {
         if (crashEventLogged) return
         crashEventLogged = true
 
-        val event = CrashEvent(
+        val event = CrashEventLog.CrashEvent(
             timestampMs = timestamp,
             gForceAtImpact = gForce,
             rotationAtImpact = rotation,
@@ -223,6 +225,4 @@ class CrashAlertDialog : BaseOsmAndDialogFragment() {
         handler.removeCallbacksAndMessages(null)
         super.onDestroyView()
     }
-
-    override fun getLayoutId(): Int = R.layout.crash_alert_dialog
 }

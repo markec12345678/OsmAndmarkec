@@ -1,6 +1,6 @@
 package net.osmand.plus.plugins.motorcyclesensors.safety
 
-import android.location.Location
+import net.osmand.Location
 import net.osmand.PlatformUtil
 import net.osmand.plus.plugins.motorcyclesensors.sensors.GForceData
 import kotlin.math.abs

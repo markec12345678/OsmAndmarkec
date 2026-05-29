@@ -129,33 +129,19 @@ class MotorcycleRoutingHelper(private val app: OsmandApplication) {
 
     /**
      * Collect route segments from a RouteCalculationResult.
-     * Handles the various ways OsmAnd stores route segments.
+     * Uses getOriginalRoute() which returns the List<RouteSegmentResult>.
+     * Falls back to getRouteLocations() if no segments available.
      */
     private fun collectRouteSegments(route: RouteCalculationResult): List<RouteSegmentResult> {
-        val segments = mutableListOf<RouteSegmentResult>()
-        val routeDirections = route.routeDirections
-        val routeVisibleSegment = route.currentRoute
-
-        // Collect from the route's segment list
-        for (i in 0 until route.routeSegments.size) {
-            segments.add(route.routeSegments[i])
+        // Primary: use getOriginalRoute() - the public API for route segments
+        val originalRoute = route.originalRoute
+        if (!originalRoute.isNullOrEmpty()) {
+            return originalRoute
         }
 
-        // If no segments found via routeSegments, try alternative access
-        if (segments.isEmpty()) {
-            val allLocations = route.routeLocations
-            if (allLocations.size >= 2) {
-                // Build synthetic segments from location points
-                for (i in 0 until allLocations.size - 1) {
-                    val start = allLocations[i]
-                    val end = allLocations[i + 1]
-                    // We can't easily create RouteSegmentResult from locations alone
-                    // The actual segment data comes from route.getRouteSegments()
-                }
-            }
-        }
-
-        return segments
+        // Fallback: if no segment data, return empty list
+        // (RouteSegmentResult cannot be created from locations alone)
+        return emptyList()
     }
 
     /**

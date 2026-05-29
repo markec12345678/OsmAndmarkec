@@ -168,7 +168,7 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
 
         // Setup crash detection listener for UI flow
         crashDetection.addListener(object : CrashDetectionHelper.CrashDetectionListener {
-            override fun onCrashDetected(location: android.location.Location?, gForceAtImpact: Float, rotationRateAtImpact: Float) {
+            override fun onCrashDetected(location: Location?, gForceAtImpact: Float, rotationRateAtImpact: Float) {
                 handleCrashDetected(location, gForceAtImpact, rotationRateAtImpact)
             }
             override fun onPotentialCrash(gForce: Float, reason: String) {
@@ -628,7 +628,7 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
      * NO SMS, NO emergency calls - that requires explicit user permissions.
      */
     private fun handleCrashDetected(
-        location: android.location.Location?,
+        location: Location?,
         gForceAtImpact: Float,
         rotationRateAtImpact: Float
     ) {

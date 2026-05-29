@@ -140,7 +140,9 @@ Dedicated settings screen accessible from **Profile → Motorcycle → Plugin se
 - **Avoid motorway** — Skip highways in route calculation
 - **Crash detection** — Enable/disable crash detection system
 - **Crash detection sensitivity** — Low / Medium / High threshold presets
-- **Emergency contact** — Phone number for emergency SMS (phone keyboard input, optional)
+- **Emergency contacts** — Up to 3 phone numbers for emergency SMS (phone keyboard input, optional)
+- **SMS permission** — Auto-requested when emergency contact is set
+- **Google Maps link** — SMS includes clickable location link for instant navigation
 - **Sensor calibration** — Start 30-second calibration ride
 
 ### Ride Recording & Analytics
@@ -199,8 +201,14 @@ OsmAnd/src/net/osmand/plus/plugins/motorcyclesensors/
 │   └── SensorCalibrationHelper.kt           # 30s calibration ride, bias correction
 ├── instrumentation/
 │   └── SensorDiagnosticsHelper.kt           # Ring buffer monitoring, noise analysis
-└── analytics/
-    └── RideAnalyticsEngine.kt               # Real-time ride aggregation & statistics
+├── analytics/
+│   └── RideAnalyticsEngine.kt               # Real-time ride aggregation & statistics
+├── weather/
+│   └── WeatherRoutingHelper.kt              # Weather impact on route (Open-Meteo API ready)
+├── trackday/
+│   └── TrackDayHelper.kt                    # GPS lap timing, sectors, best lap
+└── group/
+    └── GroupRidingHelper.kt                 # Real-time position sharing, proximity alerts
 ```
 
 **Resource files:**
@@ -341,6 +349,9 @@ OsmAnd/src/net/osmand/plus/plugins/motorcyclesensors/
 | **Routing profile not properly separated** | The MOTORCYCLE mode inherits from CAR. Need a proper separate routing profile with motorcycle-specific speed assumptions, road restrictions, and the curvy road preference built-in. | Partial |
 | **No custom motorcycle rendering style** | No dedicated map rendering style for motorcycles. Should highlight twisty roads, show fuel stations prominently, and use motorcycle-friendly POI categories. | Missing |
 | **Build not fully tested** | The code has been written and committed but the full OsmAnd project has NOT been compiled end-to-end. There may be compilation errors, missing imports, or API mismatches with the OsmAnd codebase. A full build test is needed. | Untested |
+| **Weather routing — network integration** | `WeatherRoutingHelper` architecture is complete with safety thresholds and route analysis. Needs async Open-Meteo API integration for real weather data. | Architecture ready |
+| **Track Day Mode — UI needed** | `TrackDayHelper` with GPS lap timing, sector splits, best lap tracking is implemented. Needs Track Day UI (start/stop button, lap display, track setup). | Architecture ready |
+| **Group Riding — networking needed** | `GroupRidingHelper` with group management and proximity alerts is implemented. Needs WiFi Direct / MQTT relay networking for real-time position sharing. | Architecture ready |
 
 ### Medium (Nice-to-have improvements)
 
@@ -354,7 +365,7 @@ OsmAnd/src/net/osmand/plus/plugins/motorcyclesensors/
 | **Apple CarPlay / Android Auto** | Adapt the motorcycle dashboard for automotive displays. | Planned |
 | **Wear OS companion** | Quick glance at lean angle and G-force on a smartwatch. | Planned |
 | **Ride sharing & community** | Upload ride stats, compare Fun Scores with other riders, discover popular twisty roads. | Planned |
-| **Multi-language support** | String resources are English-only. Need translations for major languages (DE, FR, ES, IT, PT, JA, SL, etc.). | Missing |
+| **Multi-language support** | String resources available in English and Slovenian (values-sl). Need translations for other major languages (DE, FR, ES, IT, PT, JA, etc.). | Partial |
 | **Unit tests** | No unit tests exist for any motorcycle plugin code. Critical algorithms (lean angle fusion, G-force calculation, twistiness scoring, crash detection) should be tested. | Missing |
 
 ---

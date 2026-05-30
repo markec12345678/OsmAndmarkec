@@ -176,6 +176,33 @@ Real-time position sharing between riders:
 - **Architecture**: WiFi Direct (P2P) or MQTT relay server (internet)
 - **Heartbeat**: 10-second keepalive with 30-second disconnect timeout
 
+### Wear OS Companion
+
+Dedicated Wear OS app showing motorcycle sensor data on your wrist:
+
+- **Main display**: Lean angle (large), G-force, speed, peak values
+- **Color coding**: Lean angle changes color by intensity (white → yellow → orange → red)
+- **G-force alerts**: Red highlight when G-force exceeds safe thresholds
+- **Stale data indicator**: Red dot when phone connection is lost
+- **Crash alert on watch**: Full-screen red warning with impact data, auto-dismiss 30s
+- **Ambient mode**: Always-on lean angle display (grayscale, low power)
+- **Watch face complications**: Add lean angle or G-force to any watch face
+- **Communication**: Google Play Services Wearable Data API (2 Hz sensor updates)
+- **Standalone**: Runs independently on the watch (no phone required for UI)
+
+**Phone-to-Watch data flow:**
+```
+MotorcycleSensorsPlugin (phone)
+  → WearOsBridge (sends DataClient items at 2 Hz)
+    → PhoneListenerService (on watch, receives data)
+      → SensorDataStore (singleton, holds latest values)
+        → MainActivity (sensor display)
+        → LeanAngleComplicationService (watch face)
+        → GForceComplicationService (watch face)
+        → AmbientSensorActivity (always-on)
+        → CrashAlertActivity (full-screen crash warning)
+```
+
 ### Plugin Settings UI
 
 Dedicated settings screen accessible from **Profile → Motorcycle → Plugin settings**:
@@ -195,6 +222,7 @@ Dedicated settings screen accessible from **Profile → Motorcycle → Plugin se
 - **Weather routing** — Enable weather safety checks along your route
 - **Track Day** — Enable GPS lap timing mode
 - **Group Riding** — Enable real-time position sharing
+- **Wear OS** — Send sensor data to Wear OS watch
 
 ### Ride Recording & Analytics
 
@@ -256,6 +284,8 @@ OsmAnd/src/net/osmand/plus/plugins/motorcyclesensors/
 │   └── RideAnalyticsEngine.kt               # Real-time ride aggregation & statistics
 ├── map3d/
 │   └── AutoMap3DHelper.kt                   # Auto 2D/3D switching based on speed
+├── wear/
+│   └── WearOsBridge.kt                      # Phone-to-Watch data bridge (DataClient + MessageClient)
 ├── weather/
 │   └── WeatherRoutingHelper.kt              # Weather impact on route (Open-Meteo API ready)
 ├── trackday/
@@ -413,7 +443,7 @@ OsmAnd/src/net/osmand/plus/plugins/motorcyclesensors/
 | **Fuel range overlay** | Show remaining fuel range as a polygon on the map based on fuel tank size and consumption rate. | Planned |
 | **OBD2 sensor integration** | Extend the existing `VehicleMetricsPlugin` OBD2 support for motorcycle-specific data: RPM, gear position, throttle position, coolant temp. | Planned |
 | **Apple CarPlay / Android Auto** | Adapt the motorcycle dashboard for automotive displays. | Planned |
-| **Wear OS companion** | Quick glance at lean angle and G-force on a smartwatch. | Planned |
+| **Wear OS companion** | Quick glance at lean angle and G-force on a smartwatch. Wear OS module created with sensor display, complications, crash alert, and ambient mode. Needs end-to-end testing with real watch. | Architecture ready, testing needed |
 | **Ride sharing & community** | Upload ride stats, compare Fun Scores with other riders, discover popular twisty roads. | Planned |
 | **Multi-language support** | String resources available in English and Slovenian (values-sl). Need translations for other major languages (DE, FR, ES, IT, PT, JA, etc.). | Partial |
 | **Unit tests** | No unit tests exist for any motorcycle plugin code. Critical algorithms (lean angle fusion, G-force calculation, twistiness scoring, crash detection) should be tested. | Missing |

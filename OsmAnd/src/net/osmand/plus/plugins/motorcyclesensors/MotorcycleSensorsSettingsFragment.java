@@ -70,6 +70,9 @@ public class MotorcycleSensorsSettingsFragment extends BaseSettingsFragment {
 
                 // Group Riding
                 setupGroupRiding();
+
+                // Wear OS
+                setupWearOs();
         }
 
         // ===== Sensor Display =====
@@ -304,6 +307,15 @@ public class MotorcycleSensorsSettingsFragment extends BaseSettingsFragment {
                 SwitchPreferenceEx groupRiding = findPreference(plugin.GROUP_RIDING_ENABLED.getId());
                 if (groupRiding != null) {
                         groupRiding.setDescription(R.string.motorcycle_group_riding_desc);
+                }
+        }
+
+        // ===== Wear OS =====
+
+        private void setupWearOs() {
+                SwitchPreferenceEx wearOs = findPreference(plugin.WEAR_OS_ENABLED.getId());
+                if (wearOs != null) {
+                        wearOs.setDescription(R.string.motorcycle_wear_os_desc);
                 }
         }
 

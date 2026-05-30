@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Wear OS features -->
+    <uses-feature android:name="android.hardware.type.watch" android:required="true" />
+
+    <!-- Permissions -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.DeviceDefault"
+        tools:targetApi="31">
+
+        <!-- Metadata for Wear OS -->
+        <meta-data
+            android:name="com.google.android.wearable.standalone"
+            android:value="true" />
+
+        <!-- Main Activity - sensor display -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:taskAffinity=".MainActivity"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Ambient mode support -->
+        <activity
+            android:name=".AmbientSensorActivity"
+            android:exported="false"
+            android:taskAffinity=".MainActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".MainActivity" />
+
+        <!-- Complication data source for watch face -->
+        <service
+            android:name=".complication.LeanAngleComplicationService"
+            android:exported="true"
+            android:icon="@drawable/ic_lean_angle_complication"
+            android:label="@string/complication_lean_angle_label"
+            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
+            <intent-filter>
+                <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
+            </intent-filter>
+            <meta-data
+                android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
+                android:value="5" />
+            <meta-data
+                android:name="android.support.wearable.complications.SUPPORTED_TYPES"
+                android:value="SHORT_TEXT" />
+        </service>
+
+        <service
+            android:name=".complication.GForceComplicationService"
+            android:exported="true"
+            android:icon="@drawable/ic_gforce_complication"
+            android:label="@string/complication_gforce_label"
+            android:permission="com.google.android.wearable.permission.BIND_COMPLICATION_PROVIDER">
+            <intent-filter>
+                <action android:name="android.support.wearable.complications.ACTION_COMPLICATION_UPDATE_REQUEST" />
+            </intent-filter>
+            <meta-data
+                android:name="android.support.wearable.complications.UPDATE_PERIOD_SECONDS"
+                android:value="5" />
+            <meta-data
+                android:name="android.support.wearable.complications.SUPPORTED_TYPES"
+                android:value="SHORT_TEXT" />
+        </service>
+
+        <!-- Wearable listener service for phone data -->
+        <service
+            android:name=".PhoneListenerService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <data android:scheme="wear" android:host="*" android:pathPrefix="/motorcycle/sensors" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+                <data android:scheme="wear" android:host="*" android:pathPrefix="/motorcycle" />
+            </intent-filter>
+        </service>
+
+    </application>
+</manifest>

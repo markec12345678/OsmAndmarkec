@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Lean angle color coding by intensity -->
+    <color name="lean_moderate">#FFD700</color>      <!-- Yellow -->
+    <color name="lean_aggressive">#FF8C00</color>     <!-- Orange -->
+    <color name="lean_extreme">#FF0000</color>        <!-- Red -->
+
+    <!-- G-force color coding -->
+    <color name="gforce_medium">#FFD700</color>       <!-- Yellow -->
+    <color name="gforce_high">#FF0000</color>          <!-- Red -->
+
+    <!-- Complication icon tint -->
+    <color name="complication_icon_tint">#FFFFFFFF</color>
+</resources>

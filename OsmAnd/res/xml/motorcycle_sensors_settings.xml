@@ -163,4 +163,15 @@
         android:title="@string/motorcycle_group_riding_title"
         tools:summary="@string/motorcycle_group_riding_desc" />
 
+    <PreferenceCategory
+        android:key="motorcycle_wear_os_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_wear_os_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_wear_os"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_wear_os_title"
+        tools:summary="@string/motorcycle_wear_os_desc" />
+
 </PreferenceScreen>

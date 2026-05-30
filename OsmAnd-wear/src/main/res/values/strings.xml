@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MotoTrack Wear</string>
+    <string name="app_name_short">MOTO</string>
+
+    <!-- Sensor labels -->
+    <string name="label_lean_angle">LEAN</string>
+    <string name="label_gforce">G-FORCE</string>
+    <string name="label_speed">SPEED</string>
+    <string name="label_max_lean">MAX LEAN</string>
+    <string name="label_max_g">MAX G</string>
+
+    <!-- Crash alert -->
+    <string name="crash_alert_title">CRASH!</string>
+    <string name="crash_alert_tap_dismiss">Tap to dismiss</string>
+
+    <!-- Complications -->
+    <string name="complication_lean_angle_label">Lean Angle</string>
+    <string name="complication_gforce_label">G-Force</string>
+
+    <!-- Connection states -->
+    <string name="status_no_phone">No phone</string>
+    <string name="status_stale_data">Stale data</string>
+</resources>

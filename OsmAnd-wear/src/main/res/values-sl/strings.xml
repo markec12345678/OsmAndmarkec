@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MotoTrack Wear</string>
+    <string name="app_name_short">MOTO</string>
+
+    <!-- Oznake senzorjev -->
+    <string name="label_lean_angle">NAGIB</string>
+    <string name="label_gforce">G-SILA</string>
+    <string name="label_speed">HITROST</string>
+    <string name="label_max_lean">MAX NAGIB</string>
+    <string name="label_max_g">MAX G</string>
+
+    <!-- Opozorilo ob nesreči -->
+    <string name="crash_alert_title">NESREČA!</string>
+    <string name="crash_alert_tap_dismiss">Pritisni za opustitev</string>
+
+    <!-- Zapletki -->
+    <string name="complication_lean_angle_label">Nagib</string>
+    <string name="complication_gforce_label">G-sila</string>
+
+    <!-- Stanja povezave -->
+    <string name="status_no_phone">Brez telefona</string>
+    <string name="status_stale_data">Zastareli podatki</string>
+</resources>

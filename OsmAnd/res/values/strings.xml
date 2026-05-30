@@ -937,6 +937,9 @@ You will be able to pair this scanner again at any time.</string>
     <string name="motorcycle_weather_routing_desc">Check weather conditions along your route. Warns about strong wind, rain, ice, and snow that affect motorcycle safety. Uses Open-Meteo API (free, no key required).</string>
     <string name="motorcycle_trackday_settings_category">Track Day</string>
     <string name="motorcycle_group_riding_settings_category">Group Riding</string>
+    <string name="motorcycle_wear_os_category">Wear OS Companion</string>
+    <string name="motorcycle_wear_os_title">Wear OS</string>
+    <string name="motorcycle_wear_os_desc">Send sensor data to your Wear OS watch. Shows lean angle, G-force, and speed on your wrist. Install MotoTrack Wear on your watch.</string>
     <string name="background_opacity">Background opacity</string>
     <string name="corner_radius">Corner radius</string>
     <string name="shared_string_dp">dp</string>

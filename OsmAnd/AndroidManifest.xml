@@ -42,6 +42,9 @@
         <!-- Motorcycle plugin: emergency SMS on crash detection -->
         <uses-permission android:name="android.permission.SEND_SMS" />
 
+        <!-- Wear OS companion: send sensor data to watch -->
+        <uses-feature android:name="android.hardware.type.watch" android:required="false" />
+
         <uses-feature android:name="android.hardware.camera" android:required="false" />
         <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
         <uses-feature android:name="android.hardware.microphone" android:required="false" />

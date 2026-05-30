@@ -35,6 +35,7 @@ import net.osmand.plus.plugins.motorcyclesensors.weather.WeatherRoutingHelper
 import net.osmand.plus.plugins.motorcyclesensors.trackday.TrackDayHelper
 import net.osmand.plus.plugins.motorcyclesensors.group.GroupRidingHelper
 import net.osmand.plus.plugins.motorcyclesensors.map3d.AutoMap3DHelper
+import net.osmand.plus.plugins.motorcyclesensors.wear.WearOsBridge
 import net.osmand.plus.routing.RoutingHelper
 import net.osmand.plus.settings.backend.ApplicationMode
 import net.osmand.plus.settings.backend.OsmandSettings
@@ -100,6 +101,7 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
     val trackDay = TrackDayHelper()
     val groupRiding = GroupRidingHelper()
     val autoMap3D = AutoMap3DHelper(app)
+    val wearBridge = WearOsBridge(app)
 
     // Latest computed values
     var lastLeanAngleDeg: Float = 0f
@@ -163,6 +165,9 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
         .makeProfile().cache() as CommonPreference<Boolean>
 
     val GROUP_RIDING_ENABLED = registerBooleanPreference("motorcycle_group_riding", false)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    val WEAR_OS_ENABLED = registerBooleanPreference("motorcycle_wear_os", false)
         .makeProfile().cache() as CommonPreference<Boolean>
 
     /**
@@ -309,6 +314,23 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
             leanAngleCalculator.getGyroIntegratedDeg(),
             timestamp
         )
+
+        // Send to Wear OS watch (if enabled and connected)
+        if (WEAR_OS_ENABLED.get() && wearBridge.hasConnectedWatch()) {
+            val gForce = lastGForceData
+            if (gForce != null) {
+                wearBridge.sendSensorData(
+                    leanAngleDeg = lastLeanAngleDeg,
+                    leanDirection = if (lastLeanAngleDeg >= 0) "R" else "L",
+                    totalG = gForce.totalG,
+                    lateralG = gForce.lateralG,
+                    longitudinalG = gForce.longitudinalG,
+                    speedKmh = 0f, // Updated in updateLocation()
+                    maxLean = leanAngleCalculator.getPeakLean(),
+                    maxG = gForceCalculator.getPeakTotalG()
+                )
+            }
+        }
     }
 
     // ===== Plugin Lifecycle =====

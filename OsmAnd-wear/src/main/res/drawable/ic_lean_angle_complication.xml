@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Lean angle complication icon - motorcycle tilt symbol -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24"
+    android:tint="@color/complication_icon_tint">
+    <!-- Simplified motorcycle lean icon -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M12,2C10,2 9,4 9,4L7,8L4,8C3,8 2,9 2,10L2,14C2,15 3,16 4,16L6,16L7,18L9,18L8,16L16,16L15,18L17,18L18,16L20,16C21,16 22,15 22,14L22,10C22,9 21,8 20,8L17,8L15,4C15,4 14,2 12,2ZM12,5L13.5,8L10.5,8L12,5Z" />
+</vector>

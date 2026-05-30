@@ -1,0 +1,825 @@
+<renderingStyle name="Motorcycle" depends="default" defaultColor="#f5f0e8" version="1">
+
+	<!-- ============================================================
+	     MotoTrack Motorcycle Rendering Style
+	     Optimized for motorcycle navigation and touring.
+
+	     Key features:
+	     - Scenic/secondary roads highlighted in warm amber/orange
+	     - Motorways de-emphasized (thinner, cooler gray)
+	     - Enhanced track/path visibility for adventure riding
+	     - Prominent surface type indicators
+	     - Gas stations & motorcycle POIs highlighted
+	     - Night mode with red-shifted colors
+	     - Speed limits displayed prominently
+	     - Elevation contours prominent for mountain riding
+	     - Curvy road indicators via dash patterns
+	     ============================================================ -->
+
+	<!-- Rendering Properties (user-configurable settings) -->
+	<renderingProperty attr="appMode" name="Rendering mode" description="Map optimization for respective User Profile"
+			type="string" possibleValues="browse map,car,bicycle,pedestrian"/>
+
+	<renderingProperty attr="motorcycleScenicHighlight" name="Highlight scenic roads" description="Emphasize secondary and tertiary roads with warm colors for scenic motorcycle routes"
+			type="boolean" category="details" defaultValueDescription="true"/>
+
+	<renderingProperty attr="motorcycleTrackVisibility" name="Enhanced track visibility" description="Increase visibility of unpaved tracks and paths for adventure and enduro riding"
+			type="boolean" category="details" defaultValueDescription="true"/>
+
+	<renderingProperty attr="motorcycleSurfaceIndicator" name="Show surface type" description="Display road surface type with distinct dash patterns"
+			type="boolean" category="details" defaultValueDescription="true"/>
+
+	<renderingProperty attr="motorcycleGradientColors" name="Gradient road colors" description="Color roads by elevation gradient (steep=red, flat=green)"
+			type="boolean" category="details" defaultValueDescription="false"/>
+
+	<renderingProperty attr="motorcycleNightRedShift" name="Night red shift" description="Use red-shifted colors in night mode to preserve night vision"
+			type="boolean" category="details" defaultValueDescription="true"/>
+
+	<!-- ============================================================
+	     RENDERING CONSTANTS
+	     ============================================================ -->
+	<renderingConstant name="null" value="#00000000"/>
+
+	<!-- Road shadow colors - softer than default -->
+	<renderingConstant name="motorcycleMotorwayShadow" value="#9e9e9e"/>
+	<renderingConstant name="motorcycleTrunkShadow" value="#8a8a8a"/>
+	<renderingConstant name="motorcyclePrimaryShadow" value="#7a7a7a"/>
+	<renderingConstant name="motorcycleSecondaryShadow" value="#6d6d6d"/>
+	<renderingConstant name="motorcycleTertiaryShadow" value="#606060"/>
+	<renderingConstant name="motorcycleResidentialShadow" value="#505050"/>
+
+	<!-- Scenic road colors (warm amber/orange palette) -->
+	<renderingConstant name="motorcycleScenicSecondary" value="#e8943a"/>
+	<renderingConstant name="motorcycleScenicTertiary" value="#d4853a"/>
+	<renderingConstant name="motorcycleScenicSecondaryNight" value="#8b5a1e"/>
+	<renderingConstant name="motorcycleScenicTertiaryNight" value="#7a4e1a"/>
+
+	<!-- Motorway de-emphasis colors (cooler gray) -->
+	<renderingConstant name="motorcycleMotorwayColor" value="#8e9ba8"/>
+	<renderingConstant name="motorcycleMotorwayColorNight" value="#4a5560"/>
+	<renderingConstant name="motorcycleTrunkColor" value="#9eaab5"/>
+	<renderingConstant name="motorcycleTrunkColorNight" value="#556070"/>
+
+	<!-- Primary road (balanced - important but not scenic) -->
+	<renderingConstant name="motorcyclePrimaryColor" value="#c8b89a"/>
+	<renderingConstant name="motorcyclePrimaryColorNight" value="#6a5f4a"/>
+
+	<!-- Track/path colors - enhanced for adventure -->
+	<renderingConstant name="motorcycleTrackColor" value="#8B6914"/>
+	<renderingConstant name="motorcycleTrackColorNight" value="#b89a50"/>
+	<renderingConstant name="motorcycleTrackSubstrate" value="#c4a35a"/>
+	<renderingConstant name="motorcycleTrackSubstrateNight" value="#3d3218"/>
+
+	<!-- Surface type colors -->
+	<renderingConstant name="motorcycleSurfaceAsphalt" value="#444444"/>
+	<renderingConstant name="motorcycleSurfaceGravel" value="#8B7355"/>
+	<renderingConstant name="motorcycleSurfaceDirt" value="#6B4226"/>
+	<renderingConstant name="motorcycleSurfaceSand" value="#C2B280"/>
+	<renderingConstant name="motorcycleSurfaceGrass" value="#4a7a3a"/>
+
+	<!-- Night red-shift palette -->
+	<renderingConstant name="motorcycleNightRedBg" value="#1a0a08"/>
+	<renderingConstant name="motorcycleNightRedRoad" value="#5a2020"/>
+	<renderingConstant name="motorcycleNightRedText" value="#cc4444"/>
+	<renderingConstant name="motorcycleNightRedAccent" value="#ff3333"/>
+
+	<!-- Track widths - enhanced for motorcycle visibility -->
+	<renderingConstant name="motorcycleTrackWidthLow" value="1.5"/>
+	<renderingConstant name="motorcycleTrackWidthHigh" value="3.5"/>
+	<renderingConstant name="motorcycleTrackOutlineLow" value="2.5"/>
+	<renderingConstant name="motorcycleTrackOutlineHigh" value="5"/>
+
+	<renderingConstant name="motorcyclePathWidthLow" value="1"/>
+	<renderingConstant name="motorcyclePathWidthHigh" value="2.5"/>
+	<renderingConstant name="motorcyclePathOutlineLow" value="2"/>
+	<renderingConstant name="motorcyclePathOutlineHigh" value="4"/>
+
+	<!-- Road stroke widths - motorway thinner, scenic wider -->
+	<renderingConstant name="motorcycleMotorwayStrokeWidth" value="1.5:1"/>
+	<renderingConstant name="motorcycleTrunkStrokeWidth" value="1.8:1"/>
+	<renderingConstant name="motorcyclePrimaryStrokeWidth" value="2:1.5"/>
+	<renderingConstant name="motorcycleSecondaryStrokeWidth" value="2.5:1.5"/>
+	<renderingConstant name="motorcycleTertiaryStrokeWidth" value="2.2:1.5"/>
+
+	<!-- Shadow radius for roads -->
+	<renderingConstant name="highwayShadowRadius" value="1"/>
+
+	<!-- Oneway arrow constants -->
+	<renderingConstant name="highwayOnewayIcon" value="arrow_triangle_black"/>
+	<renderingConstant name="highwayOnewayIconBig" value="arrow_triangle_black_big"/>
+	<renderingConstant name="highwayOnewayReverseIcon" value="arrow_triangle_reverse_black"/>
+	<renderingConstant name="highwayOnewayReverseIconBig" value="arrow_triangle_reverse_black_big"/>
+
+	<!-- ============================================================
+	     RENDERING ATTRIBUTES
+	     ============================================================ -->
+
+	<!-- Motorway shadow color (de-emphasized, cool gray) -->
+	<renderingAttribute name="trunkRoadShadowColor">
+		<case attrColorValue="#8a8a8a"/>
+		<apply_if maxzoom="6" attrColorValue="#6a6a6a"/>
+		<apply_if additional="construction=yes" attrColorValue="$null"/>
+	</renderingAttribute>
+
+	<!-- Primary road shadow (moderate) -->
+	<renderingAttribute name="primaryRoadShadowColor">
+		<case attrColorValue="#7a7a7a"/>
+	</renderingAttribute>
+
+	<!-- Secondary road shadow (prominent for scenic routes) -->
+	<renderingAttribute name="secondaryRoadShadowColor">
+		<case attrColorValue="#6d6d6d"/>
+	</renderingAttribute>
+
+	<!-- Tertiary road shadow (prominent for scenic routes) -->
+	<renderingAttribute name="tertiaryRoadShadowColor">
+		<case attrColorValue="#606060"/>
+	</renderingAttribute>
+
+	<!-- Residential road shadows (de-emphasized) -->
+	<renderingAttribute name="residentialRoadLowZoom1ShadowColor">
+		<case attrColorValue="#505050"/>
+	</renderingAttribute>
+	<renderingAttribute name="residentialRoadLowZoom2ShadowColor">
+		<case attrColorValue="#454545"/>
+	</renderingAttribute>
+	<renderingAttribute name="residentialRoadShadowColor">
+		<case attrColorValue="#404040"/>
+	</renderingAttribute>
+
+	<!-- Track color - warm brown for adventure riding, enhanced visibility -->
+	<renderingAttribute name="trackColor">
+		<case nightMode="true" attrColorValue="#b89a50"/>
+		<case attrColorValue="#8B6914"/>
+	</renderingAttribute>
+
+	<!-- Track substrate (outline) color -->
+	<renderingAttribute name="trackSubstrateColor">
+		<case noPolygons="true" attrColorValue="#c4a35a"/>
+		<case attrColorValue="#c4a35a"/>
+		<apply_if nightMode="true" attrColorValue="#3d3218"/>
+		<apply_if additional="winter_road=yes" attrColorValue="#aa458FFF"/>
+		<apply_if additional="ice_road=yes" attrColorValue="#aa458FFF"/>
+	</renderingAttribute>
+
+	<!-- Track dash patterns by surface quality -->
+	<renderingConstant name="trackPathEffect" value="12_4"/>
+	<renderingConstant name="trackBridgeWidth" value="6:3.5"/>
+	<renderingConstant name="trackBridgeInnerWidth" value="4:3"/>
+	<renderingConstant name="trackTunnelPathEffect" value="3_3"/>
+
+	<renderingAttribute name="trackPathHighwayOnewayArrowsColor">
+		<case nightMode="true" attrColorValue="#ffffff"/>
+		<case attrColorValue="#000000"/>
+	</renderingAttribute>
+
+	<!-- Path color - reddish brown, visible for adventure routes -->
+	<renderingAttribute name="pathColor">
+		<case nightMode="true" attrColorValue="#d4a070"/>
+		<case attrColorValue="#8B4513"/>
+	</renderingAttribute>
+	<renderingAttribute name="pathLowZoomColor">
+		<case nightMode="true" attrColorValue="#d4a070"/>
+		<case attrColorValue="#8B4513"/>
+	</renderingAttribute>
+	<renderingConstant name="pathPathEffect" value="6_3"/>
+	<renderingConstant name="pathLowZoomPathEffect" value="4_3"/>
+
+	<!-- Footway - muted blue-gray (less important for motorcycles) -->
+	<renderingAttribute name="footwayColor">
+		<case nightMode="true" attrColorValue="#8888aa"/>
+		<case attrColorValue="#555577"/>
+	</renderingAttribute>
+
+	<!-- Cycleway - muted (less important for motorcycles) -->
+	<renderingAttribute name="cyclewayColor">
+		<case nightMode="true" attrColorValue="#88aa88"/>
+		<case attrColorValue="#446644"/>
+	</renderingAttribute>
+
+	<!-- Bridleway - muted -->
+	<renderingAttribute name="bridlewayColor">
+		<case nightMode="true" attrColorValue="#88aa66"/>
+		<case attrColorValue="#557733"/>
+	</renderingAttribute>
+
+	<!-- Water features - slightly warmer tones -->
+	<renderingAttribute name="waterwayColor">
+		<case nightMode="true" attrColorValue="#C3E4FB"/>
+		<case attrColorValue="#5BA8E0"/>
+	</renderingAttribute>
+
+	<!-- Building colors - warm earth tones -->
+	<renderingAttribute name="buildingColor">
+		<case minzoom="14" maxzoom="15" attrColorValue="#c8bfa8">
+			<apply_if nightMode="true" attrColorValue="#3d3528"/>
+		</case>
+		<case minzoom="16" attrColorValue="#c8bfa8">
+			<apply_if nightMode="true" attrColorValue="#3d3528"/>
+		</case>
+	</renderingAttribute>
+
+	<!-- Wood/forest - warm green for scenic landscape feel -->
+	<renderingAttribute name="woodColor">
+		<case nightMode="true" attrColorValue="#1a3008"/>
+		<case attrColorValue="#8ab878"/>
+	</renderingAttribute>
+
+	<!-- Garden/allotments -->
+	<renderingAttribute name="landuseAllotmentsColor">
+		<case nightMode="true" attrColorValue="#3a4a22"/>
+		<case attrColorValue="#c8e8a0"/>
+	</renderingAttribute>
+	<renderingAttribute name="gardenColor">
+		<case nightMode="true" attrColorValue="#1a3012"/>
+		<case attrColorValue="#b8e0a0"/>
+	</renderingAttribute>
+
+	<!-- Residential landuse - warm beige -->
+	<renderingAttribute name="landuseResidentialColor">
+		<case attrColorValue="#e8e0d0"/>
+		<apply_if nightMode="true" attrColorValue="#2a2418"/>
+		<apply>
+			<switch minzoom="11" additional="residential=rural">
+				<case maxzoom="14" attrColorValue="#e8e0d0">
+					<apply_if nightMode="true" attrColorValue="#1a1a12"/>
+				</case>
+				<case minzoom="15" attrColorValue="#e8e0d0">
+					<apply_if nightMode="true" attrColorValue="#2a2418"/>
+				</case>
+			</switch>
+			<switch minzoom="11" additional="residential=urban">
+				<case maxzoom="14" attrColorValue="#e0d8c8">
+					<apply_if nightMode="true" attrColorValue="#221a10"/>
+				</case>
+				<case minzoom="15" attrColorValue="#e0d8c8">
+					<apply_if nightMode="true" attrColorValue="#1a1410"/>
+				</case>
+			</switch>
+		</apply>
+	</renderingAttribute>
+
+	<!-- Access restriction color - red for motorcycle awareness -->
+	<renderingAttribute name="accessPrivateColor">
+		<case attrColorValue="#cc2200"/>
+	</renderingAttribute>
+
+	<!-- Railway colors -->
+	<renderingAttribute name="railwayRailColor">
+		<case nightMode="true" attrColorValue="#d0d0d0"/>
+		<case attrColorValue="#999999"/>
+	</renderingAttribute>
+
+	<!-- Power lines -->
+	<renderingAttribute name="powerLineColor">
+		<case nightMode="true" attrColorValue="#666666"/>
+		<case attrColorValue="#aaaaaa"/>
+	</renderingAttribute>
+
+	<!-- Ridge color -->
+	<renderingAttribute name="ridgeColor">
+		<case nightMode="true" attrColorValue="#cccccc"/>
+		<case attrColorValue="#7a4a10"/>
+	</renderingAttribute>
+
+	<!-- Boundary colors -->
+	<renderingAttribute name="boundaryColorInner">
+		<case minzoom="12" attrColorValue="#aa888888"/>
+		<case attrColorValue="#990030B4"/>
+	</renderingAttribute>
+	<renderingAttribute name="boundaryColorOuter">
+		<case minzoom="12" attrColorValue="#50888888"/>
+		<case attrColorValue="#300030B4"/>
+	</renderingAttribute>
+
+	<!-- SAC scale colors for alpine terrain -->
+	<renderingConstant name="sacScaleColor" value="#e23cad"/>
+	<renderingConstant name="sacScaleColorT1" value="#000000"/>
+	<renderingConstant name="sacScaleColorT2" value="#e23cad"/>
+	<renderingConstant name="sacScaleColorT3" value="#e23cad"/>
+	<renderingConstant name="sacScaleColorT4" value="#6000ff"/>
+	<renderingConstant name="sacScaleColorT5" value="#6000ff"/>
+	<renderingConstant name="sacScaleColorT6" value="#6000ff"/>
+
+	<renderingConstant name="black" value="#000000"/>
+	<renderingConstant name="white" value="#ffffff"/>
+
+	<!-- ============================================================
+	     ORDER RULES
+	     Z-ordering determines rendering priority on map
+	     ============================================================ -->
+	<order>
+		<!-- Motorcycle-relevant roads get higher z-order for visibility -->
+		<case tag="highway" value="secondary" order="32"/>
+		<case tag="highway" value="tertiary" order="31"/>
+		<case tag="highway" value="track" order="22"/>
+		<case tag="highway" value="path" order="20"/>
+		<case tag="highway" value="unclassified" order="28"/>
+	</order>
+
+	<!-- ============================================================
+	     TEXT RULES
+	     Enhanced text for motorcycle-relevant labels
+	     ============================================================ -->
+	<text>
+		<!-- Gas station names - always visible for motorcyclists -->
+		<case tag="amenity" value="fuel" minzoom="13" textColor="#1a5c1a" textHaloRadius="1.5" textHaloColor="#ffffff" textSize="11" textBold="true" textOnPath="false"/>
+		<case tag="amenity" value="fuel" minzoom="10" maxzoom="12" textColor="#1a5c1a" textHaloRadius="1" textHaloColor="#ffffff" textSize="9" textBold="true"/>
+
+		<!-- Motorcycle repair/shop names -->
+		<case tag="shop" value="motorcycle" minzoom="14" textColor="#cc6600" textHaloRadius="1" textHaloColor="#ffffff" textSize="11" textBold="true"/>
+		<case tag="shop" value="motorcycle_repair" minzoom="14" textColor="#cc6600" textHaloRadius="1" textHaloColor="#ffffff" textSize="11" textBold="true"/>
+
+		<!-- Motorcycle parking -->
+		<case tag="amenity" value="motorcycle_parking" minzoom="15" textColor="#3366cc" textHaloRadius="1" textHaloColor="#ffffff" textSize="10" textBold="true"/>
+
+		<!-- Viewpoint names - important for scenic riding -->
+		<case tag="tourism" value="viewpoint" minzoom="14" textColor="#8B4513" textHaloRadius="1" textHaloColor="#ffffff" textSize="10" textItalic="true"/>
+
+		<!-- Road ref numbers on secondary/tertiary - prominent for route planning -->
+		<case tag="highway" value="secondary" minzoom="12" maxzoom="13" textColor="#664400" textHaloRadius="1" textHaloColor="#ffe0a0" textSize="10" textBold="true" textDy="6" textShield="#ffe0a0"/>
+		<case tag="highway" value="tertiary" minzoom="13" maxzoom="14" textColor="#664400" textHaloRadius="1" textHaloColor="#ffe0a0" textSize="9" textBold="true" textDy="5" textShield="#ffe0a0"/>
+
+		<!-- Night mode text adjustments for red-shift -->
+		<case tag="amenity" value="fuel" nightMode="true" minzoom="13" textColor="#44aa44" textHaloRadius="1.5" textHaloColor="#1a0a08" textSize="11" textBold="true"/>
+		<case tag="highway" value="secondary" nightMode="true" minzoom="12" textColor="#cc8844" textHaloRadius="1" textHaloColor="#1a0a08" textSize="10" textBold="true"/>
+	</text>
+
+	<!-- ============================================================
+	     POINT RULES
+	     Enhanced POI icons for motorcycle-relevant features
+	     ============================================================ -->
+	<point>
+		<!-- Gas stations - always visible, large icon -->
+		<case tag="amenity" value="fuel" minzoom="10" icon="fuel" iconVisibleSize="16" iconOrder="100"/>
+		<case tag="amenity" value="fuel" minzoom="12" icon="fuel" iconVisibleSize="20" iconOrder="110"/>
+
+		<!-- Motorcycle shops and repair -->
+		<case tag="shop" value="motorcycle" minzoom="13" icon="motorcycle" iconVisibleSize="14" iconOrder="90"/>
+		<case tag="shop" value="motorcycle_repair" minzoom="13" icon="motorcycle" iconVisibleSize="14" iconOrder="90"/>
+
+		<!-- Motorcycle parking -->
+		<case tag="amenity" value="motorcycle_parking" minzoom="14" icon="parking" iconVisibleSize="12" iconOrder="80"/>
+
+		<!-- Viewpoints - scenic stops -->
+		<case tag="tourism" value="viewpoint" minzoom="12" icon="viewpoint" iconVisibleSize="14" iconOrder="70"/>
+
+		<!-- Restaurants/cafes - rest stops -->
+		<case tag="amenity" value="restaurant" minzoom="15" icon="restaurant" iconVisibleSize="10" iconOrder="50"/>
+		<case tag="amenity" value="cafe" minzoom="15" icon="cafe" iconVisibleSize="10" iconOrder="50"/>
+
+		<!-- Parking -->
+		<case tag="amenity" value="parking" minzoom="14" icon="parking" iconVisibleSize="10" iconOrder="60"/>
+
+		<!-- Speed cameras - important for riders -->
+		<case tag="highway" value="speed_camera" minzoom="14" icon="speed_camera" iconVisibleSize="12" iconOrder="95"/>
+
+		<!-- Tire repair / air pump -->
+		<case tag="amenity" value="compressed_air" minzoom="15" icon="fuel" iconVisibleSize="8" iconOrder="55"/>
+
+		<!-- First aid / hospital -->
+		<case tag="amenity" value="hospital" minzoom="12" icon="hospital" iconVisibleSize="14" iconOrder="85"/>
+		<case tag="amenity" value="clinic" minzoom="13" icon="hospital" iconVisibleSize="12" iconOrder="85"/>
+
+		<!-- ATM -->
+		<case tag="amenity" value="atm" minzoom="15" icon="atm" iconVisibleSize="8" iconOrder="40"/>
+
+		<!-- Wind information for riders -->
+		<case tag="man_made" value="windmill" minzoom="14" icon="windmill" iconVisibleSize="10" iconOrder="30"/>
+
+		<!-- Mountain pass - important scenic waypoints -->
+		<case tag="mountain_pass" value="yes" minzoom="12" icon="mountain_pass" iconVisibleSize="14" iconOrder="75"/>
+	</point>
+
+	<!-- ============================================================
+	     POLYGON RULES
+	     Area fills optimized for motorcycle touring
+	     ============================================================ -->
+	<polygon>
+		<!-- Military areas - subtle warning for riders -->
+		<case tag="landuse" value="military" minzoom="5" color="#e8c8c8">
+			<apply_if nightMode="true" color="#3a1818"/>
+		</case>
+
+		<!-- Nature reserves - scenic areas highlighted -->
+		<case tag="boundary" value="national_park" minzoom="5" color="#c8e8b0">
+			<apply_if nightMode="true" color="#1a2a10"/>
+		</case>
+		<case tag="boundary" value="protected_area" minzoom="7" color="#d0e8c0">
+			<apply_if nightMode="true" color="#1a2a10"/>
+		</case>
+
+		<!-- Wetlands - caution for riders -->
+		<case tag="natural" value="wetland" minzoom="10" color="#a8d8b8">
+			<apply_if nightMode="true" color="#182818"/>
+		</case>
+
+		<!-- Beach - scenic interest -->
+		<case tag="natural" value="beach" minzoom="10" color="#f0e8c0">
+			<apply_if nightMode="true" color="#2a2210"/>
+		</case>
+	</polygon>
+
+	<!-- ============================================================
+	     LINE RULES
+	     Road rendering optimized for motorcycle navigation
+	     ============================================================ -->
+	<line>
+		<!-- ====================================================
+		     SCENIC ROAD EMPHASIS
+		     Secondary and tertiary roads highlighted as desirable
+		     motorcycle routes with warm amber colors
+		     ==================================================== -->
+
+		<!-- Switch: Apply scenic road highlighting when enabled -->
+		<switch attr="motorcycleScenicHighlight" value="true">
+
+			<!-- SECONDARY ROADS - Scenic amber/orange -->
+			<switch>
+				<case tag="highway" value="secondary" minzoom="7" maxzoom="20">
+					<!-- Low zoom rendering -->
+					<case maxzoom="9" color="#d49040" strokeWidth="0.5" shadowColor="$motorcycleSecondaryShadow" shadowRadius="$highwayShadowRadius"/>
+					<case minzoom="10" maxzoom="12" color="#d49040" strokeWidth="1:1" shadowColor="$motorcycleSecondaryShadow" shadowRadius="$highwayShadowRadius"/>
+					<!-- Medium zoom -->
+					<case minzoom="13" maxzoom="14" color="$motorcycleScenicSecondary" strokeWidth="2.5:1.5" shadowColor="$motorcycleSecondaryShadow" shadowRadius="$highwayShadowRadius"/>
+					<!-- High zoom - wide prominent scenic road -->
+					<case minzoom="15" color="$motorcycleScenicSecondary" strokeWidth="3:2" shadowColor="$motorcycleSecondaryShadow" shadowRadius="$highwayShadowRadius"/>
+					<!-- Night mode - warm amber -->
+					<apply_if nightMode="true" color="$motorcycleScenicSecondaryNight"/>
+					<!-- Construction override -->
+					<apply_if additional="construction=yes" color="#cc9900" pathEffect="5_3"/>
+				</case>
+			</switch>
+
+			<!-- TERTIARY ROADS - Scenic warm orange -->
+			<switch>
+				<case tag="highway" value="tertiary" minzoom="9" maxzoom="20">
+					<case maxzoom="11" color="#c48040" strokeWidth="0.5"/>
+					<case minzoom="12" maxzoom="13" color="#c48040" strokeWidth="1:1" shadowColor="$motorcycleTertiaryShadow" shadowRadius="$highwayShadowRadius"/>
+					<case minzoom="14" maxzoom="15" color="$motorcycleScenicTertiary" strokeWidth="2.2:1.5" shadowColor="$motorcycleTertiaryShadow" shadowRadius="$highwayShadowRadius"/>
+					<case minzoom="16" color="$motorcycleScenicTertiary" strokeWidth="2.8:2" shadowColor="$motorcycleTertiaryShadow" shadowRadius="$highwayShadowRadius"/>
+					<!-- Night mode -->
+					<apply_if nightMode="true" color="$motorcycleScenicTertiaryNight"/>
+					<!-- Construction override -->
+					<apply_if additional="construction=yes" color="#bb8800" pathEffect="5_3"/>
+				</case>
+			</switch>
+
+			<!-- UNCLASSIFIED ROADS - slightly emphasized for exploration -->
+			<switch>
+				<case tag="highway" value="unclassified" minzoom="11" maxzoom="20">
+					<case maxzoom="12" color="#b8a088" strokeWidth="0.4"/>
+					<case minzoom="13" maxzoom="14" color="#b8a088" strokeWidth="1.2:1"/>
+					<case minzoom="15" color="#b8a088" strokeWidth="1.8:1.5" shadowColor="#505050" shadowRadius="0.5"/>
+					<apply_if nightMode="true" color="#6a5a48"/>
+					<apply_if additional="construction=yes" color="#aa9977" pathEffect="5_3"/>
+				</case>
+			</switch>
+		</switch>
+
+		<!-- ====================================================
+		     MOTORWAY DE-EMPHASIS
+		     Motorways and trunks rendered cooler and thinner
+		     to encourage scenic route selection
+		     ==================================================== -->
+		<switch>
+			<!-- MOTORWAY - cool gray, thinner -->
+			<case tag="highway" value="motorway" minzoom="5" maxzoom="20">
+				<case maxzoom="6" color="$motorcycleMotorwayColor" strokeWidth="0.3"/>
+				<case minzoom="7" maxzoom="9" color="$motorcycleMotorwayColor" strokeWidth="0.8" shadowColor="$motorcycleMotorwayShadow" shadowRadius="0.5"/>
+				<case minzoom="10" maxzoom="12" color="$motorcycleMotorwayColor" strokeWidth="1.2:1" shadowColor="$motorcycleMotorwayShadow" shadowRadius="0.5"/>
+				<case minzoom="13" maxzoom="14" color="$motorcycleMotorwayColor" strokeWidth="1.5:1" shadowColor="$motorcycleMotorwayShadow" shadowRadius="0.5"/>
+				<case minzoom="15" color="$motorcycleMotorwayColor" strokeWidth="2:1.5" shadowColor="$motorcycleMotorwayShadow" shadowRadius="0.5"/>
+				<apply_if nightMode="true" color="$motorcycleMotorwayColorNight"/>
+				<apply_if additional="construction=yes" color="#778899" pathEffect="5_3"/>
+			</case>
+
+			<!-- MOTORWAY_LINK -->
+			<case tag="highway" value="motorway_link" minzoom="12" maxzoom="20">
+				<case maxzoom="14" color="$motorcycleMotorwayColor" strokeWidth="0.8:1"/>
+				<case minzoom="15" color="$motorcycleMotorwayColor" strokeWidth="1.2:1"/>
+				<apply_if nightMode="true" color="$motorcycleMotorwayColorNight"/>
+			</case>
+
+			<!-- TRUNK - slightly cooler than default -->
+			<case tag="highway" value="trunk" minzoom="6" maxzoom="20">
+				<case maxzoom="8" color="$motorcycleTrunkColor" strokeWidth="0.5"/>
+				<case minzoom="9" maxzoom="11" color="$motorcycleTrunkColor" strokeWidth="1:1" shadowColor="$motorcycleTrunkShadow" shadowRadius="0.5"/>
+				<case minzoom="12" maxzoom="14" color="$motorcycleTrunkColor" strokeWidth="1.8:1" shadowColor="$motorcycleTrunkShadow" shadowRadius="0.5"/>
+				<case minzoom="15" color="$motorcycleTrunkColor" strokeWidth="2.2:1.5" shadowColor="$motorcycleTrunkShadow" shadowRadius="0.5"/>
+				<apply_if nightMode="true" color="$motorcycleTrunkColorNight"/>
+				<apply_if additional="construction=yes" color="#8899aa" pathEffect="5_3"/>
+			</case>
+
+			<!-- TRUNK_LINK -->
+			<case tag="highway" value="trunk_link" minzoom="12" maxzoom="20">
+				<case maxzoom="14" color="$motorcycleTrunkColor" strokeWidth="0.8:1"/>
+				<case minzoom="15" color="$motorcycleTrunkColor" strokeWidth="1.5:1"/>
+				<apply_if nightMode="true" color="$motorcycleTrunkColorNight"/>
+			</case>
+
+			<!-- PRIMARY - balanced, important but not emphasized -->
+			<case tag="highway" value="primary" minzoom="7" maxzoom="20">
+				<case maxzoom="9" color="$motorcyclePrimaryColor" strokeWidth="0.4"/>
+				<case minzoom="10" maxzoom="12" color="$motorcyclePrimaryColor" strokeWidth="1:1" shadowColor="$motorcyclePrimaryShadow" shadowRadius="0.5"/>
+				<case minzoom="13" maxzoom="14" color="$motorcyclePrimaryColor" strokeWidth="2:1.5" shadowColor="$motorcyclePrimaryShadow" shadowRadius="0.5"/>
+				<case minzoom="15" color="$motorcyclePrimaryColor" strokeWidth="2.5:1.5" shadowColor="$motorcyclePrimaryShadow" shadowRadius="0.5"/>
+				<apply_if nightMode="true" color="$motorcyclePrimaryColorNight"/>
+				<apply_if additional="construction=yes" color="#aa9988" pathEffect="5_3"/>
+			</case>
+
+			<!-- PRIMARY_LINK -->
+			<case tag="highway" value="primary_link" minzoom="12" maxzoom="20">
+				<case maxzoom="14" color="$motorcyclePrimaryColor" strokeWidth="0.8:1"/>
+				<case minzoom="15" color="$motorcyclePrimaryColor" strokeWidth="1.5:1"/>
+				<apply_if nightMode="true" color="$motorcyclePrimaryColorNight"/>
+			</case>
+		</switch>
+
+		<!-- ====================================================
+		     RESIDENTIAL / SERVICE ROADS
+		     De-emphasized - less important for motorcycle routing
+		     ==================================================== -->
+		<switch>
+			<case tag="highway" value="residential" minzoom="12" maxzoom="20">
+				<case maxzoom="13" color="#c0b8a8" strokeWidth="0.4"/>
+				<case minzoom="14" maxzoom="15" color="#c0b8a8" strokeWidth="1.5:1" shadowColor="#505050" shadowRadius="0.3"/>
+				<case minzoom="16" color="#c0b8a8" strokeWidth="2:1" shadowColor="#505050" shadowRadius="0.3"/>
+				<apply_if nightMode="true" color="#5a5240"/>
+			</case>
+
+			<case tag="highway" value="service" minzoom="13" maxzoom="20">
+				<case maxzoom="14" color="#b0a898" strokeWidth="0.4"/>
+				<case minzoom="15" color="#b0a898" strokeWidth="1:1"/>
+				<apply_if nightMode="true" color="#4a4230"/>
+			</case>
+
+			<case tag="highway" value="living_street" minzoom="13" maxzoom="20">
+				<case maxzoom="14" color="#b8b0a0" strokeWidth="0.5"/>
+				<case minzoom="15" color="#b8b0a0" strokeWidth="1.5:1"/>
+				<apply_if nightMode="true" color="#524a38"/>
+			</case>
+		</switch>
+
+		<!-- ====================================================
+		     TRACKS AND PATHS - Enhanced for adventure riding
+		     ==================================================== -->
+		<switch>
+			<switch>
+				<switch attr="motorcycleTrackVisibility" value="true">
+					<!-- TRACKS - wider, more visible for adventure motorcycling -->
+					<switch>
+						<switch>
+							<switch strokeWidth="0.1">
+								<case minzoom="10" tag="highway" value="track">
+									<!-- Low zoom -->
+									<case lessDetailed="false" maxzoom="12" strokeWidth_4="2" strokeWidth_5="1" pathEffect_5=""/>
+									<!-- Medium zoom -->
+									<case minzoom="13" maxzoom="14" strokeWidth_4="4" strokeWidth_5="2.5"/>
+									<!-- High zoom - prominent track -->
+									<case minzoom="15" strokeWidth_4="5" strokeWidth_5="3.5"/>
+									<!-- Default track substrate and color -->
+									<apply color_4="$null" color_5="$trackColor" pathEffect_5="12_4"/>
+									<!-- Surface quality dash patterns -->
+									<apply_if surfaceIntegrity="false">
+										<case additional="tracktype=grade1" pathEffect_5="15_3"/>
+										<case additional="tracktype=grade2" pathEffect_5="10_4"/>
+										<case additional="tracktype=grade3" pathEffect_5="7_4"/>
+										<case additional="tracktype=grade4" pathEffect_5="5_5_2_5"/>
+										<case additional="tracktype=grade5" pathEffect_5="2_4"/>
+										<apply_if minzoom="10" maxzoom="12" pathEffect_5="5_3"/>
+									</apply_if>
+									<apply_if surfaceIntegrity="true">
+										<apply_if minzoom="12" pathEffect_5="8_3"/>
+										<apply_if additional="trail_visibility=bad" color_5="#888866"/>
+										<apply_if additional="trail_visibility=horrible" color_5="#888866"/>
+										<apply_if additional="trail_visibility=no" color_5="#888866"/>
+									</apply_if>
+									<!-- Night mode track colors -->
+									<apply_if nightMode="true" color_5="$motorcycleTrackColorNight"/>
+								</case>
+
+								<!-- PATHS - visible for adventure routing -->
+								<case minzoom="11" tag="highway" value="path">
+									<case lessDetailed="false" maxzoom="13" color_5="$pathColor" pathEffect_5="$pathPathEffect">
+										<case maxzoom="12" strokeWidth_4="2" strokeWidth_5="1" color_5="$pathLowZoomColor" pathEffect_5="$pathLowZoomPathEffect"/>
+										<case maxzoom="13" strokeWidth_4="2.5" strokeWidth_5="1.5" color_5="$pathLowZoomColor" pathEffect_5="$pathLowZoomPathEffect"/>
+									</case>
+									<case minzoom="14" strokeWidth_4="3" strokeWidth_5="2" color_5="$pathColor" pathEffect_5="$pathPathEffect"/>
+									<case minzoom="16" strokeWidth_4="4" strokeWidth_5="2.5" color_5="$pathColor" pathEffect_5="$pathPathEffect"/>
+									<apply_if nightMode="true" color_5="#d4a070"/>
+									<apply_if surfaceIntegrity="true">
+										<apply_if minzoom="12" pathEffect_5="8_3"/>
+									</apply_if>
+								</case>
+
+								<!-- FOOTWAY - muted for motorcycle context -->
+								<case minzoom="13" tag="highway" value="footway" color_5="$footwayColor">
+									<switch minzoom="13" maxzoom="14">
+										<case lessDetailed="false">
+											<case maxzoom="13" strokeWidth_4="1.5" strokeWidth_5="0.8"/>
+											<case minzoom="14" strokeWidth_4="2" strokeWidth_5="1" pathEffect_5="3_3"/>
+										</case>
+									</switch>
+									<case minzoom="15" strokeWidth_4="2.5" strokeWidth_5="1.5" pathEffect_5="3_3"/>
+								</case>
+
+								<!-- CYCLEWAY - muted -->
+								<case minzoom="13" tag="highway" value="cycleway">
+									<case minzoom="14" strokeWidth_4="2" strokeWidth_5="1.2" pathEffect_5="4_3"/>
+									<apply color_5="$cyclewayColor"/>
+								</case>
+
+								<!-- BRIDLEWAY - muted -->
+								<case minzoom="12" tag="highway" value="bridleway">
+									<case minzoom="14" strokeWidth_4="2" strokeWidth_5="1.2"/>
+									<apply color_5="$bridlewayColor" pathEffect_5="6_3"/>
+								</case>
+							</switch>
+
+							<!-- Steps - minimal visibility -->
+							<case minzoom="15" tag="highway" value="steps" strokeWidth="0.1">
+								<case minzoom="16" strokeWidth_4="1.5" strokeWidth_5="1.5"/>
+								<apply color_5="$footwayColor" pathEffect_5="1_2"/>
+							</case>
+						</switch>
+
+						<!-- Tunnel handling for tracks/paths -->
+						<apply_if additional="tunnel=yes" minzoom="16" color__1="#000000" strokeWidth__1="$trackBridgeWidth" pathEffect__1="$trackTunnelPathEffect" color_0="#ffffff" strokeWidth_0="$trackBridgeInnerWidth">
+							<apply_if tag="highway" value="footway" color_5="$null"/>
+						</apply_if>
+						<apply>
+							<switch minzoom="16">
+								<case additional="covered=yes"/>
+								<case additional="indoor=yes"/>
+								<apply_if tag="highway" value="footway" color_5="$null"/>
+								<apply pathEffect__1="4_3" color__1="#000000" color_0="#dddddd" strokeWidth__1="$trackBridgeWidth" strokeWidth_0="$trackBridgeInnerWidth"/>
+							</switch>
+						</apply>
+						<!-- Bridge handling for tracks/paths -->
+						<apply_if additional="bridge=yes" minzoom="13" color__1="#000000" color_0="#ffffff" pathEffect__1="">
+							<case maxzoom="13" strokeWidth__1="3:2" strokeWidth_0="2.5:1"/>
+							<case minzoom="14" strokeWidth__1="$trackBridgeWidth" strokeWidth_0="$trackBridgeInnerWidth"/>
+						</apply_if>
+					</switch>
+
+					<!-- Oneway arrows for tracks -->
+					<apply_if engine_v1="true" onewayArrowsColor="$trackPathHighwayOnewayArrowsColor"/>
+					<apply_if engine_v1="false" minzoom="17">
+						<apply_if additional="oneway=yes" pathIcon="$highwayOnewayIcon" pathIconStep="70"/>
+						<apply_if additional="oneway=-1" pathIcon="$highwayOnewayReverseIcon" pathIconStep="70"/>
+					</apply_if>
+
+					<!-- Access restrictions for motorcycle awareness -->
+					<apply>
+						<switch hideAccess="false" minzoom="13">
+							<switch appMode="car">
+								<switch>
+									<case additional="vehicle=private"/>
+									<case additional="vehicle=no"/>
+									<case additional="motor_vehicle=private"/>
+									<case additional="motor_vehicle=no"/>
+									<case additional="motorcar=private"/>
+									<case additional="motorcar=no"/>
+									<apply color_5="$accessPrivateColor"/>
+								</switch>
+							</switch>
+							<switch>
+								<case additional="access=private" color_5="$accessPrivateColor"/>
+								<case additional="access=no" color_5="$accessPrivateColor"/>
+							</switch>
+						</switch>
+					</apply>
+
+					<!-- Track substrate -->
+					<apply noPolygons="true" color_4="$trackSubstrateColor"/>
+				</switch>
+			</switch>
+		</switch>
+
+		<!-- ====================================================
+		     SURFACE TYPE INDICATORS
+		     Visual indicators for road surface when enabled
+		     ==================================================== -->
+		<switch attr="motorcycleSurfaceIndicator" value="true">
+			<switch>
+				<!-- Unpaved surface dash overlay -->
+				<case tag="highway" value="track" minzoom="14">
+					<switch>
+						<case additional="surface=gravel" color_3="#8B7355" strokeWidth_3="0.5" pathEffect_3="3_6"/>
+						<case additional="surface=ground" color_3="#6B4226" strokeWidth_3="0.5" pathEffect_3="2_6"/>
+						<case additional="surface=dirt" color_3="#6B4226" strokeWidth_3="0.5" pathEffect_3="2_4"/>
+						<case additional="surface=sand" color_3="#C2B280" strokeWidth_3="0.5" pathEffect_3="1_4"/>
+						<case additional="surface=grass" color_3="#4a7a3a" strokeWidth_3="0.5" pathEffect_3="2_5"/>
+						<case additional="surface=mud" color_3="#5a3a1a" strokeWidth_3="0.5" pathEffect_3="1_3"/>
+						<case additional="surface=unpaved" color_3="#7a5a30" strokeWidth_3="0.5" pathEffect_3="3_5"/>
+						<case additional="surface=cobblestone" color_3="#888888" strokeWidth_3="0.5" pathEffect_3="1_2"/>
+						<case additional="surface=sett" color_3="#888888" strokeWidth_3="0.5" pathEffect_3="1_2"/>
+					</switch>
+				</case>
+				<!-- Surface on unclassified/tertiary too -->
+				<case tag="highway" value="unclassified" minzoom="15">
+					<switch>
+						<case additional="surface=gravel" color_3="#8B7355" strokeWidth_3="0.5" pathEffect_3="3_6"/>
+						<case additional="surface=ground" color_3="#6B4226" strokeWidth_3="0.5" pathEffect_3="2_6"/>
+						<case additional="surface=dirt" color_3="#6B4226" strokeWidth_3="0.5" pathEffect_3="2_4"/>
+						<case additional="surface=unpaved" color_3="#7a5a30" strokeWidth_3="0.5" pathEffect_3="3_5"/>
+					</switch>
+				</case>
+			</switch>
+		</switch>
+
+		<!-- ====================================================
+		     RAILWAY LINES
+		     ==================================================== -->
+		<switch>
+			<switch>
+				<switch>
+					<case minzoom="7" tag="railway" value="rail"/>
+					<case minzoom="7" tag="railway" value="light_rail"/>
+					<case minzoom="12" tag="railway" value="monorail"/>
+					<case minzoom="12" tag="railway" value="subway"/>
+					<case minzoom="12" tag="railway" value="preserved"/>
+					<case minzoom="12" tag="railway" value="narrow_gauge"/>
+					<apply color="$railwayRailColor"/>
+				</switch>
+				<case minzoom="16" tag="railway" value="funicular" color="#777777"/>
+				<apply>
+					<switch>
+						<case maxzoom="7" strokeWidth="0.5" color_2="#cc4444" strokeWidth_2="0.8" pathEffect_2="8_12"/>
+						<case maxzoom="8" strokeWidth="0.8" color_2="#cc4444" strokeWidth_2="0.8" pathEffect_2="8_12"/>
+						<case maxzoom="12" strokeWidth="1:1" color_2="#cc4444" strokeWidth_2="1" pathEffect_2="8_12"/>
+						<case maxzoom="13" strokeWidth="1:2" color_2="#cc4444" strokeWidth_2="1" pathEffect_2="8_12"/>
+						<case minzoom="14" strokeWidth="1:2" color_2="#cc4444" strokeWidth_2="1" pathEffect_2="8_12"/>
+					</switch>
+				</apply>
+				<apply_if additional="electrified=yes" color__2="$railwayRailColor">
+					<apply_if additional="service=spur" color__2="#666666"/>
+					<switch minzoom="12">
+						<case maxzoom="12" strokeWidth__2="2:4" pathEffect__2="1_10"/>
+						<case maxzoom="13" strokeWidth__2="4:4" pathEffect__2="1_15"/>
+						<case minzoom="14" strokeWidth__2="4:8" pathEffect__2="1_20"/>
+					</switch>
+				</apply_if>
+			</switch>
+			<switch>
+				<case tag="railway" value="tram" color="#555555">
+					<apply_if minzoom="14" maxzoom="14" strokeWidth="0.8" strokeWidth__1="1:1"/>
+					<apply_if minzoom="15" strokeWidth="1:1" strokeWidth__1="2:2"/>
+				</case>
+			</switch>
+			<apply_if additional="service=spur" color="#777777"/>
+			<apply_if additional="bridge=yes" minzoom="13" color="#000000" strokeWidth="8" color_2="#ffffff" strokeWidth_2="6"/>
+			<apply_if additional="tunnel=yes">
+				<apply_if minzoom="9" maxzoom="13" strokeWidth="1:2" pathEffect="5_2"/>
+				<apply_if minzoom="14" strokeWidth="3:3" color_2="#ffffff" strokeWidth_2="3:3" pathEffect_2="4_4"/>
+			</apply_if>
+		</switch>
+
+		<!-- ====================================================
+		     RIVERS AND WATERWAYS
+		     ==================================================== -->
+		<switch>
+			<case tag="waterway" value="river" minzoom="7" color="$waterwayColor">
+				<case maxzoom="8" strokeWidth="0.5"/>
+				<case maxzoom="11" strokeWidth="1:1"/>
+				<case minzoom="12" strokeWidth="2:2"/>
+			</case>
+			<case tag="waterway" value="stream" minzoom="12" color="$waterwayColor" strokeWidth="0.5"/>
+			<case tag="waterway" value="drain" minzoom="13" color="$waterwayColor" strokeWidth="0.3"/>
+			<case tag="waterway" value="canal" minzoom="10" color="$waterwayColor">
+				<case maxzoom="12" strokeWidth="0.5"/>
+				<case minzoom="13" strokeWidth="1:1"/>
+			</case>
+		</switch>
+
+		<!-- ====================================================
+		     POWER LINES
+		     ==================================================== -->
+		<case tag="power" value="line" minzoom="12" color="$powerLineColor" strokeWidth="0.3" pathEffect="2_5"/>
+
+		<!-- ====================================================
+	     ADMINISTRATIVE BOUNDARIES
+	     ==================================================== -->
+		<switch>
+			<case tag="boundary" value="administrative" minzoom="5">
+				<apply color="$boundaryColorInner" strokeWidth="0.3" pathEffect="5_3"/>
+			</case>
+		</switch>
+
+		<!-- ====================================================
+		     CONTOUR LINES - Prominent for mountain riding
+		     ==================================================== -->
+		<switch>
+			<case tag="contour" value="elevation" minzoom="12">
+				<case additional="ele=100" color="#a08040" strokeWidth="0.3" pathEffect=""/>
+				<case additional="ele=200" color="#a08040" strokeWidth="0.3" pathEffect=""/>
+				<case additional="ele=500" color="#a08040" strokeWidth="0.5"/>
+				<case color="#8a7030" strokeWidth="0.2"/>
+				<apply_if nightMode="true" color="#664422" strokeWidth="0.2"/>
+			</case>
+		</switch>
+
+	</line>
+
+</renderingStyle>

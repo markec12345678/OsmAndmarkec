@@ -73,6 +73,20 @@ public class MotorcycleSensorsSettingsFragment extends BaseSettingsFragment {
 
                 // Wear OS
                 setupWearOs();
+
+                // OBD2
+                setupOBD2();
+                setupOBD2Device();
+
+                // Fuel Range
+                setupFuelRange();
+                setupFuelTankCapacity();
+                setupFuelConsumption();
+                setupFuelLevel();
+
+                // Track Day UI
+                setupTrackDayUI();
+                setupTrackDaySectors();
         }
 
         // ===== Sensor Display =====
@@ -316,6 +330,121 @@ public class MotorcycleSensorsSettingsFragment extends BaseSettingsFragment {
                 SwitchPreferenceEx wearOs = findPreference(plugin.WEAR_OS_ENABLED.getId());
                 if (wearOs != null) {
                         wearOs.setDescription(R.string.motorcycle_wear_os_desc);
+                }
+        }
+
+        // ===== OBD2 =====
+
+        private void setupOBD2() {
+                SwitchPreferenceEx obd2 = findPreference(plugin.OBD2_ENABLED.getId());
+                if (obd2 != null) {
+                        obd2.setDescription(R.string.motorcycle_obd2_desc);
+                }
+        }
+
+        private void setupOBD2Device() {
+                // List paired Bluetooth OBD2 devices
+                ListPreferenceEx devicePref = findPreference(plugin.OBD2_DEVICE_ADDRESS.getId());
+                if (devicePref != null) {
+                        try {
+                                var devices = plugin.obd2Helper.getOBD2Devices();
+                                if (devices != null && !devices.isEmpty()) {
+                                        String[] entries = new String[devices.size()];
+                                        String[] values = new String[devices.size()];
+                                        for (int i = 0; i < devices.size(); i++) {
+                                                var d = devices.get(i);
+                                                entries[i] = d.getName() != null ? d.getName() : d.getAddress();
+                                                values[i] = d.getAddress();
+                                        }
+                                        devicePref.setEntries(entries);
+                                        devicePref.setEntryValues(values);
+                                } else {
+                                        devicePref.setEntries(new String[]{"No OBD2 devices paired"});
+                                        devicePref.setEntryValues(new String[]{""});
+                                }
+                        } catch (Exception e) {
+                                devicePref.setEntries(new String[]{"Bluetooth not available"});
+                                devicePref.setEntryValues(new String[]{""});
+                        }
+                        devicePref.setDescription(R.string.motorcycle_obd2_device_desc);
+                }
+        }
+
+        // ===== Fuel Range =====
+
+        private void setupFuelRange() {
+                SwitchPreferenceEx fuelRange = findPreference(plugin.FUEL_RANGE_OVERLAY.getId());
+                if (fuelRange != null) {
+                        fuelRange.setDescription(R.string.motorcycle_fuel_range_desc);
+                }
+        }
+
+        private void setupFuelTankCapacity() {
+                Float[] entryValues = {10f, 12f, 14f, 15f, 17f, 19f, 20f, 22f, 25f};
+                String[] entries = new String[entryValues.length];
+                for (int i = 0; i < entryValues.length; i++) {
+                        entries[i] = entryValues[i].intValue() + " L";
+                }
+
+                ListPreferenceEx tankCap = findPreference(plugin.FUEL_TANK_CAPACITY.getId());
+                if (tankCap != null) {
+                        tankCap.setEntries(entries);
+                        tankCap.setEntryValues(entryValues);
+                        tankCap.setDescription(R.string.motorcycle_fuel_tank_desc);
+                }
+        }
+
+        private void setupFuelConsumption() {
+                Float[] entryValues = {3.0f, 3.5f, 4.0f, 4.5f, 5.0f, 5.5f, 6.0f, 7.0f, 8.0f, 10.0f};
+                String[] entries = new String[entryValues.length];
+                for (int i = 0; i < entryValues.length; i++) {
+                        entries[i] = String.format("%.1f L/100km", entryValues[i]);
+                }
+
+                ListPreferenceEx consumption = findPreference(plugin.FUEL_CONSUMPTION.getId());
+                if (consumption != null) {
+                        consumption.setEntries(entries);
+                        consumption.setEntryValues(entryValues);
+                        consumption.setDescription(R.string.motorcycle_fuel_consumption_desc);
+                }
+        }
+
+        private void setupFuelLevel() {
+                Float[] entryValues = {100f, 90f, 80f, 75f, 66f, 50f, 33f, 25f, 15f, 10f};
+                String[] entries = new String[entryValues.length];
+                for (int i = 0; i < entryValues.length; i++) {
+                        entries[i] = entryValues[i].intValue() + "%";
+                }
+
+                ListPreferenceEx fuelLevel = findPreference(plugin.FUEL_LEVEL_PERCENT.getId());
+                if (fuelLevel != null) {
+                        fuelLevel.setEntries(entries);
+                        fuelLevel.setEntryValues(entryValues);
+                        fuelLevel.setDescription(R.string.motorcycle_fuel_level_desc);
+                }
+        }
+
+        // ===== Track Day UI =====
+
+        private void setupTrackDayUI() {
+                SwitchPreferenceEx trackDayUI = findPreference(plugin.TRACK_DAY_UI_ENABLED.getId());
+                if (trackDayUI != null) {
+                        trackDayUI.setDescription(R.string.motorcycle_trackday_ui_desc);
+                }
+        }
+
+        private void setupTrackDaySectors() {
+                Integer[] entryValues = {2, 3, 4, 5, 6};
+                String[] entries = new String[entryValues.length];
+                for (int i = 0; i < entryValues.length; i++) {
+                        entries[i] = entryValues[i] + " sectors";
+                }
+
+                ListPreferenceEx sectors = findPreference(plugin.TRACK_DAY_SECTORS.getId());
+                if (sectors != null) {
+                        sectors.setEntries(entries);
+                        sectors.setEntryValues(entryValues);
+                        sectors.setDescription(R.string.motorcycle_trackday_sectors_desc);
                 }
         }
 

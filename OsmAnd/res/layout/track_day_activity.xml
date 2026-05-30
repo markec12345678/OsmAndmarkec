@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Track Day Activity Layout
+    Full-screen UI optimized for outdoor visibility while riding on a track.
+    Large white text on black background, high contrast, minimal distractions.
+-->
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FF000000"
+    android:keepScreenOn="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:gravity="center_horizontal">
+
+        <!-- Session State -->
+        <TextView
+            android:id="@+id/session_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="READY"
+            android:textColor="#80FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.1" />
+
+        <!-- Lap Counter -->
+        <TextView
+            android:id="@+id/lap_counter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="LAP 0"
+            android:textColor="#BBFFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <!-- Current Lap Timer - PRIMARY display -->
+        <TextView
+            android:id="@+id/current_lap_timer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="0:00.000"
+            android:textColor="@android:color/white"
+            android:textSize="48sp"
+            android:textStyle="bold"
+            android:fontFeatureSettings="tnum" />
+
+        <!-- Delta Display -->
+        <TextView
+            android:id="@+id/delta_display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text=""
+            android:textColor="#BBFFFFFF"
+            android:textSize="18sp"
+            android:fontFeatureSettings="tnum" />
+
+        <!-- Sector Times Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/sector1_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="S1: --"
+                android:textColor="#BBFFFFFF"
+                android:textSize="13sp"
+                android:fontFeatureSettings="tnum" />
+
+            <TextView
+                android:id="@+id/sector2_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="S2: --"
+                android:textColor="#BBFFFFFF"
+                android:textSize="13sp"
+                android:fontFeatureSettings="tnum" />
+
+            <TextView
+                android:id="@+id/sector3_time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="S3: --"
+                android:textColor="#BBFFFFFF"
+                android:textSize="13sp"
+                android:fontFeatureSettings="tnum" />
+        </LinearLayout>
+
+        <!-- Last / Best Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!-- Last Lap -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="LAST"
+                    android:textColor="#80FFFFFF"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/last_lap_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:fontFeatureSettings="tnum" />
+            </LinearLayout>
+
+            <!-- Best Lap -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BEST"
+                    android:textColor="#80FFFFFF"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/best_lap_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="#4CAF50"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:fontFeatureSettings="tnum" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Sensor Stats Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <!-- Max Lean -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MAX LEAN"
+                    android:textColor="#80FFFFFF"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/max_lean_display"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:fontFeatureSettings="tnum" />
+            </LinearLayout>
+
+            <!-- Max G -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="MAX G"
+                    android:textColor="#80FFFFFF"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/max_g_display"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:fontFeatureSettings="tnum" />
+            </LinearLayout>
+
+            <!-- Consistency -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CONSISTENCY"
+                    android:textColor="#80FFFFFF"
+                    android:textSize="10sp" />
+
+                <TextView
+                    android:id="@+id/consistency_display"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="--"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:fontFeatureSettings="tnum" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Spacer -->
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Start/Stop Button -->
+        <Button
+            android:id="@+id/start_stop_button"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="24dp"
+            android:text="START SESSION"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="#4CAF50"
+            android:letterSpacing="0.05" />
+
+    </LinearLayout>
+</FrameLayout>

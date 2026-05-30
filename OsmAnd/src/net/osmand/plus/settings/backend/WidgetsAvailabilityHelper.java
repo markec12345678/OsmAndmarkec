@@ -45,6 +45,10 @@ import static net.osmand.plus.views.mapwidgets.WidgetType.MOTORCYCLE_LEAN_ANGLE;
 import static net.osmand.plus.views.mapwidgets.WidgetType.MOTORCYCLE_GFORCE;
 import static net.osmand.plus.views.mapwidgets.WidgetType.MOTORCYCLE_GFORCE_LATERAL;
 import static net.osmand.plus.views.mapwidgets.WidgetType.MOTORCYCLE_GFORCE_LONGITUDINAL;
+import static net.osmand.plus.views.mapwidgets.WidgetType.MOTORCYCLE_OBD2_RPM;
+import static net.osmand.plus.views.mapwidgets.WidgetType.MOTORCYCLE_OBD2_GEAR;
+import static net.osmand.plus.views.mapwidgets.WidgetType.MOTORCYCLE_OBD2_TEMP;
+import static net.osmand.plus.views.mapwidgets.WidgetType.MOTORCYCLE_OBD2_THROTTLE;
 import static net.osmand.plus.views.mapwidgets.WidgetType.TRUE_BEARING;
 
 import androidx.annotation.NonNull;
@@ -154,6 +158,12 @@ public class WidgetsAvailabilityHelper {
                 // Motorcycle Sensors widgets - visible by default in MOTORCYCLE mode, available in all modes
                 regWidgetVisibility(MOTORCYCLE_LEAN_ANGLE, MOTORCYCLE);
                 regWidgetVisibility(MOTORCYCLE_GFORCE, MOTORCYCLE);
+
+                // OBD2 widgets - available in all modes, visible in MOTORCYCLE mode when OBD2 is enabled
+                regWidgetAvailability(MOTORCYCLE_OBD2_RPM, all);
+                regWidgetAvailability(MOTORCYCLE_OBD2_GEAR, all);
+                regWidgetAvailability(MOTORCYCLE_OBD2_TEMP, all);
+                regWidgetAvailability(MOTORCYCLE_OBD2_THROTTLE, all);
 
                 regWidgetAvailability(MOTORCYCLE_LEAN_ANGLE, all);
                 regWidgetAvailability(MOTORCYCLE_GFORCE, all);

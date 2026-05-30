@@ -5460,4 +5460,44 @@
     <string name="motorcycle_wear_os_category">Wear OS spremljevalna ura</string>
     <string name="motorcycle_wear_os_title">Wear OS</string>
     <string name="motorcycle_wear_os_desc">Pošiljaj podatke senzorjev na Wear OS uro. Prikazuje nagib, G-silo in hitrost na zapestju. Namesti MotoTrack Wear na uro.</string>
+
+    <!-- OBD2 Bluetooth povezava -->
+    <string name="motorcycle_obd2_category">OBD2 povezava</string>
+    <string name="motorcycle_obd2_title">OBD2 Bluetooth</string>
+    <string name="motorcycle_obd2_desc">Poveži se z Bluetooth OBD2 adapterjem (ELM327) za prikaz podatkov motorja v realnem času: vrtljaji, prestava, temperatura hladilne tekočine in položaj lopute. Zahteva seznanjen OBD2 adapter.</string>
+    <string name="motorcycle_obd2_device_title">OBD2 naprava</string>
+    <string name="motorcycle_obd2_device_desc">Izberi seznanjen Bluetooth OBD2 adapter. Najprej seznanji adapter v Android Bluetooth nastavitvah.</string>
+    <string name="motorcycle_obd2_rpm_widget">Vrtljaji motorja</string>
+    <string name="motorcycle_obd2_rpm_widget_desc">Trenutni vrtljaji motorja iz OBD2 adapterja</string>
+    <string name="motorcycle_obd2_gear_widget">Prestava</string>
+    <string name="motorcycle_obd2_gear_widget_desc">Trenutna prestava izračunana iz vrtljajev in hitrosti</string>
+    <string name="motorcycle_obd2_temp_widget">Temperatura hladilne tekočine</string>
+    <string name="motorcycle_obd2_temp_widget_desc">Temperatura hladilne tekočine motorja iz OBD2 adapterja</string>
+    <string name="motorcycle_obd2_throttle_widget">Položaj lopute</string>
+    <string name="motorcycle_obd2_throttle_widget_desc">Trenutni položaj lopute v odstotkih iz OBD2 adapterja</string>
+    <string name="motorcycle_obd2_connecting">Povezovanje z OBD2 adapterjem…</string>
+    <string name="motorcycle_obd2_connected">Povezano z %1$s</string>
+    <string name="motorcycle_obd2_disconnected">OBD2 povezava prekinjena</string>
+    <string name="motorcycle_obd2_connection_failed">OBD2 povezava ni uspela</string>
+    <string name="motorcycle_obd2_check_engine">Kontrolna luč motorja</string>
+
+    <!-- Domet goriva -->
+    <string name="motorcycle_fuel_range_category">Domet goriva</string>
+    <string name="motorcycle_fuel_range_title">Prikaz dosega goriva</string>
+    <string name="motorcycle_fuel_range_desc">Prikaži preostali doseg goriva kot obarvan poligon na zemljevidu. Zeleno = dovolj goriva, Rumeno = zmerne, Oranžno = nizko, Rdeče = rezerva. Doseg se dinamično prilagaja glede na hitrost in slog vožnje.</string>
+    <string name="motorcycle_fuel_tank_title">Kapaciteta rezervoarja</string>
+    <string name="motorcycle_fuel_tank_desc">Kapaciteta goriva v litrih. Uporablja se za izračun preostalega dosega.</string>
+    <string name="motorcycle_fuel_consumption_title">Povprečna poraba</string>
+    <string name="motorcycle_fuel_consumption_desc">Povprečna poraba goriva v L/100km. Dejanska poraba se dinamično prilagaja glede na hitrost (zračni upor) in slog vožnje (nagib, G-sila).</string>
+    <string name="motorcycle_fuel_level_title">Raven goriva</string>
+    <string name="motorcycle_fuel_level_desc">Trenutna raven goriva v odstotkih. Posodobi po točenju goriva. Če je OBD2 povezan, se samodejno posodablja iz senzorja ravni goriva.</string>
+    <string name="motorcycle_fuel_low_warning">Nizko gorivo! Doseg: %1$.0f km</string>
+    <string name="motorcycle_fuel_reserve_warning">Rezerva goriva! Manj kot 15%% preostalo</string>
+
+    <!-- Track Day UI -->
+    <string name="motorcycle_trackday_ui_category">Track Day zaslon</string>
+    <string name="motorcycle_trackday_ui_title">Track Day zaslon</string>
+    <string name="motorcycle_trackday_ui_desc">Odpri celozaslonski Track Day vmesnik s krožnim štoparjem, sektorskimi časi, najboljšim krogom in statistiko max nagiba/G po krogu. Optimizirano za vidnost na prostem.</string>
+    <string name="motorcycle_trackday_sectors_title">Število sektorjev</string>
+    <string name="motorcycle_trackday_sectors_desc">Razdeli vsak krog na sektorje za merjenje vmesnih časov. Več sektorjev pomeni podrobnejše podatke, a zahteva natančnejši GPS.</string>
 </resources>

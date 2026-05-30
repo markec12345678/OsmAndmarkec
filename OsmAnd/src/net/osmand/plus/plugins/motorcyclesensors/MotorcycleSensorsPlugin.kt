@@ -36,6 +36,11 @@ import net.osmand.plus.plugins.motorcyclesensors.trackday.TrackDayHelper
 import net.osmand.plus.plugins.motorcyclesensors.group.GroupRidingHelper
 import net.osmand.plus.plugins.motorcyclesensors.map3d.AutoMap3DHelper
 import net.osmand.plus.plugins.motorcyclesensors.wear.WearOsBridge
+import net.osmand.plus.plugins.motorcyclesensors.obd2.OBD2Helper
+import net.osmand.plus.plugins.motorcyclesensors.obd2.OBD2DataStore
+import net.osmand.plus.plugins.motorcyclesensors.fuel.FuelRangeHelper
+import net.osmand.plus.plugins.motorcyclesensors.fuel.FuelRangeOverlay
+import net.osmand.plus.plugins.motorcyclesensors.widgets.OBD2Widget
 import net.osmand.plus.routing.RoutingHelper
 import net.osmand.plus.settings.backend.ApplicationMode
 import net.osmand.plus.settings.backend.OsmandSettings
@@ -102,6 +107,10 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
     val groupRiding = GroupRidingHelper()
     val autoMap3D = AutoMap3DHelper(app)
     val wearBridge = WearOsBridge(app)
+    val obd2Helper = OBD2Helper(app)
+    val fuelRangeHelper = FuelRangeHelper(app)
+    var fuelRangeOverlay: FuelRangeOverlay? = null
+        private set
 
     // Latest computed values
     var lastLeanAngleDeg: Float = 0f
@@ -169,6 +178,33 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
 
     val WEAR_OS_ENABLED = registerBooleanPreference("motorcycle_wear_os", false)
         .makeProfile().cache() as CommonPreference<Boolean>
+
+    // OBD2 preferences
+    val OBD2_ENABLED = registerBooleanPreference("motorcycle_obd2_enabled", false)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    val OBD2_DEVICE_ADDRESS = registerStringPreference("motorcycle_obd2_device", "")
+        .makeProfile().cache() as CommonPreference<String>
+
+    // Fuel Range preferences
+    val FUEL_RANGE_OVERLAY = registerBooleanPreference("motorcycle_fuel_range_overlay", false)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    val FUEL_TANK_CAPACITY = registerFloatPreference("motorcycle_fuel_tank_capacity", 17.0f)
+        .makeProfile().cache() as CommonPreference<Float>
+
+    val FUEL_CONSUMPTION = registerFloatPreference("motorcycle_fuel_consumption", 5.5f)
+        .makeProfile().cache() as CommonPreference<Float>
+
+    val FUEL_LEVEL_PERCENT = registerFloatPreference("motorcycle_fuel_level", 100.0f)
+        .makeProfile().cache() as CommonPreference<Float>
+
+    // Track Day UI preferences
+    val TRACK_DAY_UI_ENABLED = registerBooleanPreference("motorcycle_track_day_ui", false)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    val TRACK_DAY_SECTORS = registerIntPreference("motorcycle_trackday_sectors", 3)
+        .makeProfile().cache() as CommonPreference<Int>
 
     /**
      * Get all configured emergency contact numbers (non-empty only).
@@ -250,6 +286,13 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
         if (diagnostics.isCollectingVisible) {
             diagnostics.stopCollection()
         }
+        // Disconnect OBD2
+        if (obd2Helper.isConnected()) {
+            obd2Helper.disconnect("Plugin disabled")
+        }
+        // Remove fuel range overlay
+        fuelRangeOverlay?.setOverlayVisible(false)
+        fuelRangeOverlay = null
         LOG.info("MotorcycleSensorsPlugin disabled")
     }
 
@@ -390,6 +433,30 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
             mapActivity, WidgetType.MOTORCYCLE_GFORCE_LONGITUDINAL, null, WidgetsPanel.RIGHT
         )
         widgetsInfos.add(creator.createWidgetInfo(longitudinalGWidget))
+
+        // OBD2 RPM Widget
+        val obd2RpmWidget = OBD2Widget(
+            mapActivity, WidgetType.MOTORCYCLE_OBD2_RPM, null, WidgetsPanel.LEFT
+        )
+        widgetsInfos.add(creator.createWidgetInfo(obd2RpmWidget))
+
+        // OBD2 Gear Widget
+        val obd2GearWidget = OBD2Widget(
+            mapActivity, WidgetType.MOTORCYCLE_OBD2_GEAR, null, WidgetsPanel.LEFT
+        )
+        widgetsInfos.add(creator.createWidgetInfo(obd2GearWidget))
+
+        // OBD2 Temperature Widget
+        val obd2TempWidget = OBD2Widget(
+            mapActivity, WidgetType.MOTORCYCLE_OBD2_TEMP, null, WidgetsPanel.LEFT
+        )
+        widgetsInfos.add(creator.createWidgetInfo(obd2TempWidget))
+
+        // OBD2 Throttle Widget
+        val obd2ThrottleWidget = OBD2Widget(
+            mapActivity, WidgetType.MOTORCYCLE_OBD2_THROTTLE, null, WidgetsPanel.LEFT
+        )
+        widgetsInfos.add(creator.createWidgetInfo(obd2ThrottleWidget))
     }
 
     override fun createMapWidgetForParams(
@@ -405,6 +472,11 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
             WidgetType.MOTORCYCLE_GFORCE_LATERAL,
             WidgetType.MOTORCYCLE_GFORCE_LONGITUDINAL ->
                 GForceWidget(mapActivity, widgetType, customId, widgetsPanel)
+            WidgetType.MOTORCYCLE_OBD2_RPM,
+            WidgetType.MOTORCYCLE_OBD2_GEAR,
+            WidgetType.MOTORCYCLE_OBD2_TEMP,
+            WidgetType.MOTORCYCLE_OBD2_THROTTLE ->
+                OBD2Widget(mapActivity, widgetType, customId, widgetsPanel)
             else -> null
         }
     }
@@ -569,6 +641,22 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
         // Feed GPS to Auto 3D Map
         if (autoMap3D.isEnabled) {
             autoMap3D.updateLocation(location)
+        }
+
+        // Update fuel range overlay
+        if (FUEL_RANGE_OVERLAY.get() && fuelRangeOverlay != null) {
+            val rangeKm = fuelRangeHelper.calculateRange(
+                FUEL_LEVEL_PERCENT.get(),
+                FUEL_TANK_CAPACITY.get(),
+                FUEL_CONSUMPTION.get(),
+                location.speed * 3.6f,  // m/s to km/h
+                lastLeanAngleDeg,
+                lastGForceData?.totalG ?: 0f
+            )
+            val polygon = fuelRangeHelper.generateRangePolygon(
+                location.latitude, location.longitude, rangeKm
+            )
+            fuelRangeOverlay?.updateRange(polygon, FUEL_LEVEL_PERCENT.get(), rangeKm)
         }
     }
 

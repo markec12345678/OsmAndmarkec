@@ -203,7 +203,97 @@ MotorcycleSensorsPlugin (phone)
         → CrashAlertActivity (full-screen crash warning)
 ```
 
-### Plugin Settings UI
+### OBD2 Bluetooth Connection
+
+Connect to an **ELM327-compatible Bluetooth OBD2 adapter** for real-time engine data directly from your motorcycle's ECU:
+
+| Widget | Description | Source PID |
+|--------|-------------|------------|
+| **Engine RPM** | Live engine revolutions per minute | PID 0C |
+| **Gear Position** | Estimated current gear (from RPM/speed ratios) | Calculated |
+| **Coolant Temperature** | Engine coolant temperature in °C | PID 05 |
+| **Throttle Position** | Throttle opening percentage (0-100%) | PID 11 |
+
+**Connection architecture:**
+- Classic Bluetooth SPP/RFCOMM for maximum ELM327 compatibility
+- Auto-detects paired OBD2 devices ("OBD", "ELM", "V-Link" names)
+- ELM327 initialization: ATZ → ATE0 → ATL0 → ATS0 → ATH0 → ATSP0
+- Sequential PID polling at 2 Hz (prevents adapter buffer overflow)
+- 500ms command timeout with automatic retry
+- Background thread with Handler for non-blocking operation
+
+**Supported OBD2 PIDs:**
+- 01 (DTC status / Check Engine Light)
+- 04 (Calculated engine load)
+- 05 (Engine coolant temperature)
+- 0B (Intake manifold pressure)
+- 0C (Engine RPM)
+- 0D (Vehicle speed)
+- 0F (Intake air temperature)
+- 11 (Throttle position)
+- 2F (Fuel tank level)
+
+**Gear estimation algorithm:** Uses RPM/Speed ratio with typical motorcycle gear ratios:
+- Ratio > 180 → 1st gear
+- Ratio > 120 → 2nd gear
+- Ratio > 85 → 3rd gear
+- Ratio > 65 → 4th gear
+- Ratio > 50 → 5th gear
+- Below 50 → 6th gear
+
+### Fuel Range Overlay
+
+Shows remaining fuel range as a **semi-transparent colored polygon** on the map:
+
+| Fuel Level | Polygon Color | Meaning |
+|-----------|---------------|---------|
+| >50% | Green | Plenty of fuel |
+| 25-50% | Yellow | Moderate range |
+| 15-25% | Orange | Low fuel |
+| <15% | Red | Reserve / Critical |
+
+**Dynamic consumption model:**
+- Base consumption from user settings (e.g., 5.5 L/100km)
+- Speed factor: Quadratic air drag model (1 + c × v²)
+  - At 60 km/h: ~1.0× base consumption
+  - At 120 km/h: ~1.7× base consumption
+  - At 180 km/h: ~2.6× base consumption
+- Aggressive riding factor: Lean angle >20° or G-force >0.8G adds 10-30% more consumption
+- Reserve fuel is never counted as usable range (15% buffer)
+
+**Polygon generation:**
+- 36-point polygon (every 10 degrees) centered at current position
+- Range distance calculated using haversine formula
+- Future: Road-network-aware isochrone calculation instead of simple circle
+
+**Configuration:** Tank capacity (10-25L), average consumption (3.0-10.0 L/100km), manual fuel level (or auto from OBD2 PID 2F).
+
+### Track Day Screen
+
+Full-screen **lap timing interface** for track day sessions, optimized for outdoor visibility:
+
+- **Real-time lap timer** — Millisecond precision, updates at 20 Hz for smooth display
+- **Lap counter** — Auto-detected when crossing start/finish line (20m GPS proximity)
+- **Best lap** — Automatically tracked with green highlight
+- **Delta indicator** — Shows +/− from best lap (red = slower, green = faster)
+- **Sector splits** — Configurable 2-6 sectors per lap with individual timing
+- **Max lean/G per lap** — Peak lean angle and G-force recorded for each completed lap
+- **Consistency score** — 0-100 rating of lap time consistency across the session
+- **Start/Stop control** — Large button for easy operation with gloved hands
+
+**UI design:**
+- Black background with large white text for maximum contrast
+- Green (best), Red (slow) color coding for instant readability
+- Screen stays on during sessions (no auto-lock)
+- Clean layout: timer → sectors → last/best → stats → button
+
+**Data flow:**
+```
+TrackDayHelper (GPS lap detection)
+  → TrackDayActivity (full-screen UI)
+    → BroadcastReceiver (lap/sector events)
+      → UI update (timer, splits, stats)
+```
 
 Dedicated settings screen accessible from **Profile → Motorcycle → Plugin settings**:
 
@@ -223,6 +313,9 @@ Dedicated settings screen accessible from **Profile → Motorcycle → Plugin se
 - **Track Day** — Enable GPS lap timing mode
 - **Group Riding** — Enable real-time position sharing
 - **Wear OS** — Send sensor data to Wear OS watch
+- **OBD2 Bluetooth** — Connect to ELM327 OBD2 adapter for engine data (RPM, gear, temp, throttle)
+- **Fuel Range Overlay** — Show remaining range as colored polygon on the map
+- **Track Day Screen** — Full-screen lap timer with sectors, best lap, consistency score
 
 ### Ride Recording & Analytics
 
@@ -286,6 +379,12 @@ OsmAnd/src/net/osmand/plus/plugins/motorcyclesensors/
 │   └── AutoMap3DHelper.kt                   # Auto 2D/3D switching based on speed
 ├── wear/
 │   └── WearOsBridge.kt                      # Phone-to-Watch data bridge (DataClient + MessageClient)
+├── obd2/
+│   ├── OBD2Helper.kt                        # Bluetooth ELM327 connection, PID polling & parsing
+│   └── OBD2DataStore.kt                     # Singleton holding latest ECU data (RPM, temp, throttle)
+├── fuel/
+│   ├── FuelRangeHelper.kt                   # Range calculation with dynamic consumption model
+│   └── FuelRangeOverlay.kt                  # Map polygon overlay for fuel range visualization
 ├── weather/
 │   └── WeatherRoutingHelper.kt              # Weather impact on route (Open-Meteo API ready)
 ├── trackday/
@@ -433,17 +532,17 @@ OsmAnd/src/net/osmand/plus/plugins/motorcyclesensors/
 | **No custom motorcycle rendering style** | No dedicated map rendering style for motorcycles. Should highlight twisty roads, show fuel stations prominently, and use motorcycle-friendly POI categories. | Missing |
 | **Build not fully tested** | The code has been written and committed but the full OsmAnd project has NOT been compiled end-to-end. There may be compilation errors, missing imports, or API mismatches with the OsmAnd codebase. A full build test is needed. | Untested |
 | **Weather routing — network integration** | `WeatherRoutingHelper` architecture is complete with safety thresholds and route analysis. Settings UI added. Needs async Open-Meteo API integration for real weather data. | Settings ready, API integration needed |
-| **Track Day Mode — UI needed** | `TrackDayHelper` with GPS lap timing, sector splits, best lap tracking is implemented. Settings toggle added. Needs Track Day UI (start/stop button, lap display, track setup). | Settings ready, UI needed |
+| **Track Day Mode — UI** | `TrackDayHelper` with GPS lap timing, sector splits, best lap tracking is implemented. Full-screen Track Day UI added with lap timer, sector display, and consistency score. | UI implemented, needs testing |
 | **Group Riding — networking needed** | `GroupRidingHelper` with group management and proximity alerts is implemented. Settings toggle added. Needs WiFi Direct / MQTT relay networking for real-time position sharing. | Settings ready, networking needed |
 
 ### Medium (Nice-to-have improvements)
 
 | Issue | Description | Status |
 |-------|-------------|--------|
-| **Fuel range overlay** | Show remaining fuel range as a polygon on the map based on fuel tank size and consumption rate. | Planned |
-| **OBD2 sensor integration** | Extend the existing `VehicleMetricsPlugin` OBD2 support for motorcycle-specific data: RPM, gear position, throttle position, coolant temp. | Planned |
 | **Apple CarPlay / Android Auto** | Adapt the motorcycle dashboard for automotive displays. | Planned |
 | **Wear OS companion** | Quick glance at lean angle and G-force on a smartwatch. Wear OS module created with sensor display, complications, crash alert, and ambient mode. Needs end-to-end testing with real watch. | Architecture ready, testing needed |
+| **OBD2 companion** | Bluetooth ELM327 OBD2 connection for RPM, gear, coolant temp, throttle. Auto-detects paired adapters, polls PIDs at 2 Hz. Needs testing with real ELM327 adapter. | Architecture ready, testing needed |
+| **Fuel range overlay** | Range polygon on map with dynamic consumption model (speed + aggressive riding factors). Needs OBD2 fuel level integration for auto-updates. | Architecture ready, OBD2 auto-fuel needed |
 | **Ride sharing & community** | Upload ride stats, compare Fun Scores with other riders, discover popular twisty roads. | Planned |
 | **Multi-language support** | String resources available in English and Slovenian (values-sl). Need translations for other major languages (DE, FR, ES, IT, PT, JA, etc.). | Partial |
 | **Unit tests** | No unit tests exist for any motorcycle plugin code. Critical algorithms (lean angle fusion, G-force calculation, twistiness scoring, crash detection) should be tested. | Missing |

@@ -174,4 +174,67 @@
         android:title="@string/motorcycle_wear_os_title"
         tools:summary="@string/motorcycle_wear_os_desc" />
 
+    <PreferenceCategory
+        android:key="motorcycle_obd2_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_obd2_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_obd2_enabled"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_obd2_title"
+        tools:summary="@string/motorcycle_obd2_desc" />
+
+    <net.osmand.plus.settings.preferences.ListPreferenceEx
+        android:key="motorcycle_obd2_device"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_obd2_device_title"
+        tools:summary="@string/motorcycle_obd2_device_desc" />
+
+    <PreferenceCategory
+        android:key="motorcycle_fuel_range_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_fuel_range_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_fuel_range_overlay"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_fuel_range_title"
+        tools:summary="@string/motorcycle_fuel_range_desc" />
+
+    <net.osmand.plus.settings.preferences.ListPreferenceEx
+        android:key="motorcycle_fuel_tank_capacity"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_fuel_tank_title"
+        tools:summary="@string/motorcycle_fuel_tank_desc" />
+
+    <net.osmand.plus.settings.preferences.ListPreferenceEx
+        android:key="motorcycle_fuel_consumption"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_fuel_consumption_title"
+        tools:summary="@string/motorcycle_fuel_consumption_desc" />
+
+    <net.osmand.plus.settings.preferences.ListPreferenceEx
+        android:key="motorcycle_fuel_level"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_fuel_level_title"
+        tools:summary="@string/motorcycle_fuel_level_desc" />
+
+    <PreferenceCategory
+        android:key="motorcycle_trackday_ui_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_trackday_ui_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_track_day_ui"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_trackday_ui_title"
+        tools:summary="@string/motorcycle_trackday_ui_desc" />
+
+    <net.osmand.plus.settings.preferences.ListPreferenceEx
+        android:key="motorcycle_trackday_sectors"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_trackday_sectors_title"
+        tools:summary="@string/motorcycle_trackday_sectors_desc" />
+
 </PreferenceScreen>

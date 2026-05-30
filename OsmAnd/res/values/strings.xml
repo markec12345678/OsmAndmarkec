@@ -6705,4 +6705,44 @@ Download tile maps directly, or copy them as SQLite database files to OsmAnd\'s 
     <string name="routing_attr_freeride_policy_name">Off-piste</string>
     <string name="routing_attr_freeride_policy_description">\'Freeride\' and \'Off-piste\' are unofficial routes and passages. Typically ungroomed, unmaintained and not checked in the evening. Enter at your own risk.</string>
     <string name="voice_prompts_timetable">Voice prompts times</string>
+
+    <!-- OBD2 Bluetooth Connection -->
+    <string name="motorcycle_obd2_category">OBD2 Connection</string>
+    <string name="motorcycle_obd2_title">OBD2 Bluetooth</string>
+    <string name="motorcycle_obd2_desc">Connect to a Bluetooth OBD2 adapter (ELM327) to display real-time engine data: RPM, gear position, coolant temperature, and throttle position. Requires a paired OBD2 adapter.</string>
+    <string name="motorcycle_obd2_device_title">OBD2 Device</string>
+    <string name="motorcycle_obd2_device_desc">Select a paired Bluetooth OBD2 adapter. Pair your adapter in Android Bluetooth settings first.</string>
+    <string name="motorcycle_obd2_rpm_widget">Engine RPM</string>
+    <string name="motorcycle_obd2_rpm_widget_desc">Current engine RPM from OBD2 adapter</string>
+    <string name="motorcycle_obd2_gear_widget">Gear Position</string>
+    <string name="motorcycle_obd2_gear_widget_desc">Current gear estimated from RPM and speed</string>
+    <string name="motorcycle_obd2_temp_widget">Coolant Temperature</string>
+    <string name="motorcycle_obd2_temp_widget_desc">Engine coolant temperature from OBD2 adapter</string>
+    <string name="motorcycle_obd2_throttle_widget">Throttle Position</string>
+    <string name="motorcycle_obd2_throttle_widget_desc">Current throttle position percentage from OBD2 adapter</string>
+    <string name="motorcycle_obd2_connecting">Connecting to OBD2 adapter…</string>
+    <string name="motorcycle_obd2_connected">Connected to %1$s</string>
+    <string name="motorcycle_obd2_disconnected">OBD2 disconnected</string>
+    <string name="motorcycle_obd2_connection_failed">OBD2 connection failed</string>
+    <string name="motorcycle_obd2_check_engine">Check Engine Light</string>
+
+    <!-- Fuel Range Overlay -->
+    <string name="motorcycle_fuel_range_category">Fuel Range</string>
+    <string name="motorcycle_fuel_range_title">Fuel Range Overlay</string>
+    <string name="motorcycle_fuel_range_desc">Show remaining fuel range as a colored polygon on the map. Green = plenty of fuel, Yellow = moderate, Orange = low, Red = reserve. Range adjusts dynamically based on speed and riding style.</string>
+    <string name="motorcycle_fuel_tank_title">Tank Capacity</string>
+    <string name="motorcycle_fuel_tank_desc">Fuel tank capacity in liters. Used to calculate remaining range.</string>
+    <string name="motorcycle_fuel_consumption_title">Average Consumption</string>
+    <string name="motorcycle_fuel_consumption_desc">Average fuel consumption in L/100km. The actual consumption is adjusted dynamically based on speed (air drag) and riding style (lean angle, G-force).</string>
+    <string name="motorcycle_fuel_level_title">Fuel Level</string>
+    <string name="motorcycle_fuel_level_desc">Current fuel level percentage. Update after refueling. If OBD2 is connected, this updates automatically from the fuel level sensor.</string>
+    <string name="motorcycle_fuel_low_warning">Low fuel! Range: %1$.0f km</string>
+    <string name="motorcycle_fuel_reserve_warning">Fuel reserve! Less than 15%% remaining</string>
+
+    <!-- Track Day UI -->
+    <string name="motorcycle_trackday_ui_category">Track Day UI</string>
+    <string name="motorcycle_trackday_ui_title">Track Day Screen</string>
+    <string name="motorcycle_trackday_ui_desc">Open the full-screen Track Day interface with lap timer, sector splits, best lap tracking, and per-lap max lean/G statistics. Optimized for outdoor visibility.</string>
+    <string name="motorcycle_trackday_sectors_title">Number of Sectors</string>
+    <string name="motorcycle_trackday_sectors_desc">Divide each lap into sectors for split timing. More sectors give finer detail but require more precise GPS.</string>
 </resources>

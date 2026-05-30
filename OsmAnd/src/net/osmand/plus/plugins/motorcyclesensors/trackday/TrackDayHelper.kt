@@ -185,6 +185,20 @@ class TrackDayHelper {
         if (state == SessionState.IDLE || state == SessionState.PAUSED) return
         val track = currentTrack ?: return
 
+        // Auto-set start/finish position for default track
+        if (track.startFinishLat == 0.0 && track.startFinishLon == 0.0 && state == SessionState.WAITING) {
+            currentTrack = TrackLayout(
+                name = track.name,
+                startFinishLat = location.latitude,
+                startFinishLon = location.longitude,
+                startFinishDirection = location.bearing,
+                sectors = track.sectors,
+                trackLengthKm = track.trackLengthKm
+            )
+            LOG.info("TrackDay: Auto-set start/finish at ${location.latitude}, ${location.longitude}")
+            return
+        }
+
         // Track distance for average speed calculation
         lastLocation?.let { last ->
             currentLapDistance += last.distanceTo(location)
@@ -326,6 +340,39 @@ class TrackDayHelper {
         if (avg == 0f) return 100f
         val avgDeviation = times.map { Math.abs(it - avg) / avg }.average().toFloat()
         return maxOf(0f, (1f - avgDeviation * 5f) * 100f)  // Scale: 20% deviation = 0 score
+    }
+
+    /**
+     * Start a Track Day session with default track layout.
+     * Used by TrackDayActivity when no specific track is configured.
+     */
+    fun startSession() {
+        // Create a default track layout (user can customize later)
+        val defaultTrack = TrackLayout(
+            name = "Custom Track",
+            startFinishLat = 0.0,  // Will be set on first GPS update
+            startFinishLon = 0.0,
+            startFinishDirection = 0f,
+            sectors = emptyList(),
+            trackLengthKm = 0f
+        )
+        startSession(defaultTrack)
+    }
+
+    /**
+     * Get elapsed time for the current lap in milliseconds.
+     */
+    fun getCurrentLapElapsedMs(): Long {
+        if (state != SessionState.RACING || lapStartTimeMs == 0L) return 0L
+        return System.currentTimeMillis() - lapStartTimeMs
+    }
+
+    /**
+     * Get the current consistency score (0-100).
+     * Public accessor for the private calculateConsistency() method.
+     */
+    fun getConsistencyScore(): Float {
+        return calculateConsistency()
     }
 
     companion object {

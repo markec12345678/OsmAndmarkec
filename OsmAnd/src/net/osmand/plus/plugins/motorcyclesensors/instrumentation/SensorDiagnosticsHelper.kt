@@ -464,7 +464,11 @@ class SensorDiagnosticsHelper {
 
     private fun writeReportToFile(report: JSONObject, outputDir: File?): File? {
         try {
-            val dir = outputDir ?: File("/tmp/osmand_motorcycle_diagnostics")
+            if (outputDir == null) {
+                LOG.warn("SensorDiagnostics: No output directory specified, skipping report write")
+                return null
+            }
+            val dir = outputDir
             if (!dir.exists()) dir.mkdirs()
 
             val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())

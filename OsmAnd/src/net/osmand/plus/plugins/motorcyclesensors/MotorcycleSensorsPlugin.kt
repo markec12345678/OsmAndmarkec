@@ -41,6 +41,15 @@ import net.osmand.plus.plugins.motorcyclesensors.obd2.OBD2DataStore
 import net.osmand.plus.plugins.motorcyclesensors.fuel.FuelRangeHelper
 import net.osmand.plus.plugins.motorcyclesensors.fuel.FuelRangeOverlay
 import net.osmand.plus.plugins.motorcyclesensors.widgets.OBD2Widget
+import net.osmand.plus.plugins.motorcyclesensors.weather.WeatherApiClient
+import net.osmand.plus.plugins.motorcyclesensors.tpms.TirePressureHelper
+import net.osmand.plus.plugins.motorcyclesensors.safety.CustomSmsTemplate
+import net.osmand.plus.plugins.motorcyclesensors.safety.SpeedWarningHelper
+import net.osmand.plus.plugins.motorcyclesensors.sensors.NightModeHelper
+import net.osmand.plus.plugins.motorcyclesensors.elevation.ElevationProfileHelper
+import net.osmand.plus.plugins.motorcyclesensors.group.MqttRelayClient
+import net.osmand.plus.plugins.motorcyclesensors.routing.CurvyRoadOverlay
+import net.osmand.plus.plugins.motorcyclesensors.routing.SegmentCurviness
 import net.osmand.plus.routing.RoutingHelper
 import net.osmand.plus.settings.backend.ApplicationMode
 import net.osmand.plus.settings.backend.OsmandSettings
@@ -110,6 +119,17 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
     val obd2Helper = OBD2Helper(app)
     val fuelRangeHelper = FuelRangeHelper(app)
     var fuelRangeOverlay: FuelRangeOverlay? = null
+        private set
+
+    // New feature helpers
+    val weatherApiClient = WeatherApiClient()
+    val tirePressure = TirePressureHelper(app)
+    val customSmsTemplate = CustomSmsTemplate()
+    val speedWarning = SpeedWarningHelper(app)
+    val nightMode = NightModeHelper(app)
+    val elevationProfile = ElevationProfileHelper(app)
+    val mqttRelay = MqttRelayClient()
+    var curvyRoadOverlay: CurvyRoadOverlay? = null
         private set
 
     // Latest computed values
@@ -206,6 +226,48 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
     val TRACK_DAY_SECTORS = registerIntPreference("motorcycle_trackday_sectors", 3)
         .makeProfile().cache() as CommonPreference<Int>
 
+    // Curvy Road Overlay
+    val CURVY_ROAD_OVERLAY = registerBooleanPreference("motorcycle_curvy_road_overlay", false)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    // TPMS (Tire Pressure Monitoring)
+    val TPMS_ENABLED = registerBooleanPreference("motorcycle_tpms_enabled", false)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    val TPMS_FRONT_PRESSURE = registerFloatPreference("motorcycle_tpms_front_pressure", 33f)
+        .makeProfile().cache() as CommonPreference<Float>
+
+    val TPMS_REAR_PRESSURE = registerFloatPreference("motorcycle_tpms_rear_pressure", 36f)
+        .makeProfile().cache() as CommonPreference<Float>
+
+    // Speed Warning
+    val SPEED_WARNING_ENABLED = registerBooleanPreference("motorcycle_speed_warning", false)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    val SPEED_WARNING_THRESHOLD = registerIntPreference("motorcycle_speed_warning_threshold", 90)
+        .makeProfile().cache() as CommonPreference<Int>
+
+    val SPEED_WARNING_HAPTIC = registerBooleanPreference("motorcycle_speed_warning_haptic", true)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    // Night Mode
+    val NIGHT_MODE_ENABLED = registerBooleanPreference("motorcycle_night_mode", true)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    val NIGHT_MODE_FORCE = registerBooleanPreference("motorcycle_night_mode_force", false)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    // Elevation Profile
+    val ELEVATION_PROFILE_ENABLED = registerBooleanPreference("motorcycle_elevation_profile", false)
+        .makeProfile().cache() as CommonPreference<Boolean>
+
+    // Custom SMS Template
+    val SMS_TEMPLATE = registerStringPreference("motorcycle_sms_template", CustomSmsTemplate.DEFAULT_TEMPLATE)
+        .makeProfile().cache() as CommonPreference<String>
+
+    val RIDER_NAME = registerStringPreference("motorcycle_rider_name", "")
+        .makeProfile().cache() as CommonPreference<String>
+
     /**
      * Get all configured emergency contact numbers (non-empty only).
      */
@@ -274,6 +336,24 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
             autoMap3D.elevationAngle3D = AUTO_3D_ELEVATION_ANGLE.get()
             autoMap3D.setEnabled(true)
         }
+
+        // Initialize speed warning
+        if (SPEED_WARNING_ENABLED.get()) {
+            speedWarning.setEnabled(true)
+            speedWarning.setCustomThreshold(SPEED_WARNING_THRESHOLD.get().toFloat())
+            speedWarning.setHapticEnabled(SPEED_WARNING_HAPTIC.get())
+        }
+
+        // Initialize night mode
+        if (NIGHT_MODE_ENABLED.get()) {
+            nightMode.setEnabled(true)
+            nightMode.setForceNightMode(NIGHT_MODE_FORCE.get())
+        }
+
+        // Initialize TPMS recommended pressures
+        tirePressure.recommendedFrontPsi = TPMS_FRONT_PRESSURE.get()
+        tirePressure.recommendedRearPsi = TPMS_REAR_PRESSURE.get()
+
         return true
     }
 
@@ -293,6 +373,19 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
         // Remove fuel range overlay
         fuelRangeOverlay?.setOverlayVisible(false)
         fuelRangeOverlay = null
+        // Remove curvy road overlay
+        curvyRoadOverlay?.setOverlayVisible(false)
+        curvyRoadOverlay = null
+        // Disconnect TPMS
+        if (tirePressure.isConnected) {
+            tirePressure.disconnect()
+        }
+        // Disconnect MQTT
+        mqttRelay.disconnect()
+        // Destroy weather API client
+        weatherApiClient.destroy()
+        // Disable speed warning
+        speedWarning.setEnabled(false)
         LOG.info("MotorcycleSensorsPlugin disabled")
     }
 
@@ -658,6 +751,19 @@ class MotorcycleSensorsPlugin(app: OsmandApplication) : OsmandPlugin(app),
             )
             fuelRangeOverlay?.updateRange(polygon, FUEL_LEVEL_PERCENT.get(), rangeKm)
         }
+
+        // Update speed warning
+        if (SPEED_WARNING_ENABLED.get()) {
+            speedWarning.updateLocation(location)
+        }
+
+        // Update elevation profile
+        if (ELEVATION_PROFILE_ENABLED.get()) {
+            elevationProfile.updateLocation(location)
+        }
+
+        // Update night mode (check periodically)
+        nightMode.updateMode()
     }
 
     /**

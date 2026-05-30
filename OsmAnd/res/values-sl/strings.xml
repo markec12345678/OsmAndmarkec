@@ -5500,4 +5500,48 @@
     <string name="motorcycle_trackday_ui_desc">Odpri celozaslonski Track Day vmesnik s krožnim štoparjem, sektorskimi časi, najboljšim krogom in statistiko max nagiba/G po krogu. Optimizirano za vidnost na prostem.</string>
     <string name="motorcycle_trackday_sectors_title">Število sektorjev</string>
     <string name="motorcycle_trackday_sectors_desc">Razdeli vsak krog na sektorje za merjenje vmesnih časov. Več sektorjev pomeni podrobnejše podatke, a zahteva natančnejši GPS.</string>
+
+    <!-- Curvy Road Overlay -->
+    <string name="motorcycle_curvy_road_overlay_category">Prikaz vijugastih cest</string>
+    <string name="motorcycle_curvy_road_overlay_title">Prikaži vijugaste ceste na karti</string>
+    <string name="motorcycle_curvy_road_overlay_desc">Barvno označi odseke cest na karti glede na vijugastost. Rdeča = zelo vijugasto, oranžna = vijugasto, rumena = zmerno, zelena = rahli ovinki.</string>
+
+    <!-- TPMS (Tire Pressure Monitoring) -->
+    <string name="motorcycle_tpms_category">Tlak pnevmatik (TPMS)</string>
+    <string name="motorcycle_tpms_title">TPMS tlak pnevmatik</string>
+    <string name="motorcycle_tpms_desc">Poveži se z Bluetooth TPMS senzorji za spremljanje tlaka in temperature pnevmatik v realnem času. Opozarja na nizek tlak in hitro izgubo tlaka.</string>
+    <string name="motorcycle_tpms_front_title">Tlak sprednje pnevmatike</string>
+    <string name="motorcycle_tpms_front_desc">Priporočeni tlak sprednje pnevmatike v PSI. Opozorilo pri 20%% pod, kritično pri 30%% pod priporočkom.</string>
+    <string name="motorcycle_tpms_rear_title">Tlak zadnje pnevmatike</string>
+    <string name="motorcycle_tpms_rear_desc">Priporočeni tlak zadnje pnevmatike v PSI. Opozorilo pri 20%% pod, kritično pri 30%% pod priporočkom.</string>
+
+    <!-- Speed Warning -->
+    <string name="motorcycle_speed_warning_category">Opozorilo o hitrosti</string>
+    <string name="motorcycle_speed_warning_title">Opozorilo o hitrosti</string>
+    <string name="motorcycle_speed_warning_desc">Vizualni blisk ob prekoračitvi nastavljenega praga hitrosti. Pomaga pri izogibanju kazni za prehitro vožnjo in ohranjanju varne hitrosti.</string>
+    <string name="motorcycle_speed_warning_threshold_title">Prag hitrosti</string>
+    <string name="motorcycle_speed_warning_threshold_desc">Omejitev hitrosti v km/h. Vizualni blisk se pojavi ob prekoračitvi tega praga.</string>
+    <string name="motorcycle_speed_warning_haptic_title">Vibracijsko opozorilo</string>
+    <string name="motorcycle_speed_warning_haptic_desc">Vibriranje naprave ob prekoračitvi praga hitrosti.</string>
+
+    <!-- Night Mode -->
+    <string name="motorcycle_night_mode_category">Nočni način</string>
+    <string name="motorcycle_night_mode_title">Nočni način vožnje</string>
+    <string name="motorcycle_night_mode_desc">Samodejno preklopi na rdeče barve pripomočkov ponoči za ohranjanje nočnega vida. Rdeča svetloba ne izbeljuje rodopsina, kar ohranja prilagojenost oči na temo.</string>
+    <string name="motorcycle_night_mode_force_title">Vsili nočni način</string>
+    <string name="motorcycle_night_mode_force_desc">Vedno uporabi nočne barve ne glede na čas dneva. Uporabno za obarvana ščita čelade ali tunele.</string>
+
+    <!-- Elevation Profile -->
+    <string name="motorcycle_elevation_category">Višinski profil</string>
+    <string name="motorcycle_elevation_title">Spremljanje višine</string>
+    <string name="motorcycle_elevation_desc">Spremljaj nadmorsko višino, vzpon, spust in naklon ceste med vožnjo. Opozarja o gorskem območju nad 1500m in visoki nadmorski višini nad 2500m.</string>
+
+    <!-- Custom SMS Template -->
+    <string name="motorcycle_sms_template_category">Predloga SMS za nujne primere</string>
+    <string name="motorcycle_sms_template_title">Predloga SMS</string>
+    <string name="motorcycle_sms_template_desc">Prilagodite sporočilo SMS za nujne primere. Razpoložljive spremenljivke: {name}, {lat}, {lon}, {maps_url}, {speed}, {gforce}, {time}, {date}, {address}</string>
+    <string name="motorcycle_sms_template_dialog_title">Uredi predlogo SMS za nujne primere</string>
+    <string name="motorcycle_rider_name_title">Ime voznika</string>
+    <string name="motorcycle_rider_name_desc">Vaše ime, uporabljeno v SMS za nujne primere in skupinski vožnji</string>
+    <string name="motorcycle_rider_name_dialog_title">Vnesite svoje ime</string>
 </resources>

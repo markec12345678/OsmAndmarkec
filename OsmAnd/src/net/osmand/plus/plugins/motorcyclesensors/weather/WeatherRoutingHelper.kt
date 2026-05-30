@@ -226,6 +226,16 @@ class WeatherRoutingHelper {
     }
 
     /**
+     * Update weather cache with fetched data.
+     * Called by WeatherApiClient when new data arrives.
+     */
+    fun updateWeatherCache(latLon: LatLon, weather: RouteWeather) {
+        val cacheKey = "${"%.2f".format(latLon.latitude)}_${"%.2f".format(latLon.longitude)}"
+        weatherCache[cacheKey] = Pair(weather, System.currentTimeMillis())
+        LOG.debug("WeatherRoutingHelper: Updated cache for $cacheKey")
+    }
+
+    /**
      * Clear weather cache.
      */
     fun clearCache() {

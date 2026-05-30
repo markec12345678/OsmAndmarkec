@@ -273,6 +273,7 @@ class CurvyRoadRouter {
          */
         private fun classificationToPropertyName(cls: TwistinessClass): String {
                 return when (cls) {
+                        TwistinessClass.STRAIGHT -> "straight"
                         TwistinessClass.GENTLE -> CURVINESS_GENTLE
                         TwistinessClass.MODERATE -> CURVINESS_MODERATE
                         TwistinessClass.TWISTY -> CURVINESS_TWISTY
@@ -327,6 +328,7 @@ class CurvyRoadRouter {
          */
         fun getTwistinessDescription(cls: TwistinessClass): String {
                 return when (cls) {
+                        TwistinessClass.STRAIGHT -> "Straight road - no curves detected"
                         TwistinessClass.GENTLE -> "Straight roads, highways - boring for riders"
                         TwistinessClass.MODERATE -> "Gentle curves, suburban roads - some fun"
                         TwistinessClass.TWISTY -> "Nice curves, countryside - fun riding!"
@@ -339,11 +341,56 @@ class CurvyRoadRouter {
          */
         fun getTwistinessEmoji(cls: TwistinessClass): String {
                 return when (cls) {
+                        TwistinessClass.STRAIGHT -> "\u26AA"          // White circle
                         TwistinessClass.GENTLE -> "\uD83D\uDFE1"       // Yellow circle
                         TwistinessClass.MODERATE -> "\uD83D\uDFE0"     // Orange circle
                         TwistinessClass.TWISTY -> "\uD83D\uDFE2"       // Green circle
                         TwistinessClass.VERY_TWISTY -> "\uD83D\uDD35"  // Blue circle
                 }
+        }
+
+        /**
+         * Build a detailed segment curviness breakdown with geographic points.
+         * Used by CurvyRoadOverlay to color road segments on the map.
+         */
+        fun buildSegmentCurvinessBreakdown(routeSegments: List<RouteSegmentResult>): List<SegmentCurviness> {
+                if (routeSegments.isEmpty()) return emptyList()
+
+                val breakdown = mutableListOf<SegmentCurviness>()
+                var prevBearing: Float? = null
+
+                for (segment in routeSegments) {
+                        val segmentDistance = segment.distance
+                        if (segmentDistance < MIN_SEGMENT_DISTANCE) continue
+
+                        val currentBearing = calculateSegmentBearing(segment)
+                        val points = listOf(
+                                segment.startPoint,
+                                segment.endPoint
+                        )
+
+                        if (prevBearing != null) {
+                                val twistiness = calculateTwistiness(prevBearing, currentBearing, segmentDistance)
+                                val classification = classifyRoadTwistiness(twistiness)
+                                breakdown.add(SegmentCurviness(
+                                        points = points,
+                                        twistinessClass = classification,
+                                        distanceM = segmentDistance,
+                                        angleChangeRate = twistiness
+                                ))
+                        } else {
+                                breakdown.add(SegmentCurviness(
+                                        points = points,
+                                        twistinessClass = TwistinessClass.STRAIGHT,
+                                        distanceM = segmentDistance,
+                                        angleChangeRate = 0f
+                                ))
+                        }
+
+                        prevBearing = currentBearing
+                }
+
+                return breakdown
         }
 }
 
@@ -360,6 +407,7 @@ class CurvyRoadRouter {
  *               Angle change > 30 deg/100m - MOTORCYCLE HEAVEN!
  */
 enum class TwistinessClass(val displayName: String, val color: Int) {
+        STRAIGHT("Straight", 0xFF9E9E9E.toInt()),         // Grey
         GENTLE("Gentle", 0xFFD4A017.toInt()),           // Gold/amber
         MODERATE("Moderate", 0xFFFF8C00.toInt()),        // Dark orange
         TWISTY("Twisty", 0xFF2E8B57.toInt()),            // Sea green
@@ -377,6 +425,17 @@ enum class TwistinessClass(val displayName: String, val color: Int) {
  * @param totalDistance        Total distance analyzed in meters
  * @param classification      Overall route twistiness classification
  */
+/**
+ * Per-segment curviness data for map overlay rendering.
+ * Contains the segment's geographic points and its twistiness classification.
+ */
+data class SegmentCurviness(
+        val points: List<LatLon>,
+        val twistinessClass: TwistinessClass,
+        val distanceM: Float,
+        val angleChangeRate: Float
+)
+
 data class RouteCurvinessStats(
         val totalCurviness: Float,
         val avgCurviness: Float,

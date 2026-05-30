@@ -237,4 +237,108 @@
         android:title="@string/motorcycle_trackday_sectors_title"
         tools:summary="@string/motorcycle_trackday_sectors_desc" />
 
+    <PreferenceCategory
+        android:key="motorcycle_curvy_road_overlay_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_curvy_road_overlay_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_curvy_road_overlay"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_curvy_road_overlay_title"
+        tools:summary="@string/motorcycle_curvy_road_overlay_desc" />
+
+    <PreferenceCategory
+        android:key="motorcycle_tpms_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_tpms_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_tpms_enabled"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_tpms_title"
+        tools:summary="@string/motorcycle_tpms_desc" />
+
+    <net.osmand.plus.settings.preferences.ListPreferenceEx
+        android:key="motorcycle_tpms_front_pressure"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_tpms_front_title"
+        tools:summary="@string/motorcycle_tpms_front_desc" />
+
+    <net.osmand.plus.settings.preferences.ListPreferenceEx
+        android:key="motorcycle_tpms_rear_pressure"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_tpms_rear_title"
+        tools:summary="@string/motorcycle_tpms_rear_desc" />
+
+    <PreferenceCategory
+        android:key="motorcycle_speed_warning_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_speed_warning_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_speed_warning"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_speed_warning_title"
+        tools:summary="@string/motorcycle_speed_warning_desc" />
+
+    <net.osmand.plus.settings.preferences.ListPreferenceEx
+        android:key="motorcycle_speed_warning_threshold"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_speed_warning_threshold_title"
+        tools:summary="@string/motorcycle_speed_warning_threshold_desc" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_speed_warning_haptic"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_speed_warning_haptic_title"
+        tools:summary="@string/motorcycle_speed_warning_haptic_desc" />
+
+    <PreferenceCategory
+        android:key="motorcycle_night_mode_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_night_mode_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_night_mode"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_night_mode_title"
+        tools:summary="@string/motorcycle_night_mode_desc" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_night_mode_force"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_night_mode_force_title"
+        tools:summary="@string/motorcycle_night_mode_force_desc" />
+
+    <PreferenceCategory
+        android:key="motorcycle_elevation_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_elevation_category" />
+
+    <net.osmand.plus.settings.preferences.SwitchPreferenceEx
+        android:key="motorcycle_elevation_profile"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_elevation_title"
+        tools:summary="@string/motorcycle_elevation_desc" />
+
+    <PreferenceCategory
+        android:key="motorcycle_sms_template_settings"
+        android:layout="@layout/preference_category_with_descr"
+        android:title="@string/motorcycle_sms_template_category" />
+
+    <EditTextPreference
+        android:key="motorcycle_sms_template"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_sms_template_title"
+        android:summary="@string/motorcycle_sms_template_desc"
+        android:dialogTitle="@string/motorcycle_sms_template_dialog_title" />
+
+    <EditTextPreference
+        android:key="motorcycle_rider_name"
+        android:layout="@layout/preference_with_descr"
+        android:title="@string/motorcycle_rider_name_title"
+        android:summary="@string/motorcycle_rider_name_desc"
+        android:dialogTitle="@string/motorcycle_rider_name_dialog_title" />
+
 </PreferenceScreen>

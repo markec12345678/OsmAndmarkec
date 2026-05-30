@@ -83,6 +83,12 @@ class OBD2Helper(private val context: Context) {
     private var currentPidIndex = 0
     private var pollRunnable: Runnable? = null
 
+    private var consecutiveErrors = 0
+    private val MAX_CONSECUTIVE_ERRORS = 5
+    private var reconnectAttempts = 0
+    private val MAX_RECONNECT_ATTEMPTS = 3
+    private var lastConnectedDevice: BluetoothDevice? = null
+
     private var connectionListener: OBD2ConnectionListener? = null
 
     /**
@@ -127,6 +133,7 @@ class OBD2Helper(private val context: Context) {
         if (isConnecting || dataStore.isConnected) return
 
         isConnecting = true
+        lastConnectedDevice = device
         Thread {
             try {
                 val socket = device.createRfcommSocketToServiceRecord(SPP_UUID)
@@ -141,6 +148,8 @@ class OBD2Helper(private val context: Context) {
                 // Initialize ELM327
                 if (initializeELM327()) {
                     isInitialized = true
+                    reconnectAttempts = 0
+                    consecutiveErrors = 0
                     handler.post {
                         connectionListener?.onConnected(device.name ?: "OBD2")
                         startPolling()
@@ -196,6 +205,38 @@ class OBD2Helper(private val context: Context) {
     }
 
     /**
+     * Attempt to reconnect to the last OBD2 device.
+     */
+    private fun attemptReconnect() {
+        stopPolling()
+        val device = lastConnectedDevice
+        if (device == null || reconnectAttempts >= MAX_RECONNECT_ATTEMPTS) {
+            reconnectAttempts = 0
+            disconnect("Max reconnection attempts reached")
+            return
+        }
+        reconnectAttempts++
+        LOG.info("OBD2Helper: Reconnect attempt $reconnectAttempts/$MAX_RECONNECT_ATTEMPTS")
+        // Close current connection
+        try { outputStream?.close() } catch (_: Exception) {}
+        try { inputStream?.close() } catch (_: Exception) {}
+        try { bluetoothSocket?.close() } catch (_: Exception) {}
+        bluetoothSocket = null
+        outputStream = null
+        inputStream = null
+        dataStore.setConnectionState(false)
+
+        // Try to reconnect after a delay
+        handler.postDelayed({
+            connect(device)
+            if (dataStore.isConnected) {
+                reconnectAttempts = 0
+                consecutiveErrors = 0
+            }
+        }, 2000L)  // 2 second delay between reconnect attempts
+    }
+
+    /**
      * Initialize ELM327 with AT commands.
      */
     private fun initializeELM327(): Boolean {
@@ -227,6 +268,7 @@ class OBD2Helper(private val context: Context) {
                 val response = sendCommand(pid)
 
                 if (response != null) {
+                    consecutiveErrors = 0  // Reset error counter on success
                     val parsedValue = parsePIDResponse(pid, response)
                     if (parsedValue != null) {
                         val pidCode = pid.substring(3).trim()  // "01 0C" -> "0C"
@@ -234,6 +276,13 @@ class OBD2Helper(private val context: Context) {
                         handler.post {
                             connectionListener?.onDataReceived(pidCode, parsedValue)
                         }
+                    }
+                } else {
+                    consecutiveErrors++
+                    if (consecutiveErrors >= MAX_CONSECUTIVE_ERRORS) {
+                        LOG.warn("OBD2Helper: $consecutiveErrors consecutive errors, attempting reconnect")
+                        attemptReconnect()
+                        return  // Stop polling, reconnect will restart it
                     }
                 }
 

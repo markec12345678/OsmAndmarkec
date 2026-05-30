@@ -6745,4 +6745,48 @@ Download tile maps directly, or copy them as SQLite database files to OsmAnd\'s 
     <string name="motorcycle_trackday_ui_desc">Open the full-screen Track Day interface with lap timer, sector splits, best lap tracking, and per-lap max lean/G statistics. Optimized for outdoor visibility.</string>
     <string name="motorcycle_trackday_sectors_title">Number of Sectors</string>
     <string name="motorcycle_trackday_sectors_desc">Divide each lap into sectors for split timing. More sectors give finer detail but require more precise GPS.</string>
+
+    <!-- Curvy Road Overlay -->
+    <string name="motorcycle_curvy_road_overlay_category">Curvy Road Overlay</string>
+    <string name="motorcycle_curvy_road_overlay_title">Show Curvy Road Overlay</string>
+    <string name="motorcycle_curvy_road_overlay_desc">Color-code road segments on the map by twistiness. Red = very twisty, orange = twisty, yellow = moderate, green = gentle curves.</string>
+
+    <!-- TPMS (Tire Pressure Monitoring) -->
+    <string name="motorcycle_tpms_category">Tire Pressure (TPMS)</string>
+    <string name="motorcycle_tpms_title">TPMS Tire Pressure</string>
+    <string name="motorcycle_tpms_desc">Connect to Bluetooth TPMS sensors for real-time tire pressure and temperature monitoring. Warns about low pressure and rapid pressure loss.</string>
+    <string name="motorcycle_tpms_front_title">Front Tire Pressure</string>
+    <string name="motorcycle_tpms_front_desc">Recommended front tire pressure in PSI. Warning at 20%% below, critical at 30%% below.</string>
+    <string name="motorcycle_tpms_rear_title">Rear Tire Pressure</string>
+    <string name="motorcycle_tpms_rear_desc">Recommended rear tire pressure in PSI. Warning at 20%% below, critical at 30%% below.</string>
+
+    <!-- Speed Warning -->
+    <string name="motorcycle_speed_warning_category">Speed Warning</string>
+    <string name="motorcycle_speed_warning_title">Speed Warning</string>
+    <string name="motorcycle_speed_warning_desc">Visual flash alert when exceeding a configurable speed threshold. Helps avoid speeding tickets and maintain safe riding speed.</string>
+    <string name="motorcycle_speed_warning_threshold_title">Speed Threshold</string>
+    <string name="motorcycle_speed_warning_threshold_desc">Speed limit in km/h. A visual flash appears when this threshold is exceeded.</string>
+    <string name="motorcycle_speed_warning_haptic_title">Haptic Feedback</string>
+    <string name="motorcycle_speed_warning_haptic_desc">Vibrate the device when speed threshold is exceeded.</string>
+
+    <!-- Night Mode -->
+    <string name="motorcycle_night_mode_category">Night Mode</string>
+    <string name="motorcycle_night_mode_title">Night Riding Mode</string>
+    <string name="motorcycle_night_mode_desc">Automatically switch to red-colored widgets at night to preserve night vision. Red light doesn\'t bleach rhodopsin, keeping your eyes adapted to darkness.</string>
+    <string name="motorcycle_night_mode_force_title">Force Night Mode</string>
+    <string name="motorcycle_night_mode_force_desc">Always use night mode colors regardless of time of day. Useful for tinted helmet visors or tunnels.</string>
+
+    <!-- Elevation Profile -->
+    <string name="motorcycle_elevation_category">Elevation Profile</string>
+    <string name="motorcycle_elevation_title">Elevation Tracking</string>
+    <string name="motorcycle_elevation_desc">Track altitude, ascent, descent, and road grade during your ride. Warns about mountain zones above 1500m and high altitude above 2500m.</string>
+
+    <!-- Custom SMS Template -->
+    <string name="motorcycle_sms_template_category">Emergency SMS Template</string>
+    <string name="motorcycle_sms_template_title">SMS Template</string>
+    <string name="motorcycle_sms_template_desc">Customize the emergency SMS message. Available variables: {name}, {lat}, {lon}, {maps_url}, {speed}, {gforce}, {time}, {date}, {address}</string>
+    <string name="motorcycle_sms_template_dialog_title">Edit Emergency SMS Template</string>
+    <string name="motorcycle_rider_name_title">Rider Name</string>
+    <string name="motorcycle_rider_name_desc">Your name used in emergency SMS and group riding</string>
+    <string name="motorcycle_rider_name_dialog_title">Enter Your Name</string>
 </resources>

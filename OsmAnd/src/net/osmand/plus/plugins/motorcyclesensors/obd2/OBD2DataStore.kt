@@ -65,6 +65,7 @@ class OBD2DataStore private constructor() {
     /**
      * Update OBD2 data from a parsed PID response.
      */
+    @Synchronized
     fun updateData(pid: String, value: Any) {
         lastUpdateMs = System.currentTimeMillis()
         when (pid) {
@@ -83,8 +84,14 @@ class OBD2DataStore private constructor() {
                 dtcCount = dtcData.count
             }
         }
+
+        // Auto-calculate gear when RPM or speed changes
+        if (pid == "0C" || pid == "0D") {
+            currentGear = calculateGear(rpm, speedKmh)
+        }
     }
 
+    @Synchronized
     fun setConnectionState(connected: Boolean, name: String = "", address: String = "") {
         isConnected = connected
         deviceName = name
@@ -159,6 +166,7 @@ class OBD2DataStore private constructor() {
         return if (isStale()) "--" else "${"%.0f".format(fuelLevel)}%"
     }
 
+    @Synchronized
     fun reset() {
         rpm = 0
         engineCoolantTemp = 0
